@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>First JavaScript</title>
+
+</head>
+
+<body>
+    Your Name: <span id="yourName"></span>
+
+    <script>
+        var name = window.prompt("What is your name");
+        var nameElement = document.getElementById("yourName");
+        nameElement.innerHTML = name;
+        nameElement.style.color = "red";
+    </script>
+
+    <script src="hello.js"></script>
+</body>
