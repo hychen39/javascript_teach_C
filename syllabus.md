@@ -3,7 +3,8 @@
 該課程旨在讓學生對 JavaScript 程式設計有基本的了解。學生將學習 JavaScript 基礎知識並使用它們來建立互動式網頁。
 
 在本課程結束時，學生應該能夠：
-1.了解JavaScript的基本語法。
+
+1. 了解JavaScript的基本語法。
 1. 在 JavaScript 中建立和使用函數、類別和內建物件。
 2. 使用JavaScript動態修改HTML的文檔物件模型(DOM)。
 3. 編寫JavaScript來回應事件並與使用者互動。
