@@ -1,5 +1,5 @@
 ---
-marp: true
+marp: false
 theme: default
 header: 'Ch2 JavaScript 基礎語法 (1)'
 footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2025'
@@ -317,7 +317,7 @@ Q: 實務上為何要有不同的變數作用範圍？
 
 ### 變數作用範圍分類
 
-- 全域變數 (Global Variable)：程式中的任何敘述皆可存取此變數
+- 全域變數 (Global Variable)：Script 中的任何敘述皆可存取此變數
 - 函數變數 (Function Variable)：僅限函數內的敘述可存取此變數
 - 區塊變數 (Block Variable)：僅限區塊內的敘述可存取此變數
 
@@ -441,6 +441,28 @@ console.log(a);
 請問 GPT 以下問題? 
 > 什麼是 Hoisting? 用 var 及 let 時，在 hoisting 上有什麼差別？
 
+
+<script>
+    // add the following script at the end of your marp slide file.
+    const h2s = document.querySelectorAll('h2');
+    h2s.forEach(function(h2, idx){
+        h2.innerHTML = `<span class="small-font">${idx + 1}</span> ${h2.innerHTML}`
+    })
+</script>
+
+## 總結
+
+- JS 程式由多個程式敘述組成
+- 變數是用來儲存資料的容器
+  - 宣告後會配置記憶體空間
+- 程式設計師要自己初始化變數值
+  - 未初始化的變數值為 `undefined`
+- 變數值依型別不同，會有不同的運算特性
+  - 原生型別 (Primitive Types) 與參考型別 (Reference Types)
+- 變數的作用範圍 (Scope) 決定變數的可存取範圍
+  - 全域變數、函數變數、區塊變數
+- 變數提升 (Hoisting) 是 JS 引擎在執行前將變數宣告提升至作用域的最上方(第一行)的特性
+  - 不必依循 "先定義後使用" 的原則
 
 <script>
     // add the following script at the end of your marp slide file.
