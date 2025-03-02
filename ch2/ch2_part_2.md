@@ -1,5 +1,5 @@
 ---
-marp: true
+marp: false
 theme: default
 header: 'Ch2 JavaScript 基礎語法 (2)'
 footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2025'
@@ -219,8 +219,18 @@ console.log(!!1); // true
 
 ### JS Type Conversion summary 
 
-![](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*AO0bt6MghegKIOsS.png)
+![width:700px](img/25-Mar-02-20-49-03.png)
 
+### Quick Practice
+
+Q: 解釋以下運算的結果，並說明 JavaScript 的自動型別轉換規則：
+```javascript
+console.log(5 + "10");
+console.log("5" - 2);
+console.log(true + 1);
+console.log("3" * "2");
+console.log(1 + true + "2");
+```
 
 ## 不同型別的大小比較
 

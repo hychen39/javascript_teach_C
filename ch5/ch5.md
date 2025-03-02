@@ -271,3 +271,560 @@ See MDN web docs: [Array.prototype.splice() - JavaScript | MDN](https://develope
   - 印出陣列的每個元素
   - 計算陣列的總和
   - 陣列中的每個元素加 1
+
+### 三種遍歷陣列的方法
+
+- `for` loop: 傳統的方式, 要自己管理 counter
+- `for/of` loop: 較新的方式, 會自動管理 counter
+- `forEach()` method: 使用 Iterator 物件來遍歷陣列
+
+
+### for loop  
+
+有一個 colors 陣列，裡面有 red, green, blue 三個顏色，如何印出每個顏色？
+
+```javascript
+let colors = ['red', 'green', 'blue'];
+```
+
+使用 for loop, 你需要自己管理 counter (或 index ) 的值
+
+```js
+for (let i = 0; i < colors.length; i++) {
+    console.log(colors[i]);
+}
+```
+
+Q: 有沒有更簡潔的方式？
+
+### for/of loop
+
+- `for/of` loop 是 ES6 新增的語法
+- 會自動管理 counter (或 index ) 的值
+- 但你需要一個變數來存放被拜訪(當前)的元素(visited element or current element)
+
+重寫上面的程式碼
+
+```js
+for (let color of colors) {
+    console.log(color);
+}
+```
+
+### 取得 index 的值 (使用 for/of loop 的時候)
+
+Q: 使用 for/of loop 的時候，如何取得 index 的值？
+  - index 由 JS 自動管理
+A: 使用 `Array` 物件的 `entries()` 方法, 回傳陣列元素的 [index, value] 陣列
+  - 註: `entries()` 回傳一個 Iterator (迭代器) 物件, 會在後面章節介紹
+
+### 印出陣列元素的 index 及 value 
+
+修改上面的程式碼，使印出顏色的 index 及 value
+
+```js
+for (let [index, color] of colors.entries()) {
+    console.log(index, color);
+}
+```
+
+### Quick Practice
+
+有以下的陣列, 請印出每個元素的 index 及 value:
+
+```js
+let revengers = ['ironman', 'thor', 'hulk', 'black widow', 'hawk eye'];
+```
+
+使用 for/of loop 遍歷陣列。
+
+### forEach() method
+
+Q: 先前的 for/of loop 的 block 中的內容如果要重複使用，該怎麼辦？
+
+有以下兩個陣列, 印出每個元素:
+
+```js
+let colors = ['red', 'green', 'blue'];
+let fruits = ['apple', 'banana', 'orange'];
+```
+
+如果使用 for/of loop 的話，會有重複的 block:
+
+```js
+for (let color of colors) {
+    console.log(color);
+}
+for (let fruit of fruits) {
+    console.log(fruit);
+}
+```
+
+### 將重複的 block 抽出來變成 function 重覆使用
+
+```js
+function printElement(el) {
+    console.log(el);
+}
+```
+
+撘配 forEach() method, 套用此函數到每個元素:
+
+```js
+colors.forEach(printElement);
+fruits.forEach(printElement);
+```
+
+### forEach(callback) method
+
+- [forEach(callback)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach) method 是陣列物件提供 iterative method
+- 接受一個函數作為參數, 應用此函數到每個元素
+- 遍歷過程中可對每個元素套用函數，並產生新的陣列
+    - 原來的陣列不會改變
+-  這種設計思維的方式來自於「函數式編程」(Functional Programming)
+
+
+### Quick Practice
+
+有以下的陣列, 我們期望將內容轉成大寫並印出來:
+
+```js
+let colors = ['red', 'green', 'blue'];
+let fruits = ['apple', 'banana', 'orange'];
+```
+
+使用 forEach() method 完成要求。
+
+Hints:
+- 先定義一個函數，將傳入的參數轉成大寫並印出來 
+  - 使用 `String` 物件的 `toUpperCase()` 方法轉成大寫
+- 接著使用 forEach() method 套用此函數到每個元素
+
+---
+
+<details>
+<summary>參考答案</summary>
+
+```js
+function printUpperCase(el) {
+    console.log(el.toUpperCase());
+}
+colors.forEach(printUpperCase);
+fruits.forEach(printUpperCase);
+```
+</details>
+
+---
+
+### ForEach() 的 callback function 的簽名
+
+若只想要元素的值，則只需要一個參數
+
+```js
+function callback(element) {
+    // ...
+}
+```
+若還需要 index 的值，則需要兩個參數
+
+```js
+function callback(element, index) {
+    // ...
+}
+```
+若還需要陣列本身的參考，則需要三個參數
+
+```js
+function callback(element, index, array) {
+    // ...
+}
+```
+- index 及 array 是選用的參數
+
+## 陣列的進階操作方法
+
+陣列物件提供許多方法來操作陣列: 
+
+- 新增和替換元素: `push()`, `unshift()`, `splice()`
+- 移除元素: `pop()`, `shift()`, `splice()`
+- 切片: `slice()`
+- 尋找元素: `indexOf()`, `find()`
+- 排序: `sort()`, `reverse()`
+- 陣列串接: `concat()`, `join()`
+
+### push() and pop() 
+
+情境: 自陣列的尾端新增或移除元素
+
+- `push()` 方法: 在陣列的尾端新增一個或多個元素
+- `pop()` 方法: 移除陣列的尾端元素
+
+Ex. 現有 5 個人在排隊，請將 6 個人加入隊伍中
+
+```js
+let queue = ['A', 'B', 'C', 'D', 'E'];
+queue.push('F');
+console.log(queue); // [ 'A', 'B', 'C', 'D', 'E', 'F' ]
+```
+Ex. 現有 6 個人在排隊，請將最後一個人移除
+
+```js
+let queue = ['A', 'B', 'C', 'D', 'E', 'F'];
+queue.pop();
+console.log(queue); // [ 'A', 'B', 'C', 'D', 'E' ]
+```
+
+### unshift() and shift()
+
+情境: 自陣列的**前端**新增或移除元素
+
+- `unshift()` 方法: 在陣列的前端新增一個或多個元素
+- `shift()` 方法: 移除陣列的前端元素(整個元素的位罝會往前移動, 第0個元素從陣列中移除)
+  - 回傳被移除的元素
+
+Ex. 現有 5 個人在排隊, 第一個人己完成服務，後面的人要往前移動
+
+```js
+let queue = ['A', 'B', 'C', 'D', 'E'];
+queue.shift();
+console.log(queue); // [ 'B', 'C', 'D', 'E' ]
+```
+
+Ex. 剛離開的人因故回來了，請將他加入隊伍的前端
+
+```js
+let queue = ['B', 'C', 'D', 'E'];
+queue.unshift('A');
+console.log(queue); // [ 'A', 'B', 'C', 'D', 'E' ]
+```
+
+### Quick Practice
+
+1. 有三個人, 分別為 Jack, Tom, Mary, 排隊買票，用一陣列描述。
+
+2. Jack 已經買完票了，請將他移除並印出他的名字。更改隊伍的順序。
+
+3. Emily 來了，請將她加入隊伍的尾端。
+
+4. Sophia 來了，是 VIP，請將她加入隊伍的前端。
+
+5. 印出隊伍的順序。
+
+---
+
+<details>
+<summary>參考答案</summary>
+
+```js
+let queue = Array.of('Jack', 'Tom', 'Mary');
+console.log(queue.shift()); // Jack
+queue.push('Emily');
+queue.unshift('Sophia');
+console.log(queue); // [ 'Sophia', 'Tom', 'Mary', 'Emily' ]
+```
+</details>
+
+### splice(): 新增、更新或刪除元素
+
+- 一個可用於在陣列中新增、移除和替換元素的通用方法。
+- 優點: 
+  - 不會產生稀疏的陣列，因為會改變陣列的長度
+- 小心: 
+  - 會改變原始陣列的內容
+
+`splice()` 方法對陣列進行的操作：
+1. 移除: 從 `start` 索引開始移除 `deleteCount` 個元素。
+2. 新增: 在 `start` 索引處插入 `item1, item2, ...` 等元素。
+  - `start` 索引後的原始元素會向右移動。
+3. 更新: 當 `deleteCount` = 1 時，更新 `start` 索引處的元素。
+
+`splice()` 方法會修改原始陣列，並回傳:
+- 被移除的元素的陣列
+- 如果沒有移除任何元素，則回傳空陣列
+
+#### splice() 在特定位置新增元素
+
+- 有 months 陣列 `months = ['Jan', 'March', 'April', 'June'];`
+- 缺了二月，請將二月加到 Jan 和 March 之間
+
+```js
+let months = ['Jan', 'March', 'April', 'June'];
+months.splice(1, 0, 'Feb');
+console.log(months); // [ 'Jan', 'Feb', 'March', 'April', 'June' ]
+```
+
+---
+
+Syntax:
+
+```js
+array.splice(start, deleteCount, item1, item2, ...);
+```
+- `start`: 開始位置的索引值 
+- `deleteCount`: 要刪除的元素數量
+- `item1, item2, ...`: 要新增的多個元素清單
+
+---
+
+#### splice() 更新特定的元素
+
+- 更新 Feb 及 March 為 February 及 March
+- 沒有直接的更新，必須先刪除再新增
+
+```js
+let months = ['Jan', 'Feb', 'Mar', 'Apr', 'Jun'];
+months.splice(1, 2, 'February', 'March');
+console.log(months); // [ 'Jan', 'Febuary', 'March', 'April', 'June' ]
+```
+
+#### splice() 刪除特定的元素
+
+- 刪除 Apr 及 Jun
+- 注意: 會改變原始陣列的內容
+
+```js
+let months = ['Jan', 'Feb', 'Mar', 'Apr', 'Jun'];
+removedElm = months.splice(3, 2);
+console.log(months); // [ 'Jan', 'Feb', 'Mar' ]
+console.log(removedElm); // [ 'Apr', 'Jun' ]
+```
+
+#### Quick Practice
+
+#### Quick Practice
+
+給定以下的陣列: `['A', 'B', 'C']`, 請插入值 `'1'`, `'2'` 使其變成 `['A', '1', '2', 'B', 'C']`。
+
+<details>
+<summary>參考答案</summary>
+
+```js
+let arr = ['A', 'B', 'C'];
+arr.splice(1, 0, '1', '2');
+console.log(arr);  // ['A', '1', '2', 'B', 'C']
+```
+</details>
+
+### slice() 取出某個範圍的元素
+
+- `slice(start, end)` 方法用來取出陣列中某個範圍的元素
+- 回傳一個新的陣列
+- 不會改變原始陣列的內容
+
+Syntax:
+
+```js
+slice()  // 取出整個陣列
+slice(start)  // 取出從 start 開始到陣列的最後一個元素
+slice(-start) // 取出後面的 n 個元素 (從倒數 start 的位置取到最後一個元素)
+slice(start, end) // 取出從 start 開始到 end - 1 的元素
+```
+
+---
+
+由**前往後**及由**後往前**的 index 
+
+```
+read from start --->
+   0     1     2     3     4
+|     |     |     |     |     |
+|  S  |  L  |  I  |  C  |  E  |
+|     |     |     |     |     |
+  -5    -4    -3    -2    -1
+<--- read from reverse
+```
+
+#### Example
+
+```js
+// 從 index 2 開始取到最後一個元素
+const fruits = ["Apple", "Banana", "Orange", "Mango", "Pineapple"];
+
+const tropical = fruits.slice(2);
+console.log(tropical); // ['Orange', 'Mango', 'Pineapple']
+
+// 從倒數第 2 個元素開始取到最後一個元素
+const lastTwo = fruits.slice(-2);
+console.log(lastTwo); // ['Mango', 'Pineapple']
+
+```
+
+#### Quick Practice
+
+有以下的 URL 字串 `https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice`
+
+使用 split('/') 方法將字串切割成陣列，並使用 slice() 方法取出 
+1. `Array` 及 `slice` 的部分。
+2. domain name 及語系 的部分 `developer.mozilla.org` and `en-US`
+
+<details>
+<summary>參考答案</summary>
+
+```js
+let url = 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice';
+let arr = url.split('/');
+let arr2 = arr.slice(-2);
+console.log(arr2); // [ 'Array', 'slice' ]
+console.log(arr.slice(2, 4)); // [ 'developer.mozilla.org', 'en-US' ]
+```
+
+### ... 展開運算子 將陣列轉成值清單
+
+- `...` 運算子(三個點)是 ES6 新增的語法
+- 也稱為 展開運算子(spread operator)
+- 可以將陣列轉換為清單值
+
+`['A', 'B', 'C']` 轉換為 `'A', 'B', 'C'`
+
+#### 使用情境 1
+
+- 將陣列轉換為函數的引數
+
+將 ['1', '2', '3']  插入到 陣列 ['D', 'E', 'F'] 的 D 和 E 之間。
+使用 splice() 方法
+
+```js
+let arr1 = ['1', '2', '3'];
+let arr2 = ['D', 'E', 'F'];
+arr2.splice(1, 0, ...arr1);
+console.log(arr2); // [ 'D', '1', '2', '3', 'E', 'F' ]
+```
+
+如果沒有展開運算子，會將整個陣列當成一個值
+
+```js
+let arr1 = ['1', '2', '3'];
+let arr2 = ['D', 'E', 'F'];
+arr2.splice(1, 0, arr1);
+console.log(arr2); // [ 'D', [ '1', '2', '3' ], 'E', 'F' ]
+```
+
+#### 使用情境 2
+
+- 在 Array Literal 中使用展開運算子, 將某個陣列的內容加入到另一個陣列中
+
+```js
+let arr1 = ['1', '2', '3'];
+let arr2 = ['D', 'E', 'F', ...arr1];
+console.log(arr2); // [ 'D', 'E', 'F', '1', '2', '3' ]
+```
+
+### Concatenate() 串接兩個陣列內的元素
+
+Scenario: 有多個陣列, 想要將他們的元素串接在一起, 變成一個陣列
+
+- 使用 `concat()` 方法
+- `concat()` 方法會回傳一個新的陣列
+- 不會改變原始陣列的內容
+
+syntax:
+```js
+concat()  //  回傳目前的陣列的 copy
+concat(value1)  //
+concat(value1, value2)
+concat(value1, value2, /* …, */ valueN)
+```
+- value 可以是陣列或值
+
+```js
+let arr1 = ['A', 'B', 'C'];
+let arr2 = ['D', 'E', 'F'];
+let arr3 = ['G', 'H', 'I'];
+let arr4 = arr1.concat(1, 2, arr2, arr3);
+console.log(arr4); // [ 'A', 'B', 'C', 1, 2, 'D', 'E', 'F', 'G', 'H', 'I' ]
+```
+
+### join() 串接陣列內的元素
+
+- `join()` 方法用來將陣列中的元素串接成一個字串
+- 不會改變原始陣列的內容
+- 回傳串接後的字串
+
+Syntax:
+```js
+join() // 使用預設的逗號分隔
+join(separator) // 使用指定的分隔符號串接
+```
+
+Ex. 將陣列中的元素串接成一個字串, 用 '-' 分隔
+
+```js
+let strs = Array.from('hello');
+let str = strs.join('-');
+console.log(str); // h-e-l-l-o
+```
+
+### 排序元素
+
+- `sort()` 將陣列中的元素進行排序, 預設由小到大
+- `reverse()` 將陣列中的元素反轉
+
+注意:
+1. 會改變原始陣列的內容
+2. 預設會將內容轉成字串進行排序
+   - 若要使用其他的排序方式，則需要提供一個比較函數
+
+Sort syntax:
+
+```js
+sort()
+sort(compareFn)
+```
+
+#### 排序字串
+
+將陣列中的內容由小到大排序
+
+```js
+let arr = [1, 100, 2, 12 , 21]
+arr.sort();
+console.log(arr); // [ 1, 100, 12, 2, 21 ]
+```
+- 會將內容轉成字串進行排序
+
+#### 排序數字
+
+- 若要使用數字進行排序，則需要提供一個比較函數
+  - a > b 時，回傳正數,
+  - a < b 時，回傳負數,
+  - a = b 時，回傳 0
+
+```js
+function compValue(a, b) {
+    return a - b;
+}
+
+let arr = [1, 100, 2, 12 , 21]
+arr.sort(compValue);
+console.log(arr); // [ 1, 2, 12, 21, 100 ]
+```
+
+#### Quick Practice
+
+將字串 'Hello World' 反轉成 'dlroW olleH'
+
+Hints:
+- 將字串轉成 char array
+- 使用 reverse() 方法反轉陣列
+- 使用 join() 方法將陣列轉成字串
+
+<details>
+<summary>參考答案</summary>
+
+```js
+let str = 'Hello World';
+let arr = Array.from(str);
+// or arrs = Array.of(...str);
+arr.reverse();
+let newStr = arr.join('');
+console.log(newStr); // dlroW olleH
+```
+</details>
+
+
+## 陣列的迭代方法 (Iterative Methods)
+
+TODO: TBD
+
+
+
