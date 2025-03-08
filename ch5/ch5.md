@@ -1,3 +1,13 @@
+---
+marp: true
+theme: default
+header: 'Ch5 集合(Collection) 物件'
+footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2025'
+class: lead
+paginate: true
+headingDivider: [1, 2, 3, 4]
+lang: zh-TW
+---
 
 # Ch5 集合(Collection) 物件
 
@@ -75,6 +85,7 @@ var emptyArray = [];
 - 使用 Array() 建構子來建立陣列
     - 可提供 "數字" 表示陣列的長度
     - 可提供 "一個或多個值"，表示陣列的內容
+---
 
 Ex: 建立長度為 5 的陣列, 以儲存顏色
 - 注意: 內容沒有初始化
@@ -93,7 +104,7 @@ console.log(colors); // [ 'red', 'green', 'blue', 'yellow', 'purple' ]
 
 ### Array() 的簽名
 
-![](img/25-Feb-23-15-30-38.png)
+![bg left:50% fit](img/25-Feb-23-15-30-38.png)
 
 - 多個引數時, 使用這些引數來初始化陣列
 - 單一引數時，
@@ -108,6 +119,15 @@ x_arr 和 y_arr 的意義相同嗎？
 var x_arr = new Array(5);
 var y_arr = new Array("5")
 ```
+
+<details>
+<summary>參考答案</summary>
+
+- x_arr 是一個長度為 5 的陣列，內容沒有初始化
+- y_arr 是一個長度為 1 的陣列，內容為字串 "5"
+- 所以 x_arr 和 y_arr 的意義不同
+
+</details>
 
 ### Array.of()
 
@@ -170,6 +190,8 @@ console.log(colors[3]); // undefined
     - 物件名稱["屬性名稱"]
 - 當使用非整數的索引值時，會變成使用物件屬性的語法。
 
+---
+
 Ex. 使用非整數的索引值
 
 ```js
@@ -209,6 +231,8 @@ var colors = ['red', 'green', 'blue'];
 colors[5] = 'yellow';
 console.log(colors); // [ 'red', 'green', 'blue', <2 empty items>, 'yellow' ]
 ```
+
+---
 
 Ex. 更新元素: 更新第一個元素為 black
 
@@ -303,7 +327,7 @@ Q: 有沒有更簡潔的方式？
 - 會自動管理 counter (或 index ) 的值
 - 但你需要一個變數來存放被拜訪(當前)的元素(visited element or current element)
 
-重寫上面的程式碼
+重寫上面的程式碼:
 
 ```js
 for (let color of colors) {
@@ -337,6 +361,18 @@ let revengers = ['ironman', 'thor', 'hulk', 'black widow', 'hawk eye'];
 ```
 
 使用 for/of loop 遍歷陣列。
+
+<details>
+<summary>參考答案</summary>
+
+```js
+let revengers = ['ironman', 'thor', 'hulk', 'black widow', 'hawk eye'];
+for (let [index, revenger] of revengers.entries()) {
+    console.log(index, revenger);
+}
+```
+</details>
+
 
 ### forEach() method
 
@@ -414,7 +450,6 @@ fruits.forEach(printUpperCase);
 ```
 </details>
 
----
 
 ### ForEach() 的 callback function 的簽名
 
@@ -439,7 +474,7 @@ function callback(element, index, array) {
     // ...
 }
 ```
-- index 及 array 是選用的參數
+
 
 ## 陣列的進階操作方法
 
@@ -486,7 +521,8 @@ Ex. 現有 5 個人在排隊, 第一個人己完成服務，後面的人要往�
 
 ```js
 let queue = ['A', 'B', 'C', 'D', 'E'];
-queue.shift();
+let complete = queue.shift();
+console.log(complete); // A
 console.log(queue); // [ 'B', 'C', 'D', 'E' ]
 ```
 
@@ -532,6 +568,8 @@ console.log(queue); // [ 'Sophia', 'Tom', 'Mary', 'Emily' ]
 - 小心: 
   - 會改變原始陣列的內容
 
+---
+
 `splice()` 方法對陣列進行的操作：
 1. 移除: 從 `start` 索引開始移除 `deleteCount` 個元素。
 2. 新增: 在 `start` 索引處插入 `item1, item2, ...` 等元素。
@@ -564,7 +602,7 @@ array.splice(start, deleteCount, item1, item2, ...);
 - `deleteCount`: 要刪除的元素數量
 - `item1, item2, ...`: 要新增的多個元素清單
 
----
+
 
 #### splice() 更新特定的元素
 
@@ -588,8 +626,6 @@ removedElm = months.splice(3, 2);
 console.log(months); // [ 'Jan', 'Feb', 'Mar' ]
 console.log(removedElm); // [ 'Apr', 'Jun' ]
 ```
-
-#### Quick Practice
 
 #### Quick Practice
 
@@ -653,9 +689,9 @@ console.log(lastTwo); // ['Mango', 'Pineapple']
 
 有以下的 URL 字串 `https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice`
 
-使用 split('/') 方法將字串切割成陣列，並使用 slice() 方法取出 
+使用 split('/') 方法將字串切割成陣列，並使用 slice() 方法取出:
 1. `Array` 及 `slice` 的部分。
-2. domain name 及語系 的部分 `developer.mozilla.org` and `en-US`
+2. domain name 及語系 的部分: `developer.mozilla.org` and `en-US`
 
 <details>
 <summary>參考答案</summary>
@@ -709,7 +745,7 @@ let arr2 = ['D', 'E', 'F', ...arr1];
 console.log(arr2); // [ 'D', 'E', 'F', '1', '2', '3' ]
 ```
 
-### Concatenate() 串接兩個陣列內的元素
+### Concat() 串接兩個陣列內的元素
 
 Scenario: 有多個陣列, 想要將他們的元素串接在一起, 變成一個陣列
 
@@ -824,7 +860,502 @@ console.log(newStr); // dlroW olleH
 
 ## 陣列的迭代方法 (Iterative Methods)
 
-TODO: TBD
+### 迭代方法 (Iterative Methods)
+
+- 陣列（Array）、Set、Map 等可迭代對象所提供的方法
+- 他們會自動拜訪每個元素，並執行使用者提供的 callback 函數
+- 迭代方法背後的維:
+  - 使用函數轉換每一個原始的元素，得到一個新的陣列或集合
+  - 不會改變原始的陣列或集合 
+
+### 為什麼要使用迭代方法？
+
+- 迭代方法（Iteration Methods） 提供了一種更簡潔、更直覺、更可讀的方式來遍歷和處理陣列數據。
+- 相比於傳統的 for 迴圈或 while 迴圈，迭代方法讓代碼更清晰、簡短，並且減少了錯誤的可能性。
+  
+
+### Ex: 串接多個迭代方法完成工作
+
+過濾陣列中的偶數，並將每個偶數平方
+```js
+const numbers = [1, 2, 3, 4, 5, 6];
+const squaredEvens = numbers
+    .filter(num => num % 2 === 0)
+    .map(num => num ** 2);
+
+console.log(squaredEvens); // [4, 16, 36]
+```
+
+使用 for loop 的話，會變得冗長不直觀
+
+```js
+const numbers = [1, 2, 3, 4, 5, 6];
+let squaredEvens = [];
+for (let i = 0; i < numbers.length; i++) {
+    if (numbers[i] % 2 === 0) {
+        squaredEvens.push(numbers[i] ** 2);
+    }
+}
+console.log(squaredEvens); // [4, 16, 36]
+```
+
+### 迭代方法 概覽
+
+- 過濾與㝷找元素:
+  - `filter()`: 過濾陣列中的元素
+  - `find()`: 找到陣列中的第一個符合條件的元素
+  - `findIndex()`: 找到陣列中的第一個符合條件的元素的索引值
+  - `some()`: 判斷陣列中是否有至少一個元素符合條件
+  - `every()`: 判斷陣列中是否所有元素都符合條件 
+- 元素轉換:
+  - `map()`: 將陣列中的每個元素轉換為新的值
+- 對每個元素執行操作:
+  - `forEach()`: 對陣列中的每個元素執行操作
+- 將多個元素變成一個值:
+  - `reduce()`: 將陣列中的所有元素轉換為一個值(e.g. 加總)
+- 取得迭代器 (Iterator):
+  - `entries()`: 取得陣列 key/value 的迭代器
+  - `keys()`: 取得陣列的索引值的迭代器
+  - `values()`: 取得陣列的值的迭代器
 
 
+## 過濾與㝷找元素
 
+### filter() 過濾陣列中的元素
+
+情境: 陣列中存放學生成績, 找出大於 70 的成績 
+
+思維: 迭代動作與過濾邏輯分開
+
+設計一函數，傳入一個數字，判斷是否大於 70
+
+```js
+function isPass(score) {
+    return score > 70;
+}
+```
+
+--- 
+
+- 將 `isPass()` 函數傳入 `filter()` 方法中，過濾出大於 70 的成績
+
+```js
+let scores = [60, 70, 80, 90];
+let passScores = scores.filter(isPass);
+console.log(passScores); // [ 80, 90 ]
+```
+
+### 使用 lambda 函數精簡程式碼
+
+如果 `isPass()` 函數只會用在 `filter()` 方法中，可以使用 lambda 函數來精簡程式碼
+
+```js
+let scores = [60, 70, 80, 90];
+let passScores = scores.filter(score => score > 70);
+console.log(passScores); // [ 80, 90 ]
+```
+
+### lambda 函數概述
+
+- Lambda 函數是一種匿名函數(沒有名稱的函數)
+- `=>` 的左邊是參數，右邊是函數的主體
+- 若參數只有一個，則可以省略括號
+- 若只有一個運算式，則可以省略大括號和 return 關鍵字
+
+### 運作過程
+
+- `filter()` 方法會遍歷陣列中的每個元素
+- 對每個元素執行傳入的 `isPass()` 函數
+  - 如果 `isPass()` 函數回傳 true，則將該元素加入到新的陣列中
+  - 如果回傳 false，則不加入
+- `filter()` 方法會回傳一個新的陣列，包含所有符合條件的元素
+- 不會改變原始陣列的內容
+
+### every() 所有元素是否都符合條件
+
+情境: 學生的成績是否都大於 60 呢?
+
+- 使用 `every()` 方法, 回傳 boolean 值
+
+```js
+let scores = [60, 70, 80, 90];
+let isAllPass = scores.every(score => score > 60);
+console.log(isAllPass); // false
+```
+
+### Quick Practice
+
+有以下的銷售金額, 是不是所有金額都大於 1000 呢? 
+如果不是, 請印出所有小於 1000 的金額
+
+<details>
+<summary>參考答案</summary>
+
+```js
+let sales = [1200, 1500, 800, 2000, 500];
+let isAllPass = sales.every(sale => sale > 1000);
+if (!isAllPass) {
+    let lowSales = sales.filter(sale => sale < 1000);
+    console.log(lowSales); // [ 800, 500 ]
+}
+```
+</details>
+
+## 元素轉換
+
+### 情境
+
+調整學生的成績，每位學生加 5 分
+
+原始成績: `scores = [60, 70, 80, 90];`
+
+新的成績: `newScores = [65, 75, 85, 95];`
+
+每個元素的運算邏輯: `x => x + 5`
+- 傳入 x, 回傳 `x + 5`
+
+### map() 方法
+
+- `map()` 方法用來將陣列中的每個元素轉換為新的值
+  - 回傳一個新的陣列
+
+```js
+let scores = [60, 70, 80, 90];
+let newScores = scores.map(score => score + 5);
+console.log(newScores); // [ 65, 75, 85, 95 ]
+```
+
+## 對每個元素執行操作
+
+### 情境
+
+將學生成績格式化輸出:   `成績 xx, 及格/不及格`
+
+- 原始成績: `scores = [60, 70, 80, 90];`
+- 輸出: 
+  - `成績 60, 不及格`
+  - `成績 70, 及格`
+  - `成績 80, 及格`
+  - `成績 90, 及格`
+
+每個元素的執行操作:
+```js
+score => console.log(
+  `成績 ${score}, ${score > 70 ? '及格' : '不及格'}`)`)
+```
+
+### 其它情境
+
+- 將元素寫到檔案中
+- 將元素傳到伺服器
+- 將元素印出來
+
+### forEach() 方法
+
+- 使用 `forEach()` 方法對陣列中的每個元素執行操作
+  - 不會回傳任何值
+
+```js
+let scores = [60, 70, 80, 90];
+scores.forEach(score => console.log(
+  `成績 ${score}, ${score > 70 ? '及格' : '不及格'}`));
+```
+
+
+### Quick Practice
+
+銷售金額 [1200, 1500, 800, 2000, 500]。
+超過 1000 的為 VIP 客戶，其它的為 一般客戶。
+
+將金額資料改成 [1200(VIP), 1500(VIP), 800(一般), 2000(VIP), 500(一般)]. 
+接著印出這些資料。
+
+<details>
+<summary>參考答案</summary>
+
+```js
+let sales = [1200, 1500, 800, 2000, 500];
+sales.map(sale => {
+    let type = sale > 1000 ? 'VIP' : '一般';
+    return `${sale}(${type})`;
+}).forEach(sale => console.log(sale));
+```
+</details>  
+
+## 對所有元素逐一進行歸納
+
+### 情境
+
+成績資料 [60, 70, 80, 90]
+
+- 算出總和
+  - 逐一累加，得到總合
+- 找出最大/最小值
+  - 逐一比大小，得到最大或最小值
+- 找出高於 70 分的人數
+  - 逐一判斷，得到符合條件的元素
+
+### 典型歸納函數
+
+傳入一個歸納函數給 `reduce()` 方法
+
+典型歸納函數的簽名: 
+
+```js
+function reducer(accumulator, currentValue) {
+    // ...
+    // 回傳歸納的結果
+    return newAccumulator;
+}
+```
+- `accumulator`: 累加器，累加的結果
+- `currentValue`: 當前元素的值
+- 回傳: 新的累加器的值
+
+---
+
+補充: 完整的簽名
+
+```js
+function reducer(accumulator, currentValue, currentIndex, array) {
+    // ...
+    // 回傳歸納的結果
+    return newAccumulator;
+}
+```
+- `accumulator` 和 `currentValue` 是必須的參數
+- `currentIndex`: 當前元素的索引值
+- `array`: 原始陣列的參考
+
+### 歸納器範例
+
+歸納總合的
+
+```js
+function sum(accumulator, currentValue) {
+    return accumulator + currentValue;
+}
+// lambda function
+(accumulator, currentValue) => accumulator + currentValue
+```
+
+歸納最大值的
+
+```js
+function max(accumulator, currentValue) {
+    return Math.max(accumulator, currentValue);
+}
+// lambda function
+(accumulator, currentValue) => Math.max(accumulator, currentValue)
+```
+
+---
+
+歸納符合某個條件的元素的數量
+
+```js
+function count(accumulator, currentValue) {
+    return currentValue > 70 ? accumulator + 1 : accumulator;
+}
+// lambda function
+(accumulator, currentValue) => currentValue > 70 ? accumulator + 1 : accumulator
+```
+
+### reduce() 方法
+
+- `reduce()` 方法用來對陣列中的每個元素執行歸納操作
+- 回傳一個新的值
+- 不會改變原始陣列的內容
+- 可以指定累加器的初始值
+    - 如果沒有指定，則使用陣列中的第一個元素作為初始值
+
+Syntax:
+
+```js
+reduce(callbackFn)
+reduce(callbackFn, initialValue)
+```
+
+### Ex. 算出成績的總和
+
+```js
+let scores = [60, 70, 80, 90];
+let total = scores.reduce(
+  (accumulator, currentValue) => accumulator + currentValue);
+console.log(total); // 300
+```
+
+### Ex. 找出成績大於 70 的學生人數
+
+```js
+let scores = [60, 70, 80, 90];
+let count = scores.reduce(
+  (accumulator, currentValue) => currentValue > 70 ? accumulator + 1 : accumulator, 0);
+console.log(count); // 3
+```
+
+### Quick Practice 
+
+銷售金額 [1200, 1500, 800, 2000, 500]。
+
+找出最低的金額，並印出來。
+
+<details>
+<summary>參考答案</summary>
+
+```js
+let sales = [1200, 1500, 800, 2000, 500];
+let minSale = sales.reduce(
+  (accumulator, currentValue) => Math.min(accumulator, currentValue));
+console.log(minSale); // 500
+```
+
+</details>
+
+## 自行迭代 
+
+- 如果迭代方法不符合需求，可以取得 Array 的迭代器，然後自行迭代
+- 使用 `for...of` 對迭代器自動迭代，遍歷每個元素
+
+Syntax:
+
+```js 
+for (const element of iterable) {
+    // 對每個元素執行操作
+}
+```
+
+- iterable: 可迭代的對象
+
+### Array 提供的 Iterators
+
+- `entries()`: 取得陣列 key/value 的迭代器
+  - 假設陣列為 `['A', 'B', 'C']`
+  - entries() 的 iterator 逐一回傳的資料 [0, 'A'], [1, 'B'], [2, 'C']
+- `keys()`: 取得陣列的索引值的迭代器
+  - 逐一回傳的資料 [0, 1, 2]
+- `values()`: 取得陣列的值的迭代器
+  - 逐一回傳的資料 ['A', 'B', 'C']
+
+### entries() 迭代器
+
+情境: 迭代時要取得元素的索引及值
+
+Ex. 印出學生成績的索引及元素值，輸出格式為: `學生 index: xx, 成績: xx`
+
+Array 的 forEach() 沒有提供索引值給回呼函數, 所以我們要使用 entries()
+
+```js
+let scores = [60, 70, 80, 90];
+for (const [index, score] of scores.entries()) {
+    console.log(`學生 index: ${index}, 成績: ${score}`);
+}
+```
+
+- `for...of` 迴圈會自動迭代 entries() 的迭代器
+- `[index, score]` 是解構賦值，將迭代器的回傳值解構為 index 和 score
+
+### 補充: 解構賦值(自行閱讀)
+
+- 情境: 如果要將一個陣列的值指派給多個變數, 要如何寫會比較簡潔?
+
+- Examples: 
+  -  [1, 2, 3] 的值要指派給 a, b, c 三個變數
+  -  [1, 2, 3] 中 1 和 3 的值要指派給 a 和 b 兩個變數, 2 捨棄
+
+- ES 6 提供了解構賦值(Destructuring Assignment)的語法
+  - 在指派符號的左右兩側, 皆可使用陣列或物件
+  - 陣列物件會以位置對應的方式進行指派
+  - 一般物件會以鍵值對應的方式進行指派
+
+--- 
+
+Ex. [1, 2, 3] 的值要指派給 a, b, c 三個變數
+
+```js
+let [a, b, c] = [1, 2, 3];
+```
+
+Ex. [1, 2, 3] 中 1 和 3 的值要指派給 a 和 b 兩個變數, 2 捨棄
+
+```js
+let [a, , b] = [1, 2, 3];
+```
+
+---
+
+- 也可使用 `...` 展開運算子(Spread operator) 儲存剩餘的值到另個陣列中
+
+Ex. 將 [1, 2, 3] 中 的 1 指派到 a, [2, 3] 放到另個陣列中 subArr 中
+
+```js
+let [a, ...subArr] = [1, 2, 3];
+console.log(a); // 1
+console.log(subArr); // [ 2, 3 ]
+```
+
+### keys() 迭代器
+
+- 取得陣列的索引值的迭代器
+- 如果用於 Map 物件，則會取得 Map 中的鍵值的迭代器
+
+Ex. 取得 Map 物件的鍵值
+```js
+let map = new Map([
+    ['name', 'John'],
+    ['age', 30],
+    ['city', 'New York']
+]);
+
+for (const key of map.keys()) {
+    console.log(key); // name, age, city
+}
+```
+
+### values() 迭代器
+
+- 取得陣列的值的迭代器
+- 如果用於 Map 物件，則會取得 Map 中的值的迭代器
+
+Ex. 取得 Map 物件的值
+```js
+let map = new Map([
+    ['name', 'John'],
+    ['age', 30],
+    ['city', 'New York']
+]);
+for (const value of map.values()) {
+    console.log(value); // John, 30, New York
+}
+```
+
+### Quick Review
+
+- Array 物件提供了那些類型的迭代方法？舉例使用說明情境
+- 想要把陣列中的每個元素的值除以 100 轉換成百分比, 應該使用那個迭代方法？為什麼? 
+- Array 物件提供了哪些迭代器？ 
+
+## 本章內容回顧
+
+- 建立 Array 的不同方法
+  - Array Literal, Array.of(), Array.from(), Array constructor
+- 如何訪問陣列中的元素
+  - arr[x]
+- 陣列內容的修改與新增
+  - arr[x] = value, arr.push(value), arr.pop(), arr.shift(), arr.unshift(value)
+- 遍歷陣列元素的方法
+  - for/of loop, forEach()
+- 陣列進階操作方法
+  - splice(), slice(), concat(), join(), sort(), reverse()
+- 陣列的迭代方法
+  - filter(), find(), findIndex(), some(), every(), map(), forEach(), reduce()
+- 陣列的迭代器
+  - entries(), keys(), values()
+
+<script>
+    // add the following script at the end of your marp slide file.
+    const h2s = document.querySelectorAll('h2');
+    h2s.forEach(function(h2, idx){
+        h2.innerHTML = `<span class="small-font">${idx + 1}</span> ${h2.innerHTML}`
+    })
+</script>
