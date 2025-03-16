@@ -526,6 +526,8 @@ console.log(complete); // A
 console.log(queue); // [ 'B', 'C', 'D', 'E' ]
 ```
 
+---
+
 Ex. 剛離開的人因故回來了，請將他加入隊伍的前端
 
 ```js
@@ -538,7 +540,7 @@ console.log(queue); // [ 'A', 'B', 'C', 'D', 'E' ]
 
 1. 有三個人, 分別為 Jack, Tom, Mary, 排隊買票，用一陣列描述。
 
-2. Jack 已經買完票了，請將他移除並印出他的名字。更改隊伍的順序。
+2. Jack 已經買完票了，請將他自隊伍中移除並印出他的名字。更改隊伍的順序。
 
 3. Emily 來了，請將她加入隊伍的尾端。
 
@@ -553,7 +555,7 @@ console.log(queue); // [ 'A', 'B', 'C', 'D', 'E' ]
 
 ```js
 let queue = Array.of('Jack', 'Tom', 'Mary');
-console.log(queue.shift()); // Jack
+console.log(queue.shift()); // Jack 
 queue.push('Emily');
 queue.unshift('Sophia');
 console.log(queue); // [ 'Sophia', 'Tom', 'Mary', 'Emily' ]
@@ -761,7 +763,9 @@ concat(value1, value2)
 concat(value1, value2, /* …, */ valueN)
 ```
 - value 可以是陣列或值
+---
 
+Ex. 將元素與陣列串接在一起
 ```js
 let arr1 = ['A', 'B', 'C'];
 let arr2 = ['D', 'E', 'F'];
@@ -770,7 +774,7 @@ let arr4 = arr1.concat(1, 2, arr2, arr3);
 console.log(arr4); // [ 'A', 'B', 'C', 1, 2, 'D', 'E', 'F', 'G', 'H', 'I' ]
 ```
 
-### join() 串接陣列內的元素
+### join() 串接陣列內的元素變成字串
 
 - `join()` 方法用來將陣列中的元素串接成一個字串
 - 不會改變原始陣列的內容
@@ -821,9 +825,15 @@ console.log(arr); // [ 1, 100, 12, 2, 21 ]
 #### 排序數字
 
 - 若要使用數字進行排序，則需要提供一個比較函數
+- 比較函數會依序接收兩個參數 a 和 b
+- 若要升冪排序，函數的回傳值為 a-b, 使得:
   - a > b 時，回傳正數,
-  - a < b 時，回傳負數,
   - a = b 時，回傳 0
+- 若要降冪排序，則回傳 b-a (or -(a-b)), 使得:
+  - a > b 時，回傳負數,
+  - a = b 時，回傳 0
+
+#### 升冪排序範例
 
 ```js
 function compValue(a, b) {
@@ -844,6 +854,8 @@ Hints:
 - 使用 reverse() 方法反轉陣列
 - 使用 join() 方法將陣列轉成字串
 
+--- 
+
 <details>
 <summary>參考答案</summary>
 
@@ -851,11 +863,17 @@ Hints:
 let str = 'Hello World';
 let arr = Array.from(str);
 // or arrs = Array.of(...str);
+// or arr = str.split('');
 arr.reverse();
 let newStr = arr.join('');
 console.log(newStr); // dlroW olleH
 ```
 </details>
+
+三種方法將字串轉成陣列:
+1. `Array.from(str)`
+2. `Array.of(...str)`
+3. `str.split('')`
 
 
 ## 陣列的迭代方法 (Iterative Methods)
@@ -864,7 +882,7 @@ console.log(newStr); // dlroW olleH
 
 - 陣列（Array）、Set、Map 等可迭代對象所提供的方法
 - 他們會自動拜訪每個元素，並執行使用者提供的 callback 函數
-- 迭代方法背後的維:
+- 迭代方法背後的思維:
   - 使用函數轉換每一個原始的元素，得到一個新的陣列或集合
   - 不會改變原始的陣列或集合 
 
@@ -885,6 +903,8 @@ const squaredEvens = numbers
 
 console.log(squaredEvens); // [4, 16, 36]
 ```
+
+---
 
 使用 for loop 的話，會變得冗長不直觀
 
@@ -911,6 +931,9 @@ console.log(squaredEvens); // [4, 16, 36]
   - `map()`: 將陣列中的每個元素轉換為新的值
 - 對每個元素執行操作:
   - `forEach()`: 對陣列中的每個元素執行操作
+
+---
+
 - 將多個元素變成一個值:
   - `reduce()`: 將陣列中的所有元素轉換為一個值(e.g. 加總)
 - 取得迭代器 (Iterator):
@@ -986,6 +1009,9 @@ console.log(isAllPass); // false
 ### Quick Practice
 
 有以下的銷售金額, 是不是所有金額都大於 1000 呢? 
+
+`sales = [1200, 1500, 800, 2000, 500]`
+
 如果不是, 請印出所有小於 1000 的金額
 
 <details>
@@ -1108,7 +1134,7 @@ function reducer(accumulator, currentValue) {
     return newAccumulator;
 }
 ```
-- `accumulator`: 累加器，累加的結果
+- `accumulator`: 累加器，累加的結果(目前歸納的結果)
 - `currentValue`: 當前元素的值
 - 回傳: 新的累加器的值
 
@@ -1129,22 +1155,24 @@ function reducer(accumulator, currentValue, currentIndex, array) {
 
 ### 歸納器範例
 
-歸納總合的
+歸納總合
 
 ```js
 function sum(accumulator, currentValue) {
     return accumulator + currentValue;
 }
+
 // lambda function
 (accumulator, currentValue) => accumulator + currentValue
 ```
 
-歸納最大值的
+歸納最大值
 
 ```js
 function max(accumulator, currentValue) {
     return Math.max(accumulator, currentValue);
 }
+
 // lambda function
 (accumulator, currentValue) => Math.max(accumulator, currentValue)
 ```
@@ -1347,6 +1375,10 @@ for (const value of map.values()) {
   - for/of loop, forEach()
 - 陣列進階操作方法
   - splice(), slice(), concat(), join(), sort(), reverse()
+
+---
+
+
 - 陣列的迭代方法
   - filter(), find(), findIndex(), some(), every(), map(), forEach(), reduce()
 - 陣列的迭代器
