@@ -1,5 +1,5 @@
 ---
-marp: true
+marp: false
 theme: default
 header: 'Ch5 集合(Collection) 物件'
 footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2025'

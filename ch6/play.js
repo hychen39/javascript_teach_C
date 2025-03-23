@@ -1,23 +1,12 @@
-
-(
-    function() {
-        let counter = 0;
-        function increment(){
-            counter++;
-            console.log(counter);
-        }
-        function setStartValue(initValue){
-            counter = initValue;
-        }
-        // export the two functions
-        global.myModule = {
-            increment: increment,
-            setStartValue: setStartValue
-        }
+const a = 10;
+function f(b){
+    return function (){
+        let c = 10;
+        return a + b + c;
     }
-)();
+}
 
-// test the module
-myModule.setStartValue(5);
-myModule.increment(); // 6
+funcN1 = f(20);
+const k = funcN1();
+console.log(k);
 
