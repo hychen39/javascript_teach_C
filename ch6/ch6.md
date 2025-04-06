@@ -78,7 +78,7 @@ footer {
 
 ### 使用函數敘述宣告函數
 
-Task: 建立一個具兩個參數並回傳兩個參數相加結的函數。
+Task: 建立一個具兩個參數並回傳兩個參數相加的函數。
 
 使用 `function` 敘述
 
@@ -246,7 +246,7 @@ console.log(add); // Prints the function object
 - 某些情境下我們需要 JS Engine 在函數宣告完後立即執行它。
 
 典型情境:
-- 當頁面加載時，自動為元素加入事件監聽器(Event Listener). 
+- 當頁面載入時，自動為元素加入事件監聽器(Event Listener). 
 - 使用 IIFE 避免函數內的區域變數污染全域命名空間
   - 函數內的變數成為私有變數
 - 為函數/物件建立私有屬性。
@@ -298,6 +298,10 @@ Example: 定義一個函數，顯示兩個數字的總和並立即執行它。
 
 例如: Hello -> olleH
 
+Hint: 反轉字串的方式
+- `str.split('').reverse().join('')`, or
+- `Array.from(str).reverse().join('')`
+
 <details>
 <summary>參考答案</summary>
 
@@ -324,6 +328,8 @@ Example: 定義一個函數，顯示兩個數字的總和並立即執行它。
 - `increment`: 將計數器增加 1, 並印出計數器的值
 - `setStartValue`: 設定計數器的起始值。
 - 計數器是模組的私有變數。
+
+---
 
 使用 IIFE 實作模組模式
 
@@ -455,9 +461,9 @@ console.log(greet('Bob')); // Hello, Bob
 
 ### Quick Practice
 
-檢視底下的 randomWord 函數, `descWords` 是一個描述名字的形容詞清單。
+檢視底下的 randomWord 函數, `descWords` 參數是一個描述名字的形容詞清單。
 請為 desWords 設定預設值。 
-接著呼叫 randomWord 函數, 但不提 `descWords` 的引數。
+接著呼叫 randomWord 函數, 但不提供 `descWords` 的引數。
 
 ```js
 function randomWord(name, descWords) {
@@ -485,7 +491,7 @@ console.log(randomWord('Alice'));
 
 ### 剩餘的參數(rest of parameters)
 
-- JS 的函數可以接受不定數量的引數(variable number of arguments)
+- JS 的函數可以接受不定數量的引數(indefinite number of arguments)
   - 或者可接受一串引數(a list of arguments)
 - 例如 Math.max() 
 
@@ -571,6 +577,8 @@ printAll(arrA, arrB);
 - 當接受函數作為參數時，高階函數可以使用剩餘參數接受被傳入的函數的所有引數
 - 被傳入的函數稱為回呼函數(callback function)
 
+---
+
 
 ```js
 // 定義回呼函數
@@ -615,6 +623,7 @@ const sum = invokeFunction(add, 1, 2); // 3
 4. 對於輸入的字串 "sum 1 2 3 4". 字串的第一個字是函數名稱，後面的字是引數。你的程式應該呼叫 `sum` 函數並傳入引數 1, 2, 3 和 4，並印出結果。
 5. 對於輸入的字串 "multiply 1 2 3 4"，你的程式應該呼叫 `multiply` 函數並傳入引數 1, 2, 3 和 4，並印出結果。
 
+---  
 
 提示:
 - 使用字串的 `split` 方法將輸入的字串分割成字串陣列。然後，使用陣列解構賦值技術將它們賦值給變數陣列。
@@ -679,7 +688,6 @@ console.log(p); // ReferenceError: param is not defined
 考慮以下的程式碼，輸出結果為何？
 
 ```js
-
 function test() {
     var x = 1; 
     let y = 0;
@@ -694,15 +702,16 @@ function test() {
     }
     console.log(j)
 }
-
 test();
 console.log(i);
 ```
 
+--- 
+
 <details>
 <summary>參考答案</summary>
 
-- 第一個 `console.log(y)` 印出 0, 1, 3
+- 第一個 `console.log(y)` 印出 0, 1, 2
   - `y` 是函數作用域的變數
 - `console.log(i)` 印出 3
   - `i` 是函數作用域的變數, for 迴圈結束後，`i` 的值為 3
@@ -752,6 +761,9 @@ function hoisting() {
 - 在賦值之前, 這些變數無法使用
 - 從提升至作用域的開始到賦值之間的區域稱為 "暫時死區" (temporal dead zone)
 - 在這個區域內, 使用這些變數會產生 ReferenceError
+
+---
+
 
 ```js
 function hoisting() {
@@ -813,6 +825,7 @@ function outerFunction() {
     let innerVar = 20;
     ...
   }
+}
 ```
 
 ### 巢狀函數下的變數作用範圍規則
@@ -923,7 +936,7 @@ outerFunction('Hello');
 
 閉包(Closure)高階函數回傳函數時產生的特殊的變數作用域範圍。
 
-考慮以下的高階函數的定義與使用:
+考慮以下的高階函數, 當執行 `aFunc()` 時, `outerVar` 變數還存在嗎？
 
 ```javascript
 function outerFunction() {
@@ -939,9 +952,11 @@ function outerFunction() {
 const aFunc = outerFunction();
 ```
 
+---
+
 - `outerFunction` 是一個高階函數，回傳 `innerFunction` 函數物件
 - `aFunc` 是 `innerFunction` 的參考
-- 當執行 `aFunc()` 時, `outerVar` 變數還存在嗎？
+
 
 
 ### 閉包的特性
@@ -1005,6 +1020,7 @@ funcN1 = f(20);
 const k = funcN1();
 console.log(k);
 ```
+---
 
 分析:
 - 因為閉包作用, funcN1 可以存取 f 函數的區域變數 b 及全域變數 a
@@ -1067,6 +1083,8 @@ counter2();
   - 使用預設值來設定選項參數的值。
   - 使用剩餘參數來處理不定數量的引數。
 
+--- 
+
 - 高階函數可以接受函數作為參數或回傳函數。
   - 使用高階函數可執行傳入的函數(回呼函數)。
 
@@ -1075,6 +1093,8 @@ counter2();
   - 內部函數的變數不開放給外部函數存取; 
   - 但內部函數可以存取外部函數的變數。
   - 相同變數名稱時，內部函數的變數會覆蓋外部函數的變數。
+
+--- 
 
 - 當高階函數回傳函數時，產生的特殊的變數作用範圍稱為閉包(Closure)。
   - 回傳的函數仍可以存取高階函數的區域變數及參數，即使高階函數已經執行完畢。
