@@ -1,5 +1,5 @@
 ---
-marp: true
+marp: false
 theme: default
 header: 'Chapter 6: 函數'
 footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2025'
