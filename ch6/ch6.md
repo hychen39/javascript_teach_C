@@ -602,7 +602,7 @@ higherOrderFunction(callBackFunction, 1, 2, 3);
 
 設計一個函數 `add(a, b)`, 回傳 a + b 的結果
 
-設定一個函數 `invokeFunction()`, 接受一個函數和一組引數，並執行該函數，並回傳執行的結果. 
+設定一個函數 `invokeFunction()`, 接受一個函數和一組引數，並執行該函數，回傳執行的結果. 
 
 ```javascript
 const add = (a, b) => a + b;
@@ -692,12 +692,12 @@ function test() {
     var x = 1; 
     let y = 0;
     for (var i = 0; i < 3; i++) {
-        y += i;
+        y += 1;
         console.log(y);
     }
     console.log(i)
     for (let j = 0; j < 3; j++) {
-        y += j;
+        y += 1;
         console.log(y);
     }
     console.log(j)
@@ -711,17 +711,19 @@ console.log(i);
 <details>
 <summary>參考答案</summary>
 
-- 第一個 `console.log(y)` 印出 0, 1, 2
+- 第一個 `console.log(y)` 印出 1, 2, 3
   - `y` 是函數作用域的變數
 - `console.log(i)` 印出 3
   - `i` 是函數作用域的變數, for 迴圈結束後，`i` 的值為 3
   
-- 第二個 `console.log(y)` 印出 3, 4, 5
+- 第二個 `console.log(y)` 印出 4, 5, 6
   - `y` 是函數作用域的變數，持續累加
 - `console.log(j)` 印出 ReferenceError (j is not defined)
   - `j` 是區塊作用域的變數，for 迴圈結束後，`j` 變數結束
 
 - 最後的 `console.log(i)` 印出 ReferenceError (i is not defined)
+
+</details>
 
 ### `var` 宣告變數產生變數提升(variable hoisting) 
 
@@ -1069,6 +1071,8 @@ counter2();
 counter2();
 counter2();
 ```
+
+</details>
 
 ## 本章總結
 
