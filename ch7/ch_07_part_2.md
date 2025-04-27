@@ -1,8 +1,8 @@
 ---
-marp: false
+marp: true
 theme: default
 header: '第7章: 類別、原型與繼承'
-footer: 'Hung-Yi Chen, 資訊管理系, CYUT  | 2024'
+footer: 'Hung-Yi Chen, 資訊管理系, CYUT  | 2025'
 class: lead
 paginate: true
 headingDivider: [1, 2, 3]
@@ -187,92 +187,91 @@ dog.bark(); // 汪汪
 - 方法名稱: 應為動詞，採用混合大小寫，首字母小寫，每個內部單字的首字母大寫。
     - 例如: run(); runFast(); getBackground();
 
-    ### 私有屬性、設值器 (setters) 與取值器 (getters)
+### 私有屬性、設值器 (setters) 與取值器 (getters)
 
-    #### 為什麼使用私有屬性？
+#### 為什麼使用私有屬性？
     
-    - **封裝**: 隱藏類別的實作細節。
+  - **封裝**: 隱藏類別的實作細節。
         - 防止直接存取屬性。
-    - 在存取屬性時可以加入驗證或邏輯。
+  - 在存取屬性時可以加入驗證或邏輯。
 
 #### 如何將屬性設為私有？
 
-    - 使用 `#` 符號將屬性標註為私有。
-    - 必須在類別中宣告私有屬性。
-      - 公開(public)屬性則不需要宣告。
+- 使用 `#` 符號將屬性標註為私有。
+- 必須在類別中宣告私有屬性。
+  - 公開(public)屬性則不需要宣告。
 
-    範例: 將 `Dog` 類別的 `name` 和 `age` 屬性設為私有。
+範例: 將 `Dog` 類別的 `name` 和 `age` 屬性設為私有。
 
-    ```javascript
-    class Dog {
-            #name;
-            #age;
-            constructor(name, age) {
-                    // 直接存取私有屬性
-                    this.#name = name;
-                    this.#age = age;
-                    this.bark = function() {
-                            console.log('汪汪');
-                    };
-            }
-    }
-    ```
+ ```javascript
+class Dog {
+        #name;
+        #age;
+        constructor(name, age) {
+                // 直接存取私有屬性
+                this.#name = name;
+                this.#age = age;
+                this.bark = function() {
+                        console.log('汪汪');
+                };
+        }
+}
+```
 
-    #### 如何存取私有屬性？使用設值器 (Getter) 與存取器 (Setter)
+#### 如何存取私有屬性？使用設值器 (Getter) 與存取器 (Setter)
+為私有屬性新增設值器與存取器方法。
 
-    為私有屬性新增設值器與存取器方法。
-    - 使用 `get` 和 `set` 關鍵字定義取值器與存取器方法。
-
-    ```javascript
-    class Dog {
-            #name;
-            #age;
-            constructor(name, age) {...}
-            // 取值器方法
-            get name(){
-                    return this.#name;
-            }
-            // 設值器方法
-            set name(name){
-                    this.#name = name;
-            }
-    }
-    ```
+- 使用 `get` 和 `set` 關鍵字定義取值器與存取器方法。
+ ```javascript
+class Dog {
+        #name;
+        #age;
+        constructor(name, age) {...}
+        // 取值器方法
+        get name(){
+                return this.#name;
+        }
+        // 設值器方法
+        set name(name){
+                this.#name = name;
+        }
+}
+```
 
 #### 在設值器方法中加入驗證邏輯
 
-    - 並在建構子中使用設值器方法初始化私有屬性。
-    - 可以在設值器方法中加入驗證邏輯。
+- 並在建構子中使用設值器方法初始化私有屬性。
+- 可以在設值器方法中加入驗證邏輯。
+ 
+```javascript
+class Dog {
+        #name;
+        #age;
+        constructor(name, age) {...}
+        ...
+        set age(age){
+                // 驗證 age 不為負數
+                age = age < 0 ? 0 : age;
+                console.log('年齡小於 0，設為 0。');
+                this.#age = age;
+        }
+}
+```
 
-    ```javascript
-    class Dog {
-            #name;
-            #age;
-            constructor(name, age) {...}
-            ...
-            set age(age){
-                    // 驗證 age 不為負數
-                    age = age < 0 ? 0 : age;
-                    console.log('年齡小於 0，設為 0。');
-                    this.#age = age;
-            }
-    }
-    ```
-    ### 使用取值器與設值器方法存取私有屬性
+### 使用取值器與設值器方法存取私有屬性
+使用它們就像使用公開屬性一樣。
+- 不需要使用 `()` 呼叫取值器方法。
+- 使用賦值運算子 `=` 呼叫設值器方法。
+- 當存取屬性時，取值器與設值器方法會自動被呼叫。
 
-    使用它們就像使用公開屬性一樣。
-    - 不需要使用 `()` 呼叫取值器方法。
-    - 使用賦值運算子 `=` 呼叫設值器方法。
-    - 當存取屬性時，取值器與設值器方法會自動被呼叫。
-
-    ```javascript
-    const dog = new Dog('Dogy-Dogy', -1);
-    console.log(dog.name); // Dogy-Dogy
-    console.log(dog.age); // 0
-    // 透過設值器方法設定名稱。
-    dog.name = 'Dogy'; // 自動呼叫設值器方法
-    console.log(dog.name); // Dogy; 自動呼叫取值器方法
-    ```
+```javascript
+const dog = new Dog('Dogy-Dogy', -1);
+console.log(dog.name); // Dogy-Dogy
+console.log(dog.age); // 0
+// 透過設值器方法設定名稱。
+dog.name = 'Dogy'; // 自動呼叫設值器方法
+console.log(dog.name); // Dogy; 自動呼叫取值器方法
+```
 
 ### Quick Practice 
 
@@ -379,7 +378,6 @@ class Motorcycle extends Vehicle {
     // 初始化子類別的屬性
     this.fuel = fuel;
   }
-
   doWheelie() {
     console.log("單輪行駛");
   }
@@ -421,6 +419,7 @@ motor.doWheelie(); // 單輪行駛
 3. 建立一個 `Motorcycle` 物件：`let motor1 = new Motorcycle('red', 0, 200, 'gasoline');`
 4. 在主控台中輸入 `motor1`，以顯示該車輛物件。
 
+---
 
 ![](img/24-08-01-09-56-32.png)
 
@@ -450,16 +449,16 @@ console.log(Object.getPrototypeOf(motor1));
 
 ### Quick Question
 
-- `Vehicle` 物件的父物件是什麼？
-- `Object` 物件的父物件是什麼？
+- `Vehicle.prototype` 物件的父物件是什麼？
+- `Object.prototype` 物件的父物件是什麼？
 
 <details>
 <summary>解答</summary>
 
-- `Vehicle` 物件的父物件是 `Object` 物件。
-- `Object` 物件的父物件是 `null`。
-- `Object` 物件是 JavaScript 中所有物件的根物件。
-- `Object` 物件的 `[[Prototype]]` 屬性指向 `null`。
+- `Vehicle.prototype` 物件的父物件是 `Object.prototype` 物件。
+- `Object.prototype` 物件的父物件是 `null`。
+- `Object.prototype` 物件是 JavaScript 中所有物件的根物件。
+- `Object.prototype` 物件的 `[[Prototype]]` 屬性指向 `null`。
 
 </details>
 
@@ -494,6 +493,9 @@ motor1.move();
 
 請問 `motor1.move()` 會呼叫那個原型的 `move()` 方法？
 
+---
+
+Motorcycle 類別的定義如下:
 
 ```javascript
 class Vehicle {
@@ -511,6 +513,7 @@ class Motorcycle extends Vehicle {
     ...
   }
   doWheelie() { ...}
+  move() {...}
 }
 ```
 
@@ -518,6 +521,8 @@ class Motorcycle extends Vehicle {
 
 - 讓物件共享屬性與方法，節省記憶體空間。
 - 讓物件動態地新增屬性與方法。
+
+以下分別說明. 
 
 ### 節省記憶體空間
 
@@ -533,6 +538,7 @@ class Motorcycle extends Vehicle {
 - 只要是屬於這個原型的物件，都可以使用新增的屬性與方法。
 
 ### 範例: 在 `Vehicle` 原型中新增 `stop()` 方法
+
 例如，我們在 `Vehicle` 原型中新增一個方法 `turbo()`，該原型是 `Motorcycle` 原型的父原型。
 - 這將使所有 `Motorcycle` 的物件都擁有 `turbo()` 方法。
 
@@ -593,7 +599,7 @@ See [ex_07_prototype_add_method.js](./ex_07_prototype_add_method.js) for the com
 
 
 1. 相同原型的物件共享相同的方法，但擁有各自的屬性值。
-2. JavaScript 可以在執行期間向原型物件新增方法，以擴展物件的行為，為開發者提供更大靈活性。
+2. JavaScript 可以在執行期間向原型物件新增方法，以擴展物件的行為，為開發者提供靈活性。
 
 ![w:700px](img/24-08-01-11-41-47.png)
 
