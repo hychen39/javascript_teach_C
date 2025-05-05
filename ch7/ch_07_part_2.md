@@ -1,11 +1,11 @@
 ---
-marp: true
+marp: false
 theme: default
 header: '第7章: 類別、原型與繼承'
 footer: 'Hung-Yi Chen, 資訊管理系, CYUT  | 2025'
 class: lead
 paginate: true
-headingDivider: [1, 2, 3]
+headingDivider: [1, 2, 3, 4]
 lang: zh-TW
 ---
 
