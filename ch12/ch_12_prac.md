@@ -128,3 +128,94 @@ function checkout(){
 1. 描述此 HTML 代碼的 DOM 樹結構。
 2. 使用上述 HTML 代碼，解釋並說明 `nextSibling` 和 `nextElementSibling` 屬性的區別。
 3. 使用上述 HTML 代碼，解釋並說明 `body.textContent`、`body.innerHTML`、`body.outerHTML`、`body.innerText` 和 `body.outerText` 屬性在 `body` HTML 元素對象中的區別。
+
+## 練習 12.4
+
+頁面中有兩個區域。區域中有 2 個按鈕。
+左邊區域有 4 樣物品。
+第一個按鈕是 「移往右邊」，會將左側的第一個物品移到右側的第一個位置，其它物品依序往下移。
+第二個按鈕是 「移往左邊」，會將右側的第一個物品移到左側的第一個位置，其它物品依序往下移。
+在左側時，物件套用 `left` 樣式，並在右側時套用 `right` 樣式。
+
+請參考以下 HTML 代碼，並撰寫 JavaScript 代碼來完成這個任務：
+
+```html
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>左右移動物品練習</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .area {
+            width: 180px;
+            min-height: 200px;
+            border: 2px solid #aaa;
+            padding: 16px;
+            border-radius: 8px;
+        }
+        .left {
+            background: #e0f7fa;
+            color: #006064;
+            margin-bottom: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .right {
+            background: #fff3e0;
+            color: #bf360c;
+            margin-bottom: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .btns {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            justify-content: center;
+        }
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>左右移動物品練習</h2>
+    <div class="container">
+        <div class="area" id="leftArea">
+            <div class="left">蘋果</div>
+            <div class="left">香蕉</div>
+            <div class="left">橘子</div>
+            <div class="left">葡萄</div>
+        </div>
+        <div class="btns">
+            <button id="toRight">移往右邊 &rarr;</button>
+            <button id="toLeft">&larr; 移往左邊</button>
+        </div>
+        <div class="area" id="rightArea">
+            <!-- 右側初始為空 -->
+        </div>
+    </div>
+    <script>
+        // 撰寫 JavaScript 代碼
+    </script>
+</body>
+</html>
+```
+
+範例輸出 
+
+![](img/25-May-18-20-48-32.png)
+
+![](img/25-May-18-20-48-45.png)
+

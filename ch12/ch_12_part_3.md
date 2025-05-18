@@ -1,5 +1,5 @@
 ---
-marp: false
+marp: true
 theme: default
 header: 'Chapter 10 Part 3: 事件模型(Event Model)'
 footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2024'
@@ -11,18 +11,17 @@ lang: zh-tw
 
 # Chapter 10 Part 3: 事件模型(Event Model)
 
-## Event Model
+## 事件模型
 
-Events represent that something has happened in the browser.
+事件是指在瀏覽器中發生的某些事情。
 
-Events can be:
-- Windows or DOM events (click, mouseover, keydown, drag-and-drop, scroll etc.), indicating the user's interaction with the window or the DOM
-- API events (read client-side file, fetch resources from a server, timer, etc.), notifying developers that asynchronous operations have been completed.
+事件可以分為：
+- 視窗或 DOM 事件（如 click、mouseover、keydown、drag-and-drop、scroll 等），表示使用者與視窗或 DOM 的互動。
+- API 事件（如讀取用戶端檔案、從伺服器擷取資源、計時器等），用來通知開發者非同步操作已完成。
 
 Ref: [Event handling (overview) - Event reference | MDN](https://developer.mozilla.org/en-US/docs/Web/Events/Event_handlers)
 
-### Example 10-6: the button click event (DOM event)
-
+### 範例 6: 按鈕點擊事件
 
 <img src="https://dotnettutorials.net/wp-content/uploads/2020/05/word-image-28.png?ezimgfmt=ngcb8/notWebP" alt="button click event" width="800"/>
 
@@ -30,12 +29,13 @@ Ref: [Event handling (overview) - Event reference | MDN](https://developer.mozil
 source: https://dotnettutorials.net/wp-content/uploads/2020/05/word-image-28.png?ezimgfmt=ngcb8/notWebP
 
 
-## Event listener
+## 事件鑑聽器 (Event Listener) 
 
-Event listeners are functions that listen for events and execute code when the event occurs.
-- Event listeners are call-back functions.
+事件鑑聽器是用來監聽事件的函式，當事件發生時會執行相應的程式碼。
+- 事件鑑聽器是回呼函式 (call-back function)。
 
-The function signature of the event listener is:
+- 當事件發生時，瀏覽器會呼叫事件鑑聽器函式，並傳遞一個 `Event` 物件作為參數。
+- 事件鑑聽器函式的函數簽名如下：
 
 ```javascript
 functionName(event) {
@@ -43,39 +43,40 @@ functionName(event) {
 }
 ```
 
-## Event Object 
+## 事件物件 (Event Object) 
 
-The browser will pass (inject) an `Event` object to the event listener function when the event occurs.
+當事件發生時，瀏覽器會將一個 `Event` 物件傳遞給事件鑑聽器函式。
 
-The `Event` object tell us two basic things:
-- the event type
-- the target element that triggers the event (event target)
+事件物件會提供兩個基本資訊：
+- 事件的類型 (event type)
+- 觸發事件的目標元素 (event target)
 
-Depend on the event type, the `Event` object may have more properties. For example, 
-- a [mouse event](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent) includes the coordinate of the mouse pointer.
-- a [keyboard event](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent) include the key code of the key that is pressed.
+依據事件類型，不同的事件物件會有不同的屬性。例如：
+- [mouse event](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent) 包含滑鼠的座標、按鈕狀態、滾輪滾動的距離等資訊。
 
-To see the full list of the event types, please refer to 
+- [keyboard event](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent) 包含被按下的鍵盤按鍵的代碼等。
+
+要查閱完整的事件類型列表，請參考
 - [Event reference | MDN](https://developer.mozilla.org/en-US/docs/Web/Events)
 - [Event - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/Event)
 
 
-## Register an event listener to an DOM element
+## 註冊事件鑑聽器監聽某個元素的事件
 
-There are three ways to register an event listener to an element:
-- Setting the event **handler attribute** of the HTML tag (inline event handler)
-- Setting the event **handler property** of the DOM element
-- Calling the `addEventListener()` method of the DOM element
+有三種方法可以註冊事件鑑聽器來監聽某個元素的事件：
+- 設定 HTML 標籤的事件處理屬性(event handler attribute)(行內事件處理器) 指向一個函數
+- 設定 DOM 元素的事件處理特性(event handler property)指向一個函數
+- 呼叫 DOM 元素的 `addEventListener()` 方法加入函數
 
-Let discuss when to use which method.
+接下來討論何時使用哪一種方法。
 
-## Use the inline event handler: Write javascript code in the `onXYZ` attribute of the HTML tag
+## 使用行內事件處理器：在 HTML 標籤的 `onXYZ` 屬性中撰寫 JavaScript 程式碼
 
-When you want to execute a simple code when the event occurs, you can use the inline event handler.
+當你只需要在事件發生時執行簡單的程式碼時，可以使用行內事件處理器。
 
-You write javascript code in the `onXYZ` attribute of the HTML tag, such as `onclick`, `onmouseover`, `onkeydown`, etc.
+你可以在 HTML 標籤的 `onXYZ` 屬性（如 `onclick`、`onmouseover`、`onkeydown` 等）中撰寫 JavaScript 程式碼。
 
-### Example 10-7: Inline event handler
+### 範例 7: 行內事件處理器
 
 ```html
 <!DOCTYPE html>
@@ -98,22 +99,25 @@ You write javascript code in the `onXYZ` attribute of the HTML tag, such as `onc
     </script>
 </html>
 ```
+
+See file [ex_12p2_07.html](ex_12p2_07.html) for the complete code.
+
 ---
 
-The first `<a>` tag will show an alert message "Hello, world!" when the user clicks the link.
+第一個 `<a>` 標籤在使用者點擊連結時，會顯示提示訊息 "Hello, world!"。
 
-The second `<a>` tag will execute the `sayHello` function with two arguments when the user clicks the link.
+第二個 `<a>` 標籤在使用者點擊連結時，會執行 `sayHello` 函式，並傳入兩個參數。
 
-The first argument is the `this` keyword, which refers to the element running the inline event handler.
-- the `this` is equal to `event.target` in the `sayHello` function.
+第一個參數是 `this` 關鍵字，代表執行行內事件處理器的元素本身。
+  - 在 `sayHello` 函式中，`this` 等同於 `event.target`。
 
 
 
-### Implicitly converted inline event handler
+### 自動轉換的行內事件處理器(Implicitly converted inline event handler)
 
-The browser will implicitly convert the code in the inline event handler to a function and register it to the element's event listener.
+瀏覽器會自動建立一個函數，將行內事件處理器中的程式碼加入該函數中，並將該函數註冊為元素的事件監聽器。
 
-The converted event listener function will have the following pattern:
+自動建立的函數有以下的模式：
 
 ```javascript
 function(event) { 
@@ -126,11 +130,11 @@ function(event) {
 }
 ```
 
-That means you can access trigging element (`this`), form data, `document`, and `event` objects in the inline event handler.
+這表示，在行內處理器中，你可以直接存取觸發事件的元素 (`this`)、表單資料(this.form)、`document` 物件和 `event` 物件。
 
 ---
 
-So, the inline event handler in the second `<a>` tag is equivalent to the following code:
+所以, 上述的行內事件處理器等同於以下的程式碼：
 
 ```js
 function sayHello(trigger) {
@@ -146,28 +150,29 @@ document.body.children[2].onclick = function(event){
   }
 }
 ```
+### 缺點
 
-### Disadvantages
+大量使用行內事件處理器會讓你的程式碼難以維護與除錯，因為：
+1. JavaScript 程式碼與 HTML 混雜在一起。
+2. 無法集中管理事件監聽器的註冊。
+3. 當多個標籤需要使用相同的事件處理器時，必須分別指定，非常不便。
+4. 無法以程式方式動態新增或移除事件監聽器。
 
-Use the inline event handler a lot will make your code hard to maintain and debug, because 
-1. The JS code is mixed with the HTML code.
-2. Cannot centrally assign the event listeners to the elements.
-3. When multiple tags use the same event handler, you need to assign the event handler to each tag one by one, which is very inconvenient. 
-4. Cannot programmatically and dynamically add or remove the event listeners.
+在 DOM 元素的事件處理特性(event property)上註冊事件監聽器是較佳的做法。
 
-Setting the event handler property of the DOM element is a better way to register the event listener.
+## 設定 DOM 元素的事件處理屬性來註冊事件監聽器
 
-## Setting the event handler property of the DOM element to register the event listener
+每個 HTML 標籤(tag)都有對應的 DOM 元素物件(DOM element object)。
 
-Recall that each HTML element has a corresponding DOM object.
+HTML 標籤有一組事件處理屬性(event handler attributes)，而 DOM 元素物件也有一組事件處理特性(event handler properties)
+- 如 `onclick`、`onmouseover`、`onkeydown` 等，全部為小寫。
 
-The HTML element has a set of event handler attributes. Similarly, the DOM object has a set of event handler properties, such as `onclick`, `onmouseover`, `onkeydown`, etc., all in lowercase.
+你可以將一個函式指定給 DOM 元素的事件處理特性，來註冊事件監聽器。
 
-You can register an event listener to the DOM element by assigning a function to the event handler property.
+### 範例 8: 設定 DOM 元素的事件處理特性
 
-### Example 10-8: Setting the event handler property of the DOM element
-
-We rewrite the previous example and separate the javascript code from the HTML code.
+- 我們重寫前面的範例，並將 JavaScript 程式碼與 HTML 程式碼分開。
+  - 這使得 HTML 及 JavaScript 程式碼更易於維護。
 
 ```html
 <!DOCTYPE html>
@@ -178,7 +183,7 @@ We rewrite the previous example and separate the javascript code from the HTML c
         <a href="#">Click me to say hello.</a> <br/>
         <a href="#">Click me to invoke a function.</a> <br/>
 
-        <script src="ex_10_08.js"></script>
+        <script src="ex_12p2_08.js"></script>
     </body>
 </html>
 ```
@@ -205,13 +210,17 @@ secondAnchor.onclick = function(event) {
 }
 ```
 
-### Example 10-9: Assign the same listener function to multiple elements
+
+### Programming Pattern: 多個元素使用相同的事件處理器
+
+- 當多個元素需要使用相同的事件處理器時，你應該將事件處理器(函數)獨立出來維護
+- 然後取得所有相關的元素，並將事件處理器指定給這些元素的事件處理特性。
+
+### 範例 9: 指定相同的事件處理器給多個元素
+
+點擊每個 `<input type="checkbox">` 元素時，會在主控台中顯示該元素的 `value` 和 `data-flavor` 屬性。 file: [ex_12p2_09.html](ex_12p2_09.html)
 
 ```html 
-<html>
-    <head>
-    </head>
-    <body>
         <div>
             <input type="checkbox" id="cb1" name="flavor" value="10" data-flavor="vanilla">
             <label for="cb1">Vanilla</label>
@@ -230,38 +239,37 @@ secondAnchor.onclick = function(event) {
                 checkbox.onclick = logValueData;
             });
         </script>
-    </body>
-</html>
 ```
 
 ---
 
-Notes:
-- `document.getElementsByName('flavor')` returns a `NodeList` object that contains all the elements with the name `flavor`.
-- The `NodeList` object provides the `forEach` method to iterate through the elements in the list.
-  - However, the `HTMLCollection` object does not.
+注意事項：
+- `document.getElementsByName('flavor')` 會回傳一個包含所有 name 為 `flavor` 的元素的 `NodeList` 物件。
+- `NodeList` 物件提供 `forEach` 方法，可以用來遍歷清單中的每個元素。
+  - 但 `HTMLCollection` 物件則沒有這個方法。
 
-### Advantages
+### 優點
 
-- The code is separated from the HTML code.
-- You can centrally assign the event listeners to the elements.
-- You can assign the same listener function to multiple elements.
+- 程式碼與 HTML 分離，易於維護。
+- 可以集中為元素註冊事件監聽器。
+- 可以將相同的監聽函式指定給多個元素。
 
-### Limitations
+### 限制
 
-- You cannot assign multiple event listeners to the same event type of the same element.
-  - e.g. you cannot assign two different functions to the `onclick` event of the same element.
-- You cannot specify the advanced event options when assigning the event listener.
-  - Options such as `capture`, `once`, and `passive`.
-  - These advanced options will be covered in the next chapter. 
+- 你無法為同一個元素的同一事件類型指定多個事件監聽器。
+  - 例如，無法為同一個元素的 `onclick` 事件指定兩個不同的函式。
+- 你無法在指定事件監聽器時設定進階事件選項。
+  - 例如 `capture`、`once`、`passive` 等選項。
+  - 這些進階選項將在下一章介紹。
 
-The `addEventListener` method of the DOM element provides a solution to these limitations.
 
-## Calling the `addEventListener()` method of the DOM element to register the event listener
+DOM 元素的 `addEventListener` 方法可以解決上述這些限制。
 
-The third way to register an event listener to an element is to call the element's `addEventListener` method.
+## 呼叫 DOM 元素的 `addEventListener()` 方法來註冊事件監聽器
 
-The [syntax of the `addEventListener` method](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener) is:
+第三種註冊事件監聽器的方法，是呼叫元素的 `addEventListener` 方法。
+
+[`addEventListener` 的語法](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener)如下：
 
 ```javascript
 addEventListener(type, listener)
@@ -269,24 +277,27 @@ addEventListener(type, listener, options)
 addEventListener(type, listener, useCapture)
 ```
 
-The last two syntaxes will be discussed in the next chapter.
+最後兩種語法(`options` 與 `useCapture` 參數)將在下一章說明。
+
+### `addEventListener` 方法的參數說明：
+
+`type` 參數：
+- 事件類型，例如 `click`、`mouseover`、`keydown` 等。
+- 不需要加上 `on` 前綴。
+- 事件類型的完整列表請參考 [Event reference | MDN](https://developer.mozilla.org/en-US/docs/Web/Events)
+
+`listener` 參數：
+- **事件監聽器函式**，當事件發生時會被執行。
+- 或是一個帶有 `handleEvent` 方法的**物件**。
 
 
-### Parameters for the `addEventListener` method:
+### Programming Pattern: 一個事件觸發多個事件監聽器
 
-`type` parameter:
-- the event type, such as `click`, `mouseover`, `keydown`, etc. 
-- No `on` prefix is needed.
-- See the full list of the event types at [Event reference | MDN](https://developer.mozilla.org/en-US/docs/Web/Events)
+- 當一個事件需要觸發多個事件監聽器時，可以使用 `addEventListener` 方法來註冊多個事件監聽器到同一個元素的同一事件類型上。
 
-`listener` parameter:
-- the **event listener function** that will be executed when the event occurs. 
-- Or, an **object** with a `handleEvent` method.
+### 範例 10: 使用 `addEventListener` 方法註冊多個事件監聽器
 
-
-### Example 10-10: Using the `addEventListener` method to register the event listener
-
-Rewrite the previous example and use the `addEventListener` method to register two event listeners for each anchor element.
+重寫前面的範例，並使用 `addEventListener` 方法為每個 `<input type="checkbox">` 元素註冊兩個事件監聽器。 [ex_12p2_10.html](ex_12p2_10.html)
 
 ```html
 ...
@@ -303,4 +314,17 @@ Rewrite the previous example and use the `addEventListener` method to register t
 </script>
 ```
 
-See the full code in [`ch10/ex_10_10.html`](ex_10_10.html).
+完整的程式碼可以參考 [ex_12p2_10.html](ex_12p2_10.html)。
+
+## 本章重點摘要
+
+- 事件模型讓網頁能回應使用者互動與非同步操作。
+- 事件鑑聽器是回呼函式，會收到事件物件參數。
+- 註冊事件鑑聽器有三種方式：
+  1. 行內事件處理器（HTML 標籤的 onXYZ 屬性）
+  2. DOM 元素的事件處理特性（如 element.onclick）
+  3. `addEventListener()` 方法（可註冊多個監聽器並支援進階選項）
+- 建議將 JavaScript 與 HTML 分離，集中管理事件監聽器。
+- `addEventListener` 方法最具彈性，支援多個監聽器與進階設定。
+- 事件物件提供事件類型、目標元素及其他相關資訊。
+- 查詢事件類型與屬性可參考 MDN 文件。
