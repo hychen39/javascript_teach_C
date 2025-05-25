@@ -45,7 +45,7 @@ footer {
 
 ## `input` 元素 的 onblur/onfocus 與 onchange 事件
 
-### `onblur` 與 `onfocus` 事件
+## `onblur` 與 `onfocus` 事件
 
 當 input 元素失去焦點時會觸發 `onblur` 事件。
 
@@ -80,7 +80,7 @@ form.addEventListener('blur', function(event) {
 
 完整範例請見 [ex_11_6.html](ex_11_06.html)
 
-### `input` 元素的 `onchange` 事件
+## `input` 元素的 `onchange` 事件
 
 當 input 元素的值改變且元素失去焦點時，會觸發 `onchange` 事件。
 
@@ -109,19 +109,17 @@ form.onchange = function (event) {
 
 完整範例請見 [ex_11_7.html](ex_11_7.html)
 
-## Key Events
+## Key Events 鍵盤事件
 
-Let you capture the key pressed by the user and perform the necessary operations.
+捕獲使用者按下的按鍵，並執行必要的操作。
 
-### The `keydown`, `keyup`, and `keypress` events
+##  `keydown`, `keyup`, and `keypress` 事件
 
-The `keydown` event is fired when a key is pressed down.
+-`keydown` 事件在按下鍵時觸發。
+- `keyup` 事件在釋放鍵時觸發。
+- 這兩個事件都會產生 `KeyboardEvent` 物件。
 
-The `keyup` event is fired when a key is released.
-
-Both of the two events emit the `KeyboardEvent` object.
-
-The `keypress` event is fired when a key is pressed down and released. 
+`keypress` 事件則是在按下並釋放鍵時觸發(2014 年起已棄用)。
 
 ![bg right:40% fit](https://s1.o7planning.com/web-rs/web-image/en/arf-1141686-vi.webp)
 https://o7planning.org/12319/javascript-keyboardevent
@@ -129,122 +127,115 @@ https://o7planning.org/12319/javascript-keyboardevent
 ---
 
 
-Warning: 
-- The [`keypress` event](https://developer.mozilla.org/en-US/docs/Web/API/Element/keypress_event) has been deprecated in the latest version of the JavaScript.
+警告：
+- [`keypress` 事件](https://developer.mozilla.org/en-US/docs/Web/API/Element/keypress_event) 已在最新版 JavaScript 中被棄用。
 
-### Get the pressed key or code
 
-The `KeyboardEvent` object provides:
-- `key` property: returns the **character value** of the key pressed
-  - e.g. Press b key, returns "b"; Press shift+b key, returns "B"
-  - Press left control key, returns "Control"
+### 取得按下的按鍵字元(key)或實體鍵碼(code)
 
-- `code` property: returns the **physical key** pressed
-  - e.g. Press b key, returns "KeyB"; Press shift+b key, returns "KeyB"
-  - Press left control key, returns "ControlLeft"
+- `KeyboardEvent` 事件提供特性，讓開發者取得按下的按鍵字元或按鍵代碼。
+- `keyboardEvent.key` 屬性：返回按下的鍵的字元值。
+  - 例如：按下 b 鍵，返回 "b"；按下 shift+b 鍵，返回 "B"
+  - 按下左控制鍵，返回 "Control"
+- `keyboardEvent.code` 屬性：返回按下的實體鍵碼。
+  - 例如：按下 b 鍵，返回 "KeyB"；按下 shift+b 鍵，返回 "KeyB"
+  - 按下左控制鍵，返回 "ControlLeft"
 
-### keyboardEvent event and  keyboardEvent.key property
 
-When user presses a key, the browser generates a `KeyboardEvent` object.
+###  `keyboardEvent.key` 特性的按鍵值規則
 
-The `key` property of the `KeyboardEvent` object returns the **character value** of the key pressed.
 
-If the pressed key has a **printed representation**, the returned value is a non-empty Unicode character string containing the printable representation of the key.
-- Press b key, returns "b"
-- Press shift+b key, returns "B"
+如果按下的按鍵有**可列印的字元表示**，則回傳非空的 Unicode 字元字串，包含該按鍵的可列印表示。
+- 按下 b 鍵，回傳 "b"
+- 按下 shift+b 鍵，回傳 "B"
 
----
+如果按下的是**控制鍵或特殊字元鍵**，則回傳預先定義的鍵值：
+- Enter 鍵 -> "Enter"
+- Backspace 鍵 -> "Backspace"
+- 完整的預設鍵值請參見 [Key values for keyboard events - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values#editing_keys)
 
-If the pressed key is a **control or special character**, the returned value is one of the pre-defined key values.
-- Press Enter key, returns "Enter"
-- Press Backspace key, returns "Backspace"
-- See the complete list of pre-defined key values in [Key values for keyboard events - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values#editing_keys)
+如果無法辨識該按鍵，則回傳 `Unidentified`。
 
-If the key cannot be identified, the returned value is Unidentified.
+### keyboardEvent.code 特性
 
-### keyboardEvent.code property
+`KeyboardEvent.code` 屬性回傳的是實體鍵碼(code).
 
-The `KeyboardEvent.code` property returns the pressed **physical key**. 
+例如：
+- 按下 b 鍵，回傳 "KeyB"
+- 同時按下左側 Shift 和 b 鍵，會分別產生 "ShiftLeft" 和 "KeyB"（會產生兩個事件）
 
-It is not affected by the keyboard layout or the state of the modifier keys.
+## 範例 10-8：顯示按下鍵時的 key 與 code 值
 
-For example:
-- Press b key, returns "KeyB"
-- Press left-shift and b key, returns "ShiftLeft" and "KeyB" (two events are generated)
-
-### Example 10-8: Display the key and code values when a key is pressed
-
-Enter any keys in the input field, the key and code values of the pressed key are displayed on the page.
+在輸入欄位中輸入任意鍵，會在頁面上顯示所按下鍵的 key 與 code 值。
 
 ![](img/24-09-01-11-47-46.png)
 
 ---
 
-The JavaScript code for this example:
+此範例的 JavaScript 程式碼如下：
 
 ```javascript
 const input = document.querySelector("input");
-    const keyLog = document.getElementById("keyCodeLog");
-    const charLog = document.getElementById("charCodeLog");
+const keyLog = document.getElementById("keyCodeLog");
+const charLog = document.getElementById("charCodeLog");
 
-    input.addEventListener("keydown", logKey);
+input.addEventListener("keydown", logKey);
 
-    function logKey(e) {
-        keyLog.textContent += ` ${e.code}`;
-        charLog.textContent += ` ${e.key}`;
-    }
-    function clearLogs() {
-        keyLog.textContent = "";
-        charLog.textContent = "";
-    }
+function logKey(e) {
+  keyLog.textContent += ` ${e.code}`;
+  charLog.textContent += ` ${e.key}`;
+}
+function clearLogs() {
+  keyLog.textContent = "";
+  charLog.textContent = "";
+}
 ```
 
-See the complete example in [ex_11_8.html](ex_11_8.html)
+完整範例請見 [ex_11_8.html](ex_11_8.html)
 
-### Example 10-9: Allow only numbers to be entered in the input field, no spaces, alphabets, or special characters
+## 範例 10-9：僅允許在輸入欄位中輸入數字，不允許空格、字母或特殊字元
 
-- The example allows only numbers to be entered in the input field. 
-- Exceptional keys include Backspace, Delete, ArrowLeft, and ArrowRight for editing. 
+- 此範例僅允許在輸入欄位中輸入數字。
+- 例外按鍵包括 Backspace、Delete、ArrowLeft 和 ArrowRight，可用於編輯。
 
 ![](img/24-09-01-13-10-19.png)
 
 ---
 
-The JavaScript code to validate the input field:
+驗證輸入欄位的 JavaScript 程式碼如下：
 
 ```javascript
-// Add the keydown event listener to the input field
+// 為輸入欄位加入 keydown 事件監聽器
 input.addEventListener("keydown", isNumberKey);
 
- // function to check if the key pressed is a number
+// 檢查按下的按鍵是否為數字的函式
 function isNumberKey(event) {
-    const exceptionKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'];
+  const exceptionKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'];
 
-    if ((isNaN(event.key) && !exceptionKeys.includes(event.code)) || event.code =='Space') {
-            // prevent the default behavior of the keydown event, and stop the event propagation
-            event.preventDefault();
-            // stop the event propagation
-            event.stopPropagation();
-    }
+  if ((isNaN(event.key) && !exceptionKeys.includes(event.code)) || event.code == 'Space') {
+    // 阻止 keydown 事件的預設行為，並停止事件傳遞
+    event.preventDefault();
+    event.stopPropagation();
+  }
 }
 ```
 
---- 
+---
 
-First, the `keydown` event is registered to the input field. When a key is pressed, the `isNumberKey` function is invoked.
+首先，將 `keydown` 事件註冊到輸入欄位。當按下按鍵時，會呼叫 `isNumberKey` 函式。
 
-The `isNumberKey` function checks if the pressed key is a number. 
+`isNumberKey` 函式會檢查按下的按鍵是否為數字。
 
-If the key is not a number, the `preventDefault()` method is called to prevent the default action of the key.
-- That is, the key is not entered in the input field.
+如果按鍵不是數字，則會呼叫 `preventDefault()` 方法來阻止該按鍵的預設行為。
+- 也就是說，該按鍵不會被輸入到欄位中。
 
-See the complete example in [ex_11_9.html](ex_11_09.html)
+完整範例請見 [ex_11_9.html](ex_11_09.html)
 
-### Notes to the deprecated `keycode` and `charcode` properties
+## 關於已棄用的 `keycode` 與 `charcode` 特性
 
-The `keycode` and `charcode` properties have been deprecated in the latest version of the JavaScript.
-- Do not use them.
-- Use the `key` property instead.
+`keycode` 和 `charcode` 屬性在新版 JavaScript 中已被棄用。
+- 請勿再使用這些屬性。
+- 請改用 `key` 屬性來取得按鍵資訊。
 
 <!-- `keycode` represents a system and implementation dependent numerical code, such as ASCII code.
 - All keys have `keycode` values, including the function keys, arrow keys, and control keys that do not generate character values.
@@ -252,40 +243,48 @@ The `keycode` and `charcode` properties have been deprecated in the latest versi
 `charcode` is the returned the Unicode value of a character key when the key is pressed. 
 - These keys are the alphabetical, numerical, and punctuation keys. -->
 
-### Review Questions
+### 複習問題
 
-- What the events should you listen to if you want to show a list of suggestions when the user types in an input field?
-  A. `keydown`, `keyup`, or `keypress`
-  B. `blur` and `focus`
+- 如果你想在使用者於輸入欄位輸入時顯示建議清單，應該監聽哪些事件？
+  A. `keydown`、`keyup` 或 `keypress`
+  B. `blur` 和 `focus`
   C. `change`
 
-<!-- Ans: use `keydown`, `keyup`, or `keypress` events to capture the key pressed. the `change` event is suitable too.
- -->
+<details>
+<summary>Ans</summary>
+use `keydown`, `keyup`, or `keypress` events to capture the key pressed. the `change` event is suitable too.
+</details>
+ 
 
-- You want to know if the user presses the left control key. Which property of the `keyboardEvent` object should you use?
+- 你想知道使用者是否按下左側的 Control 鍵。你應該使用 `keyboardEvent` 物件的哪個屬性？
   A. `keyboardEvent.key`
   B. `keyboardEvent.code`
 
-<!-- Ans: use `keyboardEvent.code` to get the physical key pressed. -->
+<details>
+<summary>Ans</summary>
 
-## Form Submission
+use `keyboardEvent.code` to get the physical key pressed.
 
-Form submission is a fundamental aspect of web development, allowing users to send data to a server for processing.
+</details>
 
-### Setup a form
 
-To create a form, use the `<form>` element and include various input elements, such as text fields, radio buttons, checkboxes, and submit buttons.
+## 表單提交
 
-Set:
-- the `action` attribute: the URL of the server-side script that will process the form data.
-  - or the redirect URL after the form is submitted.
-- the `method` attribute: the HTTP method used to send the form data, such as `GET` or `POST`.
+表單提交是網頁開發中的基本功能，允許使用者將資料傳送到伺服器進行處理。
 
----
+## 建立表單
+
+要建立表單，請使用 `<form>` 元素，並在其中加入各種輸入元素，例如文字欄位、單選按鈕、核取方塊和提交按鈕。
+
+設定：
+- `action` 屬性：指定伺服器端處理表單資料的 URL，或表單提交後的導向網址。
+- `method` 屬性：指定用來傳送表單資料的 HTTP 方法，例如 `GET` 或 `POST`。
+
+### 範例: 建立一個表單
 
 ```html
 <body>
-     <form id="exampleForm" 
+     <form id="exampleForm"
         action="https://formtester.goodbytes.be/post.php" 
         method="post">
         <label for="name">Name:</label>
@@ -299,105 +298,146 @@ Set:
 </body>
 ```
 
-### Listen to the form submission event
+### 監聽表單的提交事件
 
-- The form submission event is fired when the user submits the form by clicking the submit button: 
-  - the input element with the `type="submit"` attribute.
+- 當使用者點擊提交按鈕（`type="submit"` 的 input 元素）時，會觸發表單的提交事件 `submit`。
+- 監聽器應該註冊在 `<form>` 元素上，而不是在 `<input>` 元素上。
 
-You can perform:
-- validation, 
-- data processing, or
-- other operations 
-before the form is submitted in the form submission event handler.
 
-### Get the form data from the form element
+## 監聽事件可以做什麼事
 
-Use the `new FormData(formElementObject)` constructor to create a new `FormData` object from the existing form element.  
+在表單提交事件處理函式中，你可以執行以下操作:
+- 驗證表單資料(validation)
+  - 檢查使用者輸入的資料是否符合預期格式。
+- 處理表單資料(data processing)
+  - 計算或轉換使用者輸入的資料。
+- 其他操作(other operations)
+  - 例如：顯示提示訊息、清除表單欄位等。
 
-The `FormData` object provides methods to retrieve the form data, such as `get()`, `getAll()`, and `entries()`.
-- store a set of key-value pair of the form data.
-- the `name` attribute of the input element is the key, and the `value` attribute is the value.
+## 如何在 `submit` 事件中取得表單資料
 
-### Example 11-11: Construct a `FormData` object from the form data
+### 方法 1: 使用 `FormData` 物件自動將表單資料轉換為鍵值對
 
-When the user submits the form, the form data is displayed in the console.
+步驟 1. 使用 `new FormData(formElementObject)` 建構子，從現有的表單元素建立一個新的 `FormData` 物件。
+
+步驟 2. 使用 `FormData` 物件所提供的方法來存取表單資料。
+  - `formData` 物件是 JavaScript 內建的物件，用來以鍵值對的方式表示表單資料。
+
+### `FormData` 物件的方法
+
+- `get(name)`：根據欄位名稱取得特定表單欄位的值。
+- `getAll(name)`：取得所有同名表單欄位的值（例如多選框）。
+- `entries()`：回傳一個可用於遍歷所有鍵值對的迭代器。
+
+更多細節請參考 [FormData - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/FormData)
+
+### 範例 11-11：從表單資料建立 `FormData` 物件
+
+當使用者提交表單時，表單資料會顯示在主控台（console）中。
 
 ```javascript
 const form = document.getElementById("exampleForm");
-    form.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const formData = new FormData(form);
-        for (const [key, value] of formData.entries()) {
-            console.log(key + ': ' + value);
-        }
-    });
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  const formData = new FormData(form);
+  for (const [key, value] of formData.entries()) {
+    console.log(key + ': ' + value);
+  }
+});
 ```
-
----
 
 ![w:600px](img/24-Dec-15-16-48-32.png)
 
-### Example 11-12: Validate the form data before submission
+### 方法 2: 使用 `HTMLFormElement` 物件的 `elements` 屬性
 
-When the user submits the form, the form data is validated. If the form data is invalid, the form is not submitted.
+- `HTMLFormElement` 的 `elements` 屬性會回傳一個 `HTMLFormControlsCollection`，列出該 `<form>` 元素中所有的表單控制項。
+- 使用 HTML tag 的 `name` 屬性值為鍵值，向 `HTMLFormControlsCollection` 物件索引，取得對應的表單控制項的 `value` 屬性值。
 
-S1. Create a validation function to check if the name and email fields are empty.
+Example:
+
+```javascript
+const form = document.getElementById("exampleForm");
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+  const name = form.elements["name"].value;
+  const email = form.elements["email"].value;
+  console.log("Name: " + name);
+  console.log("Email: " + email);
+});
+```
+
+
+### 範例 11-12：在提交前驗證表單資料
+
+當使用者提交表單時，會先驗證表單資料。如果資料無效，則不會提交表單。
+
+S1. 建立驗證函式，檢查 name 和 email 欄位是否為空。
 
 ```js
 function validate(formData) {
-            const name = formData.get('name');
-            const email = formData.get('email');
-            if (name === "" || email === "") {
-                alert("Name and email are required.");
-                return false;  // return false to prevent the form submission
-            } else 
-            return true;  // return true to allow the form submission
-        }
+  const name = formData.get('name');
+  const email = formData.get('email');
+  if (name === "" || email === "") {
+    alert("姓名與電子郵件為必填欄位。");
+    return false;  // 回傳 false 以阻止表單提交
+  } else 
+    return true;   // 回傳 true 以允許表單提交
+}
 ```
 ---
 
-S2. Validate the form data in the form submission event handler.
+S2. 在表單提交事件處理函式中驗證表單資料。
 
 ```js
 form.addEventListener('submit', function(event) {
-            const form = document.getElementById('exampleForm');
-            const formData = new FormData(form);
-            if (!validate(formData)) {
-                event.preventDefault();  // prevent the form submission
-            } else {
-                form.submit();  // allow the form submission
-                alert("Form submitted successfully.");
-            }
-        });
+  const form = document.getElementById('exampleForm');
+  const formData = new FormData(form);
+  if (!validate(formData)) {
+    event.preventDefault();  // 阻止表單提交
+  } else {
+    form.submit();           // 允許表單提交
+    alert("表單已成功提交。");
+  }
+});
 ```
 
----
+完整範例請見 [ex_11_11.html](ex_11_11.html)
 
-Notes to the `form.submit()` method:
-- The JS will create a new `FormData` object from the form data and send the `FormData` object to the server when the form is submitted.
-- If you want to modify the `FormData` object before submission, you can listen to the `formdata` event of the form element.
-- See [HTMLFormElement: formdata event - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/formdata_event)
+### 複習問題
 
-See the complete example in [ex_11_11.html](ex_11_11.html)
+Q1 `FormData` 物件在 JavaScript 中的責任是什麼？（可複選）
+  A. 以鍵值對的方式儲存表單資料
+  B. 建立新的表單元素
+  C. 將表單資料提交到伺服器
 
-### Review Questions
-
-- What is the responsibility of the `FormData` object in JavaScript? (Select all that apply)
-  A. To store the form data in a key-value pair
-  B. To create a new form element
-  C. To submit the form data to the server
-
-<!-- Ans: A. To store the form data in a key-value pair
-Incorrect options:
-- C. The HTMLFormElement object is used to submit the form data to server. 
--->
+<details>
+<summary>Ans</summary>
+A. 以鍵值對的方式儲存表單資料
+</details>
 
 
-- What can you do in the form submission event handler? (Select all that apply)
-  A. Validate the form data
-  B. Process the form data
-  C. Prevent the form submission
-  D. Call fetch() to send the form data to the server
+Q2 在表單提交事件處理函式(submit handler)中可以做哪些事？（可複選）
+  A. 驗證表單資料
+  B. 處理表單資料
+  C. 阻止表單提交
+  D. 呼叫 fetch() 將表單資料送到伺服器
 
-<!-- Ans: A, B, C, D -->
+<details>
+<summary>Ans</summary>
+A. 驗證表單資料
+B. 處理表單資料
+C. 阻止表單提交
+D. 呼叫 fetch() 將表單資料送到伺服器
+</details>
+
+## 本章重點摘錄
+
+- 了解 `input` 元素的 `onblur`、`onfocus`、`onchange` 事件及其應用。
+- 掌握事件捕獲階段（capturing phase）與事件浮昇（bubbling）的差異。
+- 熟悉鍵盤事件（`keydown`、`keyup`）及 `KeyboardEvent` 物件的 `key` 和 `code` 屬性。
+- 能夠限制輸入欄位僅允許特定按鍵（如數字）。
+- 理解 `FormData` 物件的用途與常用方法，能在表單提交時取得與驗證資料。
+- 熟悉表單提交事件的攔截、驗證與資料處理流程。
+- 知道已棄用的 `keypress`、`keyCode`、`charCode` 屬性，應改用現代屬性。
+- 能根據需求選擇合適的事件監聽器與資料處理方式。
 

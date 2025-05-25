@@ -1,5 +1,5 @@
 ---
-marp: true
+marp: false
 theme: default
 header: 'Chapter 13 互動式內容與事件監聽器'
 footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2025'
@@ -164,7 +164,7 @@ See the complete example in [ex_13_01.html](ex_13_01.html)
 
 ### `DOMContentLoaded` 和 `load` 事件的觸發順序
 
-- `document.DOMContentLoaded` 先觸發，之後再 `window.load` (or its alias: `document.body load event`)
+- `document.DOMContentLoaded` 先觸發，之後再 `window.load` (別名 `document.body.load`)
   - `window.load` 事件的別名是 `document.body.load` 事件。
 
 
@@ -219,7 +219,9 @@ Result:
 
 <details>
 <summary>Answer</summary>
+
 B. `document` 物件的 `DOMContentLoaded` 事件
+
 </details>
 
 ## 滑鼠事件模型 (Mouse Events model)

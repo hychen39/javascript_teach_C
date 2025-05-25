@@ -1,5 +1,5 @@
 ---
-marp: false
+marp: true
 theme: default
 header: 'Chapter 13 互動式內容與事件監聽器'
 footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2024'
@@ -39,6 +39,12 @@ header {
 footer {
   bottom: 30px;
 }
+
+table {
+  font-size: 0.8em; 
+}
+
+
 </style>
 
 # Chapter 13 互動式內容與事件監聽器 Part 3
@@ -81,7 +87,8 @@ footer {
 - `getData(format)`: 取得傳遞的資料
 - `clearData(format)`: 清除傳遞的資料
 
-何時使用這些方法: 
+#### 何時使用這些方法
+
 - 通常在 `source.dragstart` 事件中使用 `setData()` 方法來設定要傳遞的資料, 
 - 在 `target.drop` 事件中使用 `getData()` 方法來取得傳遞的資料。
 
@@ -90,7 +97,8 @@ footer {
 1.設定 source 元素為可拖曳 (draggable)
   - 將 HTML 元素的 `draggable` 屬性設為 `true`。
 
-2.監聽 source 元素的拖曳(drag)相關事件
+2.監聽 source 元素的拖曳(drag)相關事件: `dragstart`、`dragend`
+  
 - 拖曳開始時，瀏覽器會在被拖曳元素上觸發 `dragstart` 事件。
   - 在 `dragstart` 事件的 `dataTransfer` 物件中準備要傳遞的資料。
   - 使用 `dataTransfer.setData()` 設定資料。
@@ -99,7 +107,7 @@ footer {
 
 ---
 
-3.監聽 target 拖曳事件
+3.監聽 target 拖曳事件: `dragenter`、`dragover`、`dragleave`、`drop`
     - 當被拖曳元素進入可放置元素時，瀏覽器會在該元素上依序觸發 `dragenter`、`dragover`、`dragleave` 事件。
 
 3.1 在 `dragover` handler 中:
@@ -112,8 +120,10 @@ footer {
   - 預設行為是禁止放置。
 - `dataTransfer.getData()` 取得資料並執行相應操作。
 
+---
+
 4.成為放置目標的條件
-    - 元素必須監聽 `dragover` 和 `drop` 事件，才能成為有效的放置目標 (drop target)。
+- 元素必須監聽 `dragover` 和 `drop` 事件，才能成為有效的放置目標 (drop target)。
 
 ### Demo: The series of drag and drop events
 
@@ -166,12 +176,12 @@ After dropping:
 S1. 設定圖片的 `draggable` 屬性為 `true`，使其可被拖曳。
 
 S2. 讓放置區 `<div id="drop-zone">` 成為有效的放置目標，需監聽 `dragover` 和 `drop` 事件。
-    - 當發生 `drop` 事件時，取得被拖曳圖片的 id，並將該圖片作為子元素加入放置區。
-    - 當發生 `dragover` 事件時，需呼叫 `preventDefault()` 以允許 `drop` 事件觸發。
+  - 當發生 `drop` 事件時，取得被拖曳圖片的 id，並將該圖片作為子元素加入放置區。
+  - 當發生 `dragover` 事件時，需呼叫 `preventDefault()` 以允許 `drop` 事件觸發。
       - `dragover` 事件的預設行為是不允許放置。
 
 S3. 在 `dragstart` 事件中，將被拖曳圖片 `<img id="dogImg">` 的 id 設定到 `dataTransfer` 物件中。
-    - 在 `dragstart` 事件的處理函式中，將圖片的 id 設定到 `dataTransfer` 物件。
+  - 在 `dragstart` 事件的處理函式中，將圖片的 id 設定到 `dataTransfer` 物件。
 
 ### 步驟 1：讓圖片可拖曳
 
@@ -232,3 +242,5 @@ dogImg.ondragstart = function (event) {
 - 實作拖放功能時，需將拖曳元素設為 `draggable`，並於 `dragstart` 事件設定資料。
 - 放置目標需監聽 `dragover` 及 `drop` 事件，並於 `dragover` 事件中呼叫 `preventDefault()` 以允許放置。
 - 實際操作時，要能夠將拖曳的元素動態加入目標區域，完成互動式內容設計。
+
+<script src="../h2_numbering.js"></script>

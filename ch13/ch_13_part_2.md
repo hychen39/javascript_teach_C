@@ -58,9 +58,9 @@ footer {
   - 目標元素（target element）、其祖先元素（ancestors）、或其後代元素（descendants）
 - 允許你在事件到達目標元素之前或離開目標元素之後處理事件, 例如:
   - 防止事件的預設行為（prevent the default behavior，例如點擊連結時不跳轉）
-  - 或停止事件傳遞（stop the event propagation，例如事件不再傳遞到父元素）
+  - 或停止事件傳遞, 以禁止目標元素執行其監聽器。
 
-### DOM 中的事件傳遞 (Event Propagation in the DOM)
+## DOM 中的事件傳遞 (Event Propagation in the DOM)
 
 事件會從頂層往下傳遞到目標元素（target element），然後再從底層冒泡回頂層。
 - 因為 DOM 是一個樹狀結構，
@@ -112,7 +112,7 @@ HTML 結構如下：
 
 ![bg right:50% 90%](img/24-Dec-07-21-30-56.png)
 
-###  事件委派模式 (Event Delegation pattern): 事件浮昇的應用
+##  事件委派模式 (Event Delegation pattern): 事件浮昇的應用
 
 - 實作 **事件委派（Event Delegation）** 模式：
   - 只需在父元素上註冊一個事件監聽器，即可處理所有子元素的事件。
@@ -145,9 +145,9 @@ HTML 結構如下：
 - 你也可以閱讀文章 [Event delegation, javascript.info](https://javascript.info/event-delegation) 以了解更多細節。
 
 
-### Lab 02
+## Lab 02
 
-[Lab 13-2: 阻止元素的預設行為](lab_13_02.md) 
+[Lab 13-2: 攔截並阻止元素的監聽器的執行](lab_13_02.md) 
 - 事件補獲的應用
 
 
@@ -160,3 +160,6 @@ HTML 結構如下：
 - 熟悉事件委派（event delegation）模式，提升程式碼效率與維護性
 - 能夠阻止事件的預設行為與傳遞，靈活控制互動效果
 - 實作練習：事件傳遞、事件委派與阻止預設行為
+
+<script src="../h2_numbering.js"></script>
+
