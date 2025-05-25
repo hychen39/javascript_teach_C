@@ -1,5 +1,5 @@
 ---
-marp: false
+marp: true
 theme: default
 header: 'Chapter 13 互動式內容與事件監聽器'
 footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2024'
@@ -62,6 +62,8 @@ footer {
 
 ## DOM 中的事件傳遞 (Event Propagation in the DOM)
 
+<div class="small-font">
+
 事件會從頂層往下傳遞到目標元素（target element），然後再從底層冒泡回頂層。
 - 因為 DOM 是一個樹狀結構，
 
@@ -69,6 +71,8 @@ footer {
 - 捕獲(capturing)
 - 到達目標元素(target)
 - 浮昇(bubbling)
+
+</div>
 
 ![bg right:60%](img/24-08-31-17-31-47.png)
 
@@ -112,6 +116,29 @@ HTML 結構如下：
 
 ![bg right:50% 90%](img/24-Dec-07-21-30-56.png)
 
+## 如何掛載事件監聽器於不同階段
+
+### 捕獲階段（Capturing Phase）
+
+- 使用 `addEventListener` 方法的第三個參數設為 `true`，表示在捕獲階段註冊事件監聽器。
+
+```javascript
+element.addEventListener('click', function(event) {
+    ... // 處理事件
+}, true); // true 代表捕獲階段
+```
+
+### 目標或浮昇階段（Target or Bubbling Phase）
+
+- 在目標階段或冒泡階段註冊事件監聽器時，第三個參數可以省略或設為 `false`（默認值）。
+
+```javascript
+element.addEventListener('click', function(event) {
+    ... // 處理事件
+}); // 默認在目標階段
+```
+
+
 ##  事件委派模式 (Event Delegation pattern): 事件浮昇的應用
 
 - 實作 **事件委派（Event Delegation）** 模式：
@@ -143,6 +170,25 @@ HTML 結構如下：
 
 - 完整範例請參見 [ex_11_5.html](ex_11_05.html)。
 - 你也可以閱讀文章 [Event delegation, javascript.info](https://javascript.info/event-delegation) 以了解更多細節。
+
+### 複習問題
+
+考以下 HTML 結構：
+
+```html
+  <div id="menu">
+    <button data-action="save">Save</button>
+    <button data-action="load">Load</button>
+    <button data-action="search">Search</button>
+  </div>
+```
+
+若於 `menu` 元素上註冊事件監聽器，印出被點擊的按鈕的 `data-action` 屬性值。掛載方式如下:
+
+```javascript
+document.getElementById('menu').addEventListener('click', function(event) { // 在這裡處理事件 });
+```
+當點擊 `Save` 按鈕時，應該印出什麼？為什麼?
 
 
 ## Lab 02

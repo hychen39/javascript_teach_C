@@ -1,49 +1,48 @@
-# Lab: Fetch data from a URL and show the first N characters of the response body
+# 實驗：從 URL 擷取資料並顯示回應主體的前 N 個字元
 
-## Instruction 
-1. Write a function `displayData` that log the first N characters of the given string to the console.
-2. Use `fetch()` to get the data from the URL "https://jsonplaceholder.typicode.com/posts/2". 
-   - Register the `displayData` function as the handler for the fulfilled state.
-   - Register an arrow function to log the error message to the console as the handler for the rejected state.
+## 指示
+1. 撰寫一個函式 `displayData`，將給定字串的前 N 個字元輸出到主控台。
+2. 使用 `fetch()` 從網址 "https://jsonplaceholder.typicode.com/posts/2" 取得資料。
+    - 註冊 `displayData` 函式作為成功狀態的處理器。
+    - 註冊一個箭頭函式，當發生錯誤時將錯誤訊息輸出到主控台，作為失敗狀態的處理器。
 
-
-Step 1: Write a function `displayData` that log the first N characters of the given string to the console.
+步驟 1：撰寫函式 `displayData`，將給定字串的前 N 個字元輸出到主控台。
 
 ```javascript
 function displayData(data, n) {
-    console.log(data.slice(0, n));
+     console.log(data.slice(0, n));
 }
 ```
 
-Step 2: Use `fetch()` to get the data from the URL "https://jsonplaceholder.typicode.com/posts/2".
+步驟 2：使用 `fetch()` 從網址 "https://jsonplaceholder.typicode.com/posts/2" 取得資料。
 
 ```javascript
 fetch("https://jsonplaceholder.typicode.com/posts/2")
-    .then(response => {
-        // do something with the response
-    })
-    .catch(error => {
-        console.log(error.message);
-    });
+     .then(response => {
+          // 處理回應
+     })
+     .catch(error => {
+          console.log(error.message);
+     });
 ```
 
-Step 3: Add the `displayData` function to the resolve handler. 
+步驟 3：在 resolve 處理器中加入 `displayData` 函式。
 
 ```javascript
 fetch("https://jsonplaceholder.typicode.com/posts/2")
-    .then(response => {
-        // Get the response body as text
-        // Return a promise that resolves with the response body
-        return response.text();
-    })
-    .then(data => {
-        displayData(data, 100);
-    })
-    .catch(error => {
-        console.log(error.message);
-    });
+     .then(response => {
+          // 取得回應主體為文字
+          // 回傳一個 promise，解析後得到回應主體
+          return response.text();
+     })
+     .then(data => {
+          displayData(data, 100);
+     })
+     .catch(error => {
+          console.log(error.message);
+     });
 ```
 
-Step 4: Run the code to see the output in the console.
+步驟 4：執行程式碼，在主控台查看輸出結果。
 
 ![](img/24-Dec-20-11-46-51.png)

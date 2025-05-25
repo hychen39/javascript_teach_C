@@ -1,80 +1,78 @@
-# Lab 13-02A: Using Promise Object
+# Lab 13-02A：使用 Promise 物件
 
-In this lab, we will rewrite the code from Lab 13-01 using the Promise object.
+在本實驗中，我們將使用 Promise 物件重寫 Lab 13-01 的程式碼。
 
 
 
-## Rewritten Code Using Promise
+## 使用 Promise 重寫的程式碼
 
-### Step 1. Create a function that return a Promise object.
+### 步驟 1. 建立一個回傳 Promise 物件的函式
 
-Add the codes to be executed in the executor function of the Promise object.
+將要執行的程式碼放在 Promise 物件的執行器（executor）函式中。
 
-Change the Promise object's state by calling the `resolve` or `reject` function.
-- Call the `resolve` function when the operation is successful.
-- Call the `reject` function when the operation fails.
+透過呼叫 `resolve` 或 `reject` 函式來改變 Promise 物件的狀態。
+- 當操作成功時呼叫 `resolve`。
+- 當操作失敗時呼叫 `reject`。
 
 ```javascript
-function simulateAsyncOperation(message, delay, callback) {
+function delayFunProm(message, delay) {
     return new Promise((resolve, reject) => {
         // Simulate an asynchronous operation using setTimeout
         setTimeout(() => {
            console.log(message);
-           callback();
-           resolve("Operation completed successfully.");
-        }, 1000);
+           resolve(`delay ${delay} ms`);
+        }, delay);
     });
 }
 ```
 
-### Step 2. Run the first asynchronous operation
+### 步驟 2. 執行第一次非同步操作
 
 ```javascript
-simulateAsyncOperation()
+delayFunProm()
     .then(result => {
         console.log(result);
     })
 ```
 
-Run the code to see the output in the console.
+執行程式碼，觀察主控台的輸出。
 
-### Step 3. Run the second asynchronous operation after the first one completes
+### 步驟 3. 在第一次操作完成後執行第二次非同步操作
 
-Modify the code to include the second asynchronous operation:
+修改程式碼，加入第二次非同步操作：
 
 ```javascript
-simulateAsyncOperation("Step 1", 1000, () => {})
+delayFunProm("Step 1", 1000)
     .then(result => {
         console.log(result);
-        // execute the second asynchronous operation and return a new Promise object
-        return simulateAsyncOperation("Step 2", 1000, () => {});
+        // 執行第二次非同步操作並回傳新的 Promise 物件
+        return delayFunProm("Step 2", 1000);
     })
     .then(result => {
         console.log(result);
     });
 ```
 
-### Step 4. Run the third asynchronous operation after the second one completes
+### 步驟 4. 在第二次操作完成後執行第三次非同步操作
 
-Add the third asynchronous operation inside the second callback:
+在第二個 callback 中加入第三次非同步操作：
 
 ```javascript
-simulateAsyncOperation("Step 1", 1000, () => {})
+delayFunProm("Step 1", 1000)
     .then(result => {
         console.log(result);
-        return simulateAsyncOperation("Step 2", 1000, () => {});
+        return delayFunProm("Step 2", 1000);
     })
     .then(result => {
         console.log(result);
-        return simulateAsyncOperation("Step 3", 1000, () => {});
+        return delayFunProm("Step 3", 1000);
     })
     .then(result => {
         console.log(result);
     });
 ```
 
-Congratulations! You have successfully rewritten the code using the Promise object.
+恭喜！你已經成功使用 Promise 物件重寫了程式碼。
 
-Do you code become more readable and easier to understand?
-
+你覺得程式碼變得更易讀、更容易理解了嗎？
 

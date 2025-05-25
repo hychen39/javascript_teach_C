@@ -72,9 +72,10 @@ table {
 | - | drop | 當 source 被放置在 target 上時觸發
 | dragend | - | 當結束拖動時觸發。 (放開滑鼠按鍵或按下 ESC 鍵)
 
+---
 
+![](img/25-May-25-22-47-07.jpg)
 
-![](img/24-09-01-13-53-17.png)
 <!-- Source: https://jenkov.com/tutorials/html5/drag-and-drop.html -->
 
 ### 資料的傳遞
@@ -202,11 +203,12 @@ const dropZone = document.getElementById("drop-zone");
 dropZone.ondragover = function (event) {
     // 瀏覽器每隔幾百毫秒會觸發 dragover 事件
     // 需呼叫 preventDefault() 以允許 drop 事件觸發
-    console.log('dragover');
     event.preventDefault();
+    console.log('dragover');
 };
 // 註冊 drop 事件的處理函式
 dropZone.ondrop = function (event) {
+    event.preventDefault(); // 防止瀏覽器的預設行為
     console.log('drop');
     // 從 dataTransfer 物件取得被拖曳的資料
     const data = event.dataTransfer.getData("text/plain");

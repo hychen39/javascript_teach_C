@@ -5,6 +5,7 @@ header: 'Chapter A1 非同步程式設計'
 footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2025'
 class: lead
 paginate: true
+lang: 'zh-tw'
 headingDivider: [1, 2, 3, 4]
 ---
 
@@ -42,7 +43,7 @@ footer {
 
 # Chapter A1 併行程式設計(非同步程式設計) 
 
-## 介紹併行
+## 併行介紹
 
 ### 併行（Concurrency）
 
@@ -59,7 +60,7 @@ JavaScript 是單執行緒（single-threaded）語言，一次只能執行一個
 
 - 非同步任務會由瀏覽器在背景執行。
 - JS 引擎會繼續在主執行緒中執行下一個任務。
-### Example A1-1: Getting the User's Geographical Location
+### Example A1-1: 取得使用者的地理位置
 
 以下為非同步程式設計的範例：取得使用者的地理位置。
 ```javascript
@@ -95,6 +96,7 @@ Finish
 ### JS 引擎與瀏覽器是兩個不同的執行環境
 
 瀏覽器內部包含多個引擎來處理不同的任務。
+
 JavaScript 引擎透過 Web API 使用其他引擎所提供的服務。
 
 ![w:800px](img/24-08-06-11-04-36.png)

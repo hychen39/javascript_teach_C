@@ -346,6 +346,8 @@ form.addEventListener("submit", function (event) {
 });
 ```
 
+---
+
 ![w:600px](img/24-Dec-15-16-48-32.png)
 
 ### 方法 2: 使用 `HTMLFormElement` 物件的 `elements` 屬性
@@ -441,3 +443,4 @@ D. 呼叫 fetch() 將表單資料送到伺服器
 - 知道已棄用的 `keypress`、`keyCode`、`charCode` 屬性，應改用現代屬性。
 - 能根據需求選擇合適的事件監聽器與資料處理方式。
 
+<script src="../h2_numbering.js"></script>
