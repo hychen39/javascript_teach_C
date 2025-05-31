@@ -207,8 +207,8 @@ Promise 提供比回呼函式（callback）更好的非同步處理方式，
 
 一個非同步函式在完成任務時會回傳一個 **Promise** 物件。
 - （或說該非同步函式「解決」任務並回傳 Promise 物件作為結果）
-- 這個 Promise 物件會被放到 JS 引擎中的 **Microtask Queue（微任務佇列）**。
-- **JS 引擎** 會在適當時機執行與該 Promise 物件相關聯的回呼函式。
+- 這個 Promise 物件的 handler function 會被放到 JS 引擎中的 **Microtask Queue（微任務佇列）**
+- **JS 引擎** 會在適當時機執行與這些 handler functions.
 
 ### 使用 Promise 物件
 
@@ -235,13 +235,13 @@ Promise 提供比回呼函式（callback）更好的非同步處理方式，
 
 1. 建立一個回傳新 Promise 物件的函式。
 2. 將執行器（executor）函式作為 `Promise` 建構子的參數傳入。
-  - 當 JS 引擎建立新的 Promise 物件時，會呼叫這個執行器函式。
+   - 當 JS 引擎建立新的 Promise 物件時，會呼叫這個執行器函式。
 
 ---
 
-3. 執行器函式有兩個參數：`resolve` 和 `reject`。
-  - `resolve` 是用來讓 promise 物件進入已完成（fulfilled）狀態的函式。
-  - `reject` 是用來讓 promise 物件進入已拒絕（rejected）狀態的函式。
+1. 執行器函式有兩個參數：`resolve` 和 `reject`。
+   - `resolve` 是用來讓 promise 物件進入已完成（fulfilled）狀態的函式。
+   - `reject` 是用來讓 promise 物件進入已拒絕（rejected）狀態的函式。
 
 ```js
 function asyncOperation() {
@@ -257,31 +257,66 @@ function asyncOperation() {
 ---
 
 4. 呼叫 `resolve(value)` 讓 promise 物件進入 fulfilled 狀態。
-  - `value` 可以是另一個 promise 物件。
-  - 呼叫後，promise 狀態會變成 fulfilled。
+    - `value` 可以是另一個 promise 物件。
+    - 呼叫後，promise 狀態會變成 fulfilled。
+    - promise 的 resolve handler function 會被放到 JS 引擎的 Microtask Queue 中。
 5. 呼叫 `reject(reason)` 讓 promise 物件進入 rejected 狀態。
-  - `reason` 通常是一個錯誤物件。
-  - 呼叫後，promise 狀態會變成 rejected。
+    - `reason` 通常是一個錯誤物件。
+    - 呼叫後，promise 狀態會變成 rejected。
+    - promise 的 reject handler function 也會被放到 JS 引擎的 Microtask Queue 中。
 
 ### 範例：自訂一個 timeout 函式
 
-你也可以用這個模式將非 promise 函式包裝成 promise 版本：
+你也可以用這個模式將非 promise 函式包裝成 promise 版本(promisify)
 
 ```javascript
 function startTimeouts(msg) {
    return new Promise((resolve, reject) => {
       setTimeout(() => {
+        // 印出訊息
         console.log(msg);
-        resolve();
+        // 呼叫 resolve() 讓 promise 物件進入 fulfilled 狀態
+        resolve(); 
       },  1000);
    });
 }
 ```
 
+### 注意: Promise constructor 內的程式為同步執行
+
+- Promise constructor 內的程式碼會立即執行。
+- 只有 Promise 的 resolve 和 reject handler 會被放到 Microtask Queue 中, 以非同步方式執行。
+- `resolve()` 和 `reject()` 的呼叫會立即執行
+- 在 `resolve()` 或 `reject()` 後的程式碼仍會被主執行緒同步執行。
+
+Example:
+
+```javascript
+console.log('1');
+let promise = new Promise((resolve, reject) => {
+    console.log('2');
+    resolve('Promise resolved');
+    console.log('3');
+});
+console.log('4');
+```
+
+----
+
+Outputs:
+```
+1
+2
+3
+4
+```
+
+
 ## 如何處理回傳的 Promise：Promise 處理器
 
 - 非同步函式會回傳一個 Promise 物件。
 - 我們需要註冊（Promise）處理器來處理已定案（resolved 或 rejected）的 Promise。
+- 這些 resolve 或 reject handler functions 會以非同步方式執行。
 
 ### 註冊已完成與已拒絕的處理器
 
@@ -428,6 +463,10 @@ Please wait for the data to be fetched...
 
 [Fetch data from a URL and show the first N characters of the response body](lab_13_03.md)
 
+## Lab A1-4:
+
+[取得使用者位置](lab_A1_04.md)
+- 將 `navigator.geolocation.getCurrentPosition` 包裝成 Promise 函式。
 
 ## Promise 鏈式呼叫（Chain Promises）
 
@@ -474,19 +513,31 @@ promiseObject
 
 ```js
 firstTask()
-    .then(result => secondTask(result), 
-        () => {
-            console.log('Error in second task');
-        })  // 匿名函式需回傳一個 promise
-    .then(result => thirdTask(result), error => {
-        console.log('Error:', error);
-        // 回傳 resolved promise 以繼續鏈式呼叫
-        return Promise.resolve(error + 1);
-    })
     .then(result => {
-        console.log('All tasks completed, final result:', result);
-    }, error =>{
-        console.log('Error in third task', error);
+        console.log('First task completed with result:', result);
+        return secondTask(result)
+    },
+        error => {
+            console.log(`Handle the error in the first task: ${error}`);
+            // try to handle the error
+            // error handle successfully. Return a new promise to continue the chain
+            return Promise.resolve(error);
+        })  // The anonymous function returns a promise
+    .then(result => {
+        console.log('Second task completed with result:', result);
+        return thirdTask(result)
+    },
+        error => {
+            console.log('Handle the error in the second task', error);
+            //handle the error unsuccessfully
+            return Promise.reject(error); // Uncomment to handle the error and continue
+        })
+    .then(result => {
+        console.log('Third task completed with result:', result);
+    }, error => {
+        console.log('Handle the error in the third task: ', error);
+        // If not handled, will go to .catch()
+        return Promise.reject(error);
     })
     .catch(error => {
         console.error('Final catch:', error);
@@ -497,13 +548,15 @@ firstTask()
 
 上述程式碼的輸出為：
 ```
-'First task: resolved.'
-'Second task: rejected'
-[ 'Error in second task:', 2 ]
-[ 'The last then, final result:', 3 ]
+'First task running...'
+[ 'First task completed with result:', 1 ]
+'Second task running...'
+[ 'Handle the error in the second task', 2 ]
+[ 'Handle the error in the third task: ', 2 ]
+'Final catch: 2'
 ```
 
-參考範例：[promise_chain_pattern_A.js](promise_chain_pattern_A.js)
+參考範例：[ex_A1_X_2.js](ex_A1_X_2.js)
 
 
 ### 模式 B：所有 Promise 物件共用一個錯誤處理器
@@ -552,7 +605,8 @@ firstTask()
 [ 'Final catch:', 2 ]
 ```
 
-參考範例：[promise_chain_pattern_B.js](promise_chain_pattern_B.js)
+參考範例：[ex_A1_X_3.js](ex_A1_X_3.js.)
+
 
 
 ## 摘要
@@ -565,9 +619,10 @@ firstTask()
 
 ---
 
-- 使用 `then` 和 `catch` 方法分別處理已完成與已拒絕的 Promise。
+- 使用 `then` 和 `catch` 方法註冊處理器，以處理已完成與已拒絕的 Promise。
+  - 這些處理器會在 JS 引擎的 Microtask Queue 中以非同步方式執行。
 - Promise 可鏈式呼叫，方便控制非同步任務的執行順序，並有不同的錯誤處理模式。
-- Fetch API 是現代與遠端資源互動的方式，並回傳 Promise 物件。
+- fetch() 可向遠端要求資源，並回傳 Promise 物件。
 - 理解 JS 引擎與瀏覽器環境的差異，有助於正確撰寫非同步程式碼。
 - 善用 Promise 及鏈式呼叫能提升非同步 JavaScript 程式碼的可讀性與維護性。
 
