@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+</head>
+<body>
+    <script>
+        function initPage(event){;
+            let message = `Event type: ${event.type} 
+                <br/> target: ${event.target}, 
+                <br/> Time to trigger the event since loading the page (milliseconds): ${event.timeStamp}`;
+            // let message = "Run the initPage function";
+                
+            document.getElementById("display").innerHTML = message;
+            console.log(event);
+        }
+        window.onload = initPage;
+    </script>
+
+    <p id="display"></p>
+    
+    
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+<form id="myForm">
+    <label for="firstName">First Name</label> <input type="text" id="firstName"> <br/>
+    <label for="lastName">Last Name</label> <input type="text" id="lastName">
+</form>
+<p id="output"></p>
+<script>
+    const form = document.getElementById('myForm');
+    form.onchange = function (event) {
+        const output = document.getElementById('output');
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        output.innerHTML = `${firstName} ${lastName}`;
+    };
+
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+<form id="myForm">
+    <label for="email">Email</label> <input type="text" id="email"> <br/>
+    <label for="phone">Phone</label> <input type="text" id="phone">
+</form>
+<script>
+    // change the background color of the focused element to yellow
+    // before arriving the target element.
+    // change it back to white when the element loses focus
+    // Use the event delegation pattern
+    const form = document.getElementById('myForm');
+    form.addEventListener('focus', function(event) {
+        event.target.style.backgroundColor = 'yellow';
+    }, true);
+    form.addEventListener('blur', function(event) {
+        event.target.style.backgroundColor = '';
+    }, true);
+
+    // add a validation rule to the email field
+    const email = document.getElementById('email');
+    email.addEventListener('blur', function(event) {
+        const value = event.target.value || '';
+        if ( value !== ''  && !value.includes('@')) {
+            alert('Invalid email address');
+            // prevent the default behavior of the blur event
+            event.preventDefault();
+            // stop the event propagation
+            event.stopPropagation();
+            // set the focus back to the email field
+            event.target.focus();
+        }
+    }, true);
+</script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Reveal the differences between the char-code and key-code</title>
+</head>
+<body>
+<input placeholder="Click here, then press down a key." size="40" /> <br/>
+<button onclick="clearLogs()">Clear Logs</button>
+<p> Code value: </p>
+<p id="keyCodeLog"></p>
+
+<p> key value: </p>
+<p id="charCodeLog"></p>
+
+<script>
+    const input = document.querySelector("input");
+    const keyLog = document.getElementById("keyCodeLog");
+    const charLog = document.getElementById("charCodeLog");
+
+    input.addEventListener("keydown", logKey);
+
+    function logKey(e) {
+        keyLog.textContent += ` ${e.code}`;
+        charLog.textContent += ` ${e.key}`;
+    }
+    function clearLogs() {
+        keyLog.textContent = "";
+        charLog.textContent = "";
+    }
+</script>
+</body>
+</html>

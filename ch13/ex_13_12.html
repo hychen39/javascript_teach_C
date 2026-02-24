@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="exampleForm" action="https://formtester.goodbytes.be/post.php" method="post"
+    target="_blank">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    <p> Go to https://formtester.goodbytes.be/post.php to see the form submission. </p>
+    <script>
+        function validate(formData) {
+            const name = formData.get('name');
+            const email = formData.get('email');
+            if (name === "" || email === "") {
+                alert("Name and email are required.");
+                return false;  // return false to prevent the form submission
+            } else 
+            return true;  // return true to allow the form submission
+        }
+        
+        const form = document.getElementById('exampleForm');
+        form.addEventListener('submit', function(event) {
+            const formData = new FormData(form);
+            if (!validate(formData)) {
+                event.preventDefault();  // prevent the form submission
+            } else {
+                form.submit();  // allow the form submission
+                alert("Form submitted successfully.");
+            }
+        });
+    </script>
+</body>
+</html>

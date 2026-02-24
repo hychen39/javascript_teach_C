@@ -1,0 +1,52 @@
+---
+marp: true
+theme: default
+header: 'Chapter 2: JavaScript Essentials'
+footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2025'
+class: lead
+paginate: true
+headingDivider: [1, 2, 3]
+lang: zh-TW
+---
+
+<style>
+    .columns {
+    display: flex;
+  }
+  .column {
+    flex: 1;
+    padding: 10px;
+  }
+  .column.large{
+    flex: 2;
+  }
+  .small-font {
+    font-size: 0.8em;
+  }
+
+  section > header,
+section > footer {
+  position: absolute;
+  left: auto;
+  right: 90px;
+  height: 20px;
+}
+
+header {
+  top: 30px;
+}
+
+footer {
+  bottom: 30px;
+}
+
+</style>
+
+
+<script>
+    // add the following script at the end of your marp slide file.
+    const h2s = document.querySelectorAll('h2');
+    h2s.forEach(function(h2, idx){
+        h2.innerHTML = `<span class="small-font">${idx + 1}</span> ${h2.innerHTML}`
+    })
+</script>

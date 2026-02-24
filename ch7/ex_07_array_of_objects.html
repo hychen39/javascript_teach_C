@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercise 3: Array of Objects</title>
+</head>
+<body>
+    <fieldset>
+        <legend>Select a maintenance drone:</legend>
+      
+        <div>
+          <input type="radio" id="huey" name="drone" value="huey" checked />
+          <label for="huey">Huey</label>
+        </div>
+      
+        <div>
+          <input type="radio" id="dewey" name="drone" value="dewey" />
+          <label for="dewey">Dewey</label>
+        </div>
+      
+        <div>
+          <input type="radio" id="louie" name="drone" value="louie" />
+          <label for="louie">Louie</label>
+        </div>
+      </fieldset>
+    <div>
+       Your selection: <p id="display"></p>
+    </div>
+    
+    <script>
+    
+        let drones = document.getElementsByName('drone');
+        drones.forEach( drone => {
+            console.log(drone);
+            // add event listener to each drone
+            drone.addEventListener('change', (e) => {
+                document.getElementById('display').innerText = e.target.value;
+            });
+        })
+    </script>
+</body>
+</html>

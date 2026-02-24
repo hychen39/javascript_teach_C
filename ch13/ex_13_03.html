@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        #parent {
+            background: #99C0C3;
+            width: 160px;
+            height: 120px;
+            position: relative;
+        }
+        #child {
+            background: #FFDE99;
+            width: 50%;
+            height: 50%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        textarea {
+            height: 600px;
+            width: 70%;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="parent">parent
+    <div id="child">child</div>
+</div>
+
+<p>Mouse move count: <span id="moveCount"> 0 </span> </p>
+
+<input onclick="clearText()" value="Clear" type="button">
+<textarea id="text"></textarea>
+
+
+<script src="ex_13_03.js"></script>
+
+</body>
+
+</html>

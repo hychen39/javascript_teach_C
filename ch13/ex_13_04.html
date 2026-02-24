@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+</head>
+<style>
+    form, form * {
+        margin: 10px;
+        border: 1px solid blue;
+    }
+</style>
+
+<body>
+<!-- Source: https://javascript.info/bubbling-and-capturing -->
+
+<div id="eventPropagate">
+    <form class="listener">FORM
+        <div >DIV
+            <p>P</p>
+        </div>
+    </form>
+</div>
+<p class="noListener">
+    <textarea id="display" class="noListener" cols="50" rows="10"></textarea> <br/>
+    <button class="noListener" onclick="document.getElementById('display').value = ''">Clear</button>
+</p>
+
+<script>
+    const display = document.getElementById("display");
+    const eventPropagate = document.querySelector("#eventPropagate");
+    const allElements = document.querySelectorAll("*");
+
+    const elementsWithListeners = Array.from(allElements).filter(elem => {
+        if (elem instanceof HTMLElement && !elem.classList.contains("noListener")) {
+            return true;
+        } else {
+            return false;
+        }
+        
+    });
+
+    for (let elem of elementsWithListeners) {
+        elem.addEventListener("click",
+            (e) => {
+                const msg = `V_Capturing: Target: ${e.target.tagName}, currentTarget: ${e.currentTarget.tagName}`;
+                display.value += msg + "\n";
+                // console.log(`Capturing: ${elem.tagName}, event phase ${e.eventPhase}`), true)
+            }, true);
+        elem.addEventListener("click", (e) => {
+            const msg = `^Bubbling: Target: ${e.target.tagName}, currentTarget: ${e.currentTarget.tagName}`;
+            // console.log(`Bubbling: ${elem.tagName}`)
+            display.value += msg + "\n";
+        });
+    }
+</script>
+</body>
+</html>

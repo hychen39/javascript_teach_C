@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Drag-and-Drop an image</title>
+    <style>
+        .drop-zone {
+            width: 250px;
+            height: 250px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
+        .box-dragEnd {
+            background-color: #bab6b6;
+            width: 250px;
+            height: 250px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="drop-zone" id="drop-zone">
+    Drag and drop an image here
+</div>
+<button onclick="reset()">Reset</button>
+
+<div id="sourceImg">
+    <img id="dogImg" src="img/dog.png" alt="" draggable="true">
+</div>
+
+
+<script>
+    // Register the handlers to drag and dragover events to make the element droppable
+    const dropZone = document.getElementById("drop-zone");
+    dropZone.ondragover = function (event) {
+        // Browser emits the dragover event every few hundred milliseconds
+        // We prevent the default behavior of the dragover event to allow the drop event to fire
+        console.log('dragover');
+        event.preventDefault();
+    };
+    dropZone.ondrop = function (event) {
+        console.log('drop');
+        // get the data being dragged from the dataTransfer object
+        const data = event.dataTransfer.getData("text/plain");
+        // get the element being dragged
+        const draggedElement = document.getElementById(data);
+        // append the dragged element to the drop zone
+        dropZone.appendChild(draggedElement);
+    };
+    // Register the handlers to dragstart event to prepare the data to transfer
+    const dogImg = document.getElementById("dogImg");
+    dogImg.ondragstart = function (event) {
+        // set the data to transfer
+        console.log('dragstart: ', event.target.id);
+        event.dataTransfer.setData("text/plain", event.target.id);
+    };
+    //
+    
+    dogImg.ondragend = function (event) {
+        console.log('dragend');
+        const sourceImg = document.getElementById("sourceImg");
+        sourceImg.classList.add("box-dragEnd");
+    };
+
+    function reset() {
+        // get the dragged element
+        const dogImage = dropZone.querySelector("#dogImg");
+        const sourceImg = document.getElementById("sourceImg");
+        // remove the dragged element from the drop zone
+        if (dogImage) {
+            dropZone.removeChild(dogImage);
+            sourceImg.appendChild(dogImage);
+            sourceImg.classList.remove("box-dragEnd");
+        }
+    }
+</script>
+</body>
+</html>

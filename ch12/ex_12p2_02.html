@@ -1,0 +1,31 @@
+<html>
+  <body>
+    <style>
+      .square {
+        height: 100px;
+        width: 100px;}
+      .blue {
+        background-color: blue;} 
+      .yellow {
+        background-color: yellow;}
+      .hide {
+        display: none;}
+    </style>
+    <div id="shape" class="square" ></div>
+
+    <script>
+        // Add the class "blue" to the shape element
+        document.body.children.shape.classList.add("blue");
+        // remove the class "blue" from the shape element
+        document.body.children.shape.classList.remove("blue");
+        // Add the class "yellow" 
+        document.body.children.shape.classList.add("yellow");
+        // toggle hide to make the shape element invisible
+        document.body.children.shape.classList.toggle("hide");
+        // toggle hide to make the shape element visible
+        document.body.children.shape.classList.toggle("hide");
+        // set the inline style of the border
+        document.body.children.shape.style.border = "1px solid black";
+    </script>
+  </body>
+</html>

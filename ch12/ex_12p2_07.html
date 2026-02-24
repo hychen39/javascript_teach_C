@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <a href="#" onclick="alert('Hello, world!');">Click me to say hello.</a> <br/>
+        <a href="#" onclick="sayHello(this); console.log(this)"> Click me to invoke a function.</a> <br/>
+
+        <script>
+            function sayHello(trigger) {
+                // alert('Hello, world!');
+                console.log('Hello, world!');
+                console.log('this: ',   trigger);
+                console.log('event type: ', event.type);
+                console.log('event target: ', event.target);
+            }
+        </script>
+    </body>
+
+   
+</html>

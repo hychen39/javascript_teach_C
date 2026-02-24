@@ -6,6 +6,7 @@ footer: 'Hung-Yi Chen, Dept. of Info. Mgt., CYUT  | 2024'
 class: lead
 paginate: true
 headingDivider: [1, 2, 3, 4]
+lang: zh-tw
 ---
 
 <style>

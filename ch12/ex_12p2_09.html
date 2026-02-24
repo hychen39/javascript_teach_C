@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <div>
+            <input type="checkbox" id="cb1" name="flavor" value="10" data-flavor="vanilla">
+            <label for="cb1">Vanilla</label>
+            <input type="checkbox" id="cb2" name="flavor" value="20" data-flavor="strawberry">
+            <label for="cb2">Strawberry</label>
+        </div>
+        <script>
+            // define the listener function
+            function logValueData(e){
+                console.log(e.target.value);
+                console.log(e.target.dataset.flavor);
+            }
+            // assign the listener function 
+            const checkboxes = document.getElementsByName('flavor');
+            checkboxes.forEach(checkbox => {
+                checkbox.onclick = logValueData;
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+<div id="menu">
+    <button data-action="save">Save</button>
+    <button data-action="load">Load</button>
+    <button data-action="search">Search</button>
+    <p>Open the console to see the output. </p>
+</div>
+<script>
+    const menu = document.getElementById('menu');
+    class Action {
+        constructor() {}
+        save() {
+            console.log('Save');
+        }
+        load() {
+            console.log('Load');
+        }
+        search() {
+            console.log('Search');
+        }
+    }
+    const action = new Action();
+    menu.addEventListener('click', function (event) {
+        const command = event.target.getAttribute('data-action');
+        if (command) {
+            action[command]();
+        }
+    });
+</script>
+</body>
+</html>

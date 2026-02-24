@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+    <fieldset>
+        <legend>Contact Information</legend>
+        <p> <button onclick="addEmail()">Add another email</button> </p>
+        <form>
+            <div id="emailList">
+                <label for="email1">Email address:</label>
+                <input type="email" id="email1" name="email1" />
+            </div>
+        </form>
+    </fieldset>
+
+    <script>
+        function addEmail() {
+            // Get the total email inputs
+            let emailList = document.querySelectorAll("#emailList > input[type=email]");
+            let emailCount = emailList.length;
+
+            // Create the label for the new email input field
+            let newLabel = document.createElement("label");
+            // Set the label attributes
+            newLabel.htmlFor = "email" + (emailCount + 1);
+            newLabel.innerHTML = "<br/> Email address " + (emailCount + 1) + ":";
+            
+            // Create another email input field to emailList
+            let newEmail = document.createElement("input");
+            // set element attributes
+            newEmail.type = "email";
+            newEmail.id = "email" + (emailCount + 1);
+            newEmail.name = "email" + (emailCount + 1);
+            
+            // Append the new label and email input field to the emailList
+            document.getElementById("emailList").appendChild(newLabel);
+            document.getElementById("emailList").appendChild(newEmail);
+        }
+    </script>
+</body>
+
+</html>

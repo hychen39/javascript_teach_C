@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Allow only numbers to be entered in the input field, no spaces, alphabets, or special characters</title>
+</head>
+<body>
+<input placeholder="Click here, then press down a key." size="40" /> <br/>
+<button onclick="clearLogs()">Clear</button>
+<p> Code value: </p>
+<p id="keyCodeLog"></p>
+
+<p> key value: </p>
+<p id="charCodeLog"></p>
+
+<script>
+    const input = document.querySelector("input");
+    const keyLog = document.getElementById("keyCodeLog");
+    const charLog = document.getElementById("charCodeLog");
+
+    input.addEventListener("keydown", logKey);
+    input.addEventListener("keydown", isNumberKey);
+
+    function logKey(e) {
+        keyLog.textContent += ` ${e.code}`;
+        charLog.textContent += ` ${e.key}`;
+    }
+    function clearLogs() {
+        keyLog.textContent = "";
+        charLog.textContent = "";
+        input.value = "";
+    }
+
+    // check if the key pressed is a number
+    function isNumberKey(event) {
+        const exceptionKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'];
+        if ((isNaN(event.key) && !exceptionKeys.includes(event.code)) || event.code =='Space') {
+            // prevent the default behavior of the keydown event, and stop the event propagation
+            event.preventDefault();
+            // stop the event propagation
+            event.stopPropagation();
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,603 @@
+<!DOCTYPE html><html><head>
+      <title>ch1_note</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.25/dist/katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h1 id="ch1-認識-javascript">Ch1 認識 JavaScript </h1>
+<h2 id="javascript-特色與用途">JavaScript 特色與用途 </h2>
+<h3 id="特色">特色 </h3>
+<ul>
+<li>直譯式 (Interpret) 的描述語言</li>
+<li>跨平台、物件導向、輕量</li>
+<li>主要應用於 Web 開發, 製作動態網頁
+<ul>
+<li>也可用於後端開發 (Node.js)</li>
+</ul>
+</li>
+<li>採用 ECMAScript 標準 (如 ES5、ES6、ES9)</li>
+</ul>
+<h3 id="用途">用途 </h3>
+<ul>
+<li>操作 HTML DOM</li>
+<li>開發網頁遊戲</li>
+<li>HTML5 前端資料儲存</li>
+<li>Node.js 後端開發</li>
+</ul>
+<h2 id="設置-javascript-開發環境">設置 JavaScript 開發環境 </h2>
+<h2 id="javascript-運行環境">JavaScript 運行環境 </h2>
+<ul>
+<li>瀏覽器：在 Browser 中執行(用戶端)</li>
+<li>Node.js：讓 JavaScript 也能在後端 (伺服器端) 執行</li>
+</ul>
+<h3 id="核心組成">核心組成 </h3>
+<ul>
+<li><strong>ECMAScript</strong>：定義語法、流程控制、物件、函數、錯誤處理</li>
+<li><strong>DOM API</strong>：操作網頁文件結構與內容、事件處理</li>
+<li><strong>WEB API</strong>：操作瀏覽器功能, 如網路請求、計時器、地理位置、用戶端儲存</li>
+</ul>
+<h3 id="javascript-在用戶端執行">JavaScript 在用戶端執行 </h3>
+<ol>
+<li>HTML 與 CSS 交給渲染引擎處理</li>
+<li>HTML 解析並建構 DOM 樹</li>
+<li>CSS 解析並建構 CSSOM 樹</li>
+<li>組合成渲染樹 (Render Tree)</li>
+<li>透過 Layout() 方法安排版面</li>
+<li>Paint() 方法繪製網頁</li>
+</ol>
+<p><img src="img/page_rendering.png" alt="bg right:50% 100%"></p>
+<h3 id="javascript-在後端執行">JavaScript 在後端執行 </h3>
+<ul>
+<li><strong>Node.js</strong> 採用 Google V8 引擎</li>
+<li>官方網站: <a href="https://nodejs.org/en/">Node.js</a></li>
+<li>LTS (Long Term Support) 版本較穩定</li>
+<li>提供 REPL 交互式開發環境
+<ul>
+<li>REPL: Read-Eval-Print Loop</li>
+</ul>
+</li>
+</ul>
+<h3 id="repl-交互式開發環境">REPL 交互式開發環境 </h3>
+<ol>
+<li>在 CMD 輸入 <code>node</code> 進入 REPL</li>
+<li>輸入 <code>console.log("Hello World")</code></li>
+<li>退出方式：
+<ul>
+<li><code>Ctrl+D</code></li>
+<li>輸入 <code>.exit</code></li>
+</ul>
+</li>
+</ol>
+<p><img src="img/25-Feb-13-11-42-51.png" alt="bg right:50% 90%"></p>
+<h2 id="瀏覽器主控台-console">瀏覽器主控台 Console </h2>
+<ul>
+<li>在用戶端執行 JavaScript, 不需要安裝 Node.js</li>
+<li>瀏覽器開發工具 <code>Console</code></li>
+<li>可用於 Debug 與測試 JavaScript</li>
+<li><strong>開啟方式</strong>:
+<ul>
+<li>Chrome: <code>F12</code> 開啟 DevTools</li>
+<li><code>console.log("測試輸出")</code></li>
+</ul>
+</li>
+</ul>
+<p><img src="img/25-Feb-13-11-52-02.png" alt="bg right:50% fit"></p>
+<h2 id="console-常用方法">Console 常用方法 </h2>
+<h3 id="基本輸出">基本輸出 </h3>
+<ul>
+<li>一般訊息</li>
+</ul>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>console.log("一般訊息");
+</code></pre><ul>
+<li>錯誤訊息 <code>console.error()</code></li>
+</ul>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>console.error("錯誤訊息");
+</code></pre><ul>
+<li>警告訊息 <code>console.warn()</code></li>
+</ul>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>console.warn("警告訊息");
+</code></pre><h3 id="清除輸出">清除輸出 </h3>
+<ul>
+<li>清除輸出 <code>console.clear()</code></li>
+</ul>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>console.clear();
+</code></pre><h2 id="設置開發環境">設置開發環境 </h2>
+<h3 id="安裝-nodejs-vscode-和-quokkajs-插件">安裝 Node.js、VSCode 和 Quokka.js 插件 </h3>
+<p>Node.js 是一個 JavaScript 運行時，允許您在瀏覽器外運行 JavaScript 代碼。</p>
+<ul>
+<li>下載並安裝 <a href="https://nodejs.org/en/">Node.js</a></li>
+</ul>
+<p>Visual Studio Code (VSCode) 是目前最受歡迎的代碼編輯器之一。</p>
+<ul>
+<li>下載並安裝 <a href="https://code.visualstudio.com/download">Visual Studio Code (VSCode) for windows</a></li>
+</ul>
+<p>Quokka.js 是一個 VSCode 插件，允許輸入 JavaScript 代碼時立即查看結果。</p>
+<h3 id="在-vscode-中安裝-quokkajs-擴展">在 VSCode 中安裝 Quokka.js 擴展 </h3>
+<p>在 VSCode Extensions 中搜索 Quokka.js 並安裝它</p>
+<img src="img/img01_01.jpg" width="60%">
+<h3 id="使用-quokka-查看執行結果">使用 Quokka 查看執行結果 </h3>
+<p>Quokka 快捷鍵：</p>
+<ul>
+<li>Cmd/Ctrl+K,Q：在現有文件上啟動/重啟 Quokka。</li>
+<li>Cmd/Ctrl+K,J：打開一個新的 Quokka JavaScript 文件。</li>
+</ul>
+<p><img src="img/img01_02.jpg" alt=""></p>
+<p>啟動 Quokka 以在輸入 JavaScript 代碼時立即查看結果。</p>
+<p><img src="img/24-07-17-23-28-49.png" alt=""></p>
+<p><code>console.log</code> 的輸出顯示在該行的右側， 圖中的藍色字。</p>
+<h2 id="將-javascript-添加到網頁">將 JavaScript 添加到網頁 </h2>
+<h3 id="加入-javascript-到-html-的三種方式">加入 JavaScript 到 HTML 的三種方式 </h3>
+<p>有三種方式將 JavaScript 添加到網頁：</p>
+<ol>
+<li>行內(Inline) JavaScript：將 JavaScript 代碼直接添加到 HTML 元素的屬性中。</li>
+<li>內部（直接）JavaScript：在 HTML 文件中的 <code>&lt;script&gt;</code> 標籤內添加 JavaScript 代碼。</li>
+<li>外部 JavaScript：將 JavaScript 代碼寫在外部木檔案，再將其鏈接到 HTML 文件。</li>
+</ol>
+<hr>
+<h3 id="何時使用哪一種方式決策思考">何時使用哪一種方式？（決策思考） </h3>
+<h4 id="行內-inline-javascript">行內 (Inline) JavaScript </h4>
+<p><strong>適合情境：</strong></p>
+<ul>
+<li>非常簡單、一次性的事件處理（例如教學初期示範按鈕點擊）。</li>
+<li>快速測試某個小功能。</li>
+</ul>
+<pre data-role="codeBlock" data-info="js" class="language-javascript js"><code><span class="token operator">&lt;</span>button onclick<span class="token operator">=</span><span class="token string">"alert('Hello World!')"</span><span class="token operator">&gt;</span><span class="token maybe-class-name">Click</span> me<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+</code></pre><p><strong>不建議使用的原因：</strong></p>
+<ul>
+<li>將 HTML 結構與 JavaScript 行為混在一起，違反「結構與行為分離」原則。</li>
+<li>不易維護與除錯。</li>
+<li>不利於團隊合作與程式重用。</li>
+</ul>
+<h4 id="內部-internal-javascript">內部 (Internal) JavaScript </h4>
+<p><strong>適合情境：</strong></p>
+<ul>
+<li>單一頁面的小型專案。</li>
+<li>範例教學、練習題。</li>
+<li>需要快速撰寫並測試多行 JavaScript 程式碼。</li>
+</ul>
+<p><strong>優點：</strong></p>
+<ul>
+<li>程式碼集中在同一個 HTML 檔案，方便教學與理解。</li>
+<li>比 Inline 更清楚區分 HTML 與 JavaScript。</li>
+</ul>
+<p><strong>限制：</strong></p>
+<ul>
+<li>無法在多個頁面之間重用程式碼。</li>
+<li>當程式變大時，HTML 檔案會變得冗長。</li>
+</ul>
+<pre data-role="codeBlock" data-info="js" class="language-javascript js"><code><span class="token operator">&lt;</span>html<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span>head<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>title<span class="token operator">&gt;</span><span class="token maybe-class-name">Hello</span> <span class="token maybe-class-name">World</span><span class="token operator">&lt;</span><span class="token operator">/</span>title<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>head<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span>body<span class="token operator">&gt;</span>
+
+    <span class="token operator">&lt;</span>script<span class="token operator">&gt;</span>
+      <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'Hello World!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+
+    <span class="token operator">&lt;</span>h1<span class="token operator">&gt;</span><span class="token maybe-class-name">Hello</span> <span class="token maybe-class-name">World</span><span class="token operator">&lt;</span><span class="token operator">/</span>h1<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>p<span class="token operator">&gt;</span><span class="token maybe-class-name">Welcome</span> to my first web page<span class="token operator">!</span><span class="token operator">&lt;</span><span class="token operator">/</span>p<span class="token operator">&gt;</span>
+
+    <span class="token operator">&lt;</span>script<span class="token operator">&gt;</span>
+      <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'Hello World! 2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>html<span class="token operator">&gt;</span>
+</code></pre><h4 id="3️⃣-外部-external-javascript">3️⃣ 外部 (External) JavaScript </h4>
+<p><strong>適合情境：</strong></p>
+<ul>
+<li>真實專案開發。</li>
+<li>多頁面網站。</li>
+<li>需要模組化與重複使用程式碼。</li>
+</ul>
+<p><strong>優點：</strong></p>
+<ul>
+<li>HTML 與 JavaScript 完全分離（結構 vs 行為）。</li>
+<li>可重用、可維護、可測試。</li>
+<li>有利於版本控制與團隊開發。</li>
+<li>瀏覽器可快取 (cache) JS 檔案，提高效能。</li>
+</ul>
+<p><strong>可能缺點：</strong></p>
+<ul>
+<li>需要管理檔案路徑。</li>
+<li>初學者可能不熟悉專案結構。</li>
+</ul>
+<pre data-role="codeBlock" data-info="html" class="language-html html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Hello World<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Hello World<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>Welcome to my first web page!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>your_script.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre><hr>
+<h3 id="簡單決策原則">簡單決策原則 </h3>
+<table>
+<thead>
+<tr>
+<th>情境</th>
+<th>建議方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>示範單一按鈕事件</td>
+<td>Inline（僅示範）</td>
+</tr>
+<tr>
+<td>單頁小練習</td>
+<td>Internal</td>
+</tr>
+<tr>
+<td>多頁網站 / 真實專案</td>
+<td>✅ External</td>
+</tr>
+</tbody>
+</table>
+<h2 id="javascript-執行順序">JavaScript 執行順序 </h2>
+<ul>
+<li>JavaScript 代碼的執行順序是從上到下。</li>
+<li>瀏覽器在遇到 <code>&lt;script&gt;</code> 標籤時執行 JavaScript 代碼。</li>
+<li><code>alert()</code> 是一個函數, 用對話框顯示訊息。</li>
+<li>當頁面載入時，瀏覽器會顯示帶有 “Hello World!” 消息的對話框。
+<ul>
+<li>然後，它會渲染頁面的 HTML 內容。</li>
+<li>之後, 會再次顯示帶有 “Hello World! 2” 訊息的對話框。</li>
+</ul>
+</li>
+</ul>
+<pre data-role="codeBlock" data-info="html" class="language-html html"><code><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Hello World<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+      <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'Hello World!'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>Hello World<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>Welcome to my first web page!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
+      <span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">'Hello World! 2'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre><h2 id="控制瀏覽器何時提取和執行-javascript-代碼-進階閱讀">控制瀏覽器何時提取和執行 JavaScript 代碼 (進階閱讀) </h2>
+<h3 id="為何要控制">為何要控制 </h3>
+<ul>
+<li>JavaScript 代碼執行時會阻止頁面渲染，導致用戶需要等待 JavaScript 加載和執行完成後才能看到頁面內容。</li>
+<li>如果 JavaScript 代碼很大或網路慢，使用者會一直看到空白頁面，直到 JavaScript 加載完成。</li>
+<li>這會影響用戶的體驗，增加跳出率。</li>
+<li>可控制執行時機，使得用戶先看到頁面內容，並在背景加載 JavaScript，優化頁面加載速度和改善用戶體驗。</li>
+</ul>
+<h3 id="如何控制">如何控制 </h3>
+<p>使用 <code>&lt;script&gt;</code> 標籤中的 <code>defer</code> 和 <code>async</code> 屬性來控制瀏覽器何時提取和執行 JavaScript 代碼。</p>
+<p><img src="https://html.spec.whatwg.org/images/asyncdefer.svg" alt=""></p>
+<p>圖中：</p>
+<ul>
+<li>Green: 渲染 HTML（HTML 解析器 parser）</li>
+<li>Red: JavaScript 代碼的抓取 (fetch)</li>
+<li>Blue: 執行 JavaScript 代碼(execution)</li>
+</ul>
+<p>控制的方式</p>
+<p><code>&lt;script&gt;</code>: 預設情況下，會阻止頁面的渲染，直到抓取並執行 JavaScript 完成後，再繼續渲染 HTML 內容。</p>
+<p><code>&lt;script defer&gt;</code>：瀏覽器在渲染 HTML 內容時同時抓取 JavaScript 代碼。但它在 HTML 內容渲染完成後再執行 JavaScript code。</p>
+<ul>
+<li>簡單說，JS 在 HTML 內容渲染完成後才執行。</li>
+</ul>
+<p><code>&lt;script async&gt;</code>：瀏覽器在渲染 HTML 內容時同時抓取 JavaScript 代碼。抓取完成，中斷 HTML 內容渲染，立即執行 JavaScript code (非同步執行), 之後再繼續渲染 HTML 內容。<br>
+後立即執行 JavaScript code，之後再繼續解析 HTML 內容。</p>
+<p><code>&lt;script type="module"&gt;</code>:</p>
+<ul>
+<li>module 是 ES6 引入的 JavaScript 模組系統，允許開發者將 JavaScript 代碼分割成多個文件，並在需要時進行導入和使用。</li>
+<li>使用 <code>&lt;script type="module"&gt;</code> 會一次抓取多個模組，並在所有模組都抓取完成後才執行 JS 代碼。</li>
+</ul>
+<p><code>&lt;script type="module" async&gt;</code>:</p>
+<ul>
+<li>結合了 module 和 async 的特性，會一次抓取多個模組，並在所有模組都抓取完成後立即執行 JS 代碼。</li>
+<li>與 <code>&lt;script async&gt;</code> 類似，JS 抓取完成後立即執行。</li>
+</ul>
+<h2 id="引用外部-javascript-文件的細節">引用外部 JavaScript 文件的細節 </h2>
+<p>使用 <code>&lt;script&gt;</code> 標籤的 <code>src</code> 屬性來鏈接外部 JavaScript 文件到 HTML 文件。</p>
+<pre data-role="codeBlock" data-info="html" class="language-html html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>your_script.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre><p>注意:</p>
+<ul>
+<li>檔案名稱區分大小寫。</li>
+<li>指定文件的相對或絕對路徑。</li>
+</ul>
+<p>Example:</p>
+<ul>
+<li><a href="https://github.com/PacktPublishing/JavaScript-from-Beginner-to-Professional/tree/main/Chapter%2001/Code%20Samples">Code Samples</a></li>
+</ul>
+<h2 id="lab-1">Lab 1 </h2>
+<p><a href="lecture_notes/ch1/lab_01_01.md">Lab_01_01</a></p>
+<h2 id="總結">總結 </h2>
+<ul>
+<li>JavaScript 可以用於前端 (瀏覽器) 和後端 (Node.js)的程式語言</li>
+<li>可以在 瀏覽器 Console 中執行 JavaScript 代碼</li>
+<li>可以在 Node.js REPL 中執行 JavaScript 代碼</li>
+<li>三種方式將 JavaScript 添加到網頁：內部(internal)、外部(external)、行內(inline)</li>
+</ul>
+<h2 id="複習問題">複習問題 </h2>
+<h3 id="一-觀念理解與比較">一、觀念理解與比較 </h3>
+<ol>
+<li>為什麼在真實專案中通常不建議使用 Inline JavaScript？請從「維護性」與「結構分離」的角度說明。</li>
+<li>Internal JavaScript 與 External JavaScript 在「可重用性」上的差異為何？在什麼情境下這個差異會變得重要？</li>
+<li>如果一個網站只有單一頁面且功能簡單，你會選擇哪一種方式加入 JavaScript？為什麼？</li>
+<li>如果是一個包含 10 個頁面的公司形象網站，你會選擇哪一種方式？請說明理由。</li>
+</ol>
+<h3 id="二-執行時機與效能思考">二、執行時機與效能思考 </h3>
+<ol start="5">
+<li>為什麼預設的 <code>&lt;script&gt;</code> 會阻塞 (block) HTML 解析？這對使用者體驗有什麼影響？</li>
+<li>在什麼情境下適合使用 <code>&lt;script defer&gt;</code>？請舉例說明。</li>
+<li>在什麼情境下適合使用 <code>&lt;script async&gt;</code>？為什麼它不適合用在依賴 DOM 結構的程式？</li>
+<li>如果你的 JavaScript 需要操作 DOM 元素（例如 document.querySelector()），你會選擇：</li>
+</ol>
+<ul>
+<li>A. <code>&lt;script&gt;</code> 放在 <code>&lt;head&gt;</code></li>
+<li>B. <code>&lt;script&gt;</code> 放在 <code>&lt;/body&gt;</code> 前</li>
+<li>C. <code>&lt;script defer&gt;</code></li>
+</ul>
+<p>請說明你的選擇與理由。</p>
+<h3 id="三-環境選擇與工具決策">三、環境選擇與工具決策 </h3>
+<ol start="9">
+<li>在什麼情況下適合使用瀏覽器 Console 測試程式？什麼情況下應該改用 Node.js？</li>
+<li>REPL 適合用來解決哪種類型的問題？是否適合開發大型專案？為什麼？</li>
+<li>為什麼在課程後期應該鼓勵學生使用 External JavaScript？這與「專案規模」有什麼關係？</li>
+</ol>
+<h3 id="四-情境決策題思考題">四、情境決策題（思考題） </h3>
+<ol start="12">
+<li>你正在設計一個教學範例，只需要示範按鈕點擊顯示 alert，時間只有 5 分鐘。你會選擇哪一種方式？為什麼？</li>
+<li>你正在開發一個購物網站，其中多個頁面都需要驗證使用者輸入。你會如何安排 JavaScript 檔案？是否會使用 External？為什麼？</li>
+<li>如果 JavaScript 檔案非常大（例如 1MB），你會考慮使用 defer 還是 async？請說明你的判斷依據。</li>
+<li>當專案需要多人協作與版本控制時，哪一種加入 JavaScript 的方式最合適？請從 Git 管理與維護角度說明。</li>
+</ol>
+<script src="../js/h1_numbering.js"></script>
+
+      </div>
+      <div class="md-sidebar-toc">
+<div class="md-toc">
+<details style="padding:0;;padding-left:0px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#ch1-認識-javascript" class="md-toc-link"><p>Ch1 認識 JavaScript</p>
+</a>
+          </summary>
+        <div>
+          <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#javascript-特色與用途" class="md-toc-link"><p>JavaScript 特色與用途</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#特色" class="md-toc-link">
+            <p>特色</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#用途" class="md-toc-link">
+            <p>用途</p>
+
+          </a></div>
+        </div>
+      </details>
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#設置-javascript-開發環境" class="md-toc-link">
+            <p>設置 JavaScript 開發環境</p>
+
+          </a></div><details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#javascript-運行環境" class="md-toc-link"><p>JavaScript 運行環境</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#核心組成" class="md-toc-link">
+            <p>核心組成</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#javascript-在用戶端執行" class="md-toc-link">
+            <p>JavaScript 在用戶端執行</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#javascript-在後端執行" class="md-toc-link">
+            <p>JavaScript 在後端執行</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#repl-交互式開發環境" class="md-toc-link">
+            <p>REPL 交互式開發環境</p>
+
+          </a></div>
+        </div>
+      </details>
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#瀏覽器主控台-console" class="md-toc-link">
+            <p>瀏覽器主控台 Console</p>
+
+          </a></div><details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#console-常用方法" class="md-toc-link"><p>Console 常用方法</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#基本輸出" class="md-toc-link">
+            <p>基本輸出</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#清除輸出" class="md-toc-link">
+            <p>清除輸出</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#設置開發環境" class="md-toc-link"><p>設置開發環境</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#安裝-nodejs-vscode-和-quokkajs-插件" class="md-toc-link">
+            <p>安裝 Node.js、VSCode 和 Quokka.js 插件</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#在-vscode-中安裝-quokkajs-擴展" class="md-toc-link">
+            <p>在 VSCode 中安裝 Quokka.js 擴展</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#使用-quokka-查看執行結果" class="md-toc-link">
+            <p>使用 Quokka 查看執行結果</p>
+
+          </a></div>
+        </div>
+      </details>
+    <details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#將-javascript-添加到網頁" class="md-toc-link"><p>將 JavaScript 添加到網頁</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#加入-javascript-到-html-的三種方式" class="md-toc-link">
+            <p>加入 JavaScript 到 HTML 的三種方式</p>
+
+          </a></div><details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#何時使用哪一種方式決策思考" class="md-toc-link"><p>何時使用哪一種方式？（決策思考）</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#行內-inline-javascript" class="md-toc-link">
+            <p>行內 (Inline) JavaScript</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#內部-internal-javascript" class="md-toc-link">
+            <p>內部 (Internal) JavaScript</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#3️⃣-外部-external-javascript" class="md-toc-link">
+            <p>3️⃣ 外部 (External) JavaScript</p>
+
+          </a></div>
+        </div>
+      </details>
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#簡單決策原則" class="md-toc-link">
+            <p>簡單決策原則</p>
+
+          </a></div>
+        </div>
+      </details>
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#javascript-執行順序" class="md-toc-link">
+            <p>JavaScript 執行順序</p>
+
+          </a></div><details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#控制瀏覽器何時提取和執行-javascript-代碼-進階閱讀" class="md-toc-link"><p>控制瀏覽器何時提取和執行 JavaScript 代碼 (進階閱讀)</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#為何要控制" class="md-toc-link">
+            <p>為何要控制</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#如何控制" class="md-toc-link">
+            <p>如何控制</p>
+
+          </a></div>
+        </div>
+      </details>
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#引用外部-javascript-文件的細節" class="md-toc-link">
+            <p>引用外部 JavaScript 文件的細節</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#lab-1" class="md-toc-link">
+            <p>Lab 1</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#總結" class="md-toc-link">
+            <p>總結</p>
+
+          </a></div><details style="padding:0;;padding-left:24px;" open="">
+        <summary class="md-toc-link-wrapper">
+          <a href="#複習問題" class="md-toc-link"><p>複習問題</p>
+</a>
+          </summary>
+        <div>
+          <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#一-觀念理解與比較" class="md-toc-link">
+            <p>一、觀念理解與比較</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#二-執行時機與效能思考" class="md-toc-link">
+            <p>二、執行時機與效能思考</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#三-環境選擇與工具決策" class="md-toc-link">
+            <p>三、環境選擇與工具決策</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#四-情境決策題思考題" class="md-toc-link">
+            <p>四、情境決策題（思考題）</p>
+
+          </a></div>
+        </div>
+      </details>
+    
+        </div>
+      </details>
+    
+</div>
+</div>
+      <a id="sidebar-toc-btn">≡</a>
+    
+    
+    
+    
+    
+    
+<script>
+
+var sidebarTOCBtn = document.getElementById('sidebar-toc-btn')
+sidebarTOCBtn.addEventListener('click', function(event) {
+  event.stopPropagation()
+  if (document.body.hasAttribute('html-show-sidebar-toc')) {
+    document.body.removeAttribute('html-show-sidebar-toc')
+  } else {
+    document.body.setAttribute('html-show-sidebar-toc', true)
+  }
+})
+</script>
+      
+  
+    </body></html>

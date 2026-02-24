@@ -1,4 +1,4 @@
-課程名稱：JavaScript 程式設計 (113B)
+課程名稱：JavaScript 程式設計 (114B)
 
 該課程旨在讓學生對 JavaScript 程式設計有基本的了解。學生將學習 JavaScript 基礎知識並使用它們來建立互動式網頁。
 
@@ -56,7 +56,15 @@ Final exam：25％
 
 ## 教科書
 
-JavaScript 精選16堂課：網頁程式設計實作　作者：陳婉凌　出版社：博碩　出版年：2019
+教師自編講義 [GitHub - hychen39/javascript_teach_C: Javascript Teaching 中文課程](https://github.com/hychen39/javascript_teach_C)
+
+## 參考書籍(CYUT 圖書館)：
+
+- JavaScript 精選16堂課：網頁程式設計實作　作者：陳婉凌　出版社：博碩　出版年：2019
+- JavaScript 基礎必修課 (含 ITS JavaScript 國際認證模擬試題), 蔡文龍/張志成/何嘉益/張力元著, 碁峰資訊, 2024
+- JavaScript設計模式學習手冊, 作者: 奧斯馬尼 (Osmani, Addy)Addy Osmani楊新章譯, 碁峰資訊, 2024
+- Clean Code學派的風格實踐 : 開發可靠、可維護又強健的JavaScript, 作者: 帕朵塞 (Padolsey, James)James Padolsey江玠峰譯,  博碩文化, 2021
+
 
 ## 教師資料	
 
