@@ -1,4 +1,5 @@
 # Ch1 課堂練習
+
 目標：用「同一段 JavaScript」在不同環境（Quokka／瀏覽器 Console／Node REPL／外部 JS 檔）跑起來，理解工具差異與基本輸出方式。
 
 ## 準備

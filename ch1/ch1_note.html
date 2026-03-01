@@ -35,7 +35,7 @@
 <li>也可用於後端開發 (Node.js)</li>
 </ul>
 </li>
-<li>採用 ECMAScript 標準 (如 ES5、ES6、ES9)</li>
+<li>採用 ECMAScript 標準 (如 ES5、ES6、ES9、ES2020 等每年更新 ES＋年份 )</li>
 </ul>
 <h3 id="用途">用途 </h3>
 <ul>
@@ -45,7 +45,7 @@
 <li>Node.js 後端開發</li>
 </ul>
 <h2 id="設置-javascript-開發環境">設置 JavaScript 開發環境 </h2>
-<h2 id="javascript-運行環境">JavaScript 運行環境 </h2>
+<h3 id="javascript-運行環境">JavaScript 運行環境 </h3>
 <ul>
 <li>瀏覽器：在 Browser 中執行(用戶端)</li>
 <li>Node.js：讓 JavaScript 也能在後端 (伺服器端) 執行</li>
@@ -151,9 +151,8 @@
 <ol>
 <li>行內(Inline) JavaScript：將 JavaScript 代碼直接添加到 HTML 元素的屬性中。</li>
 <li>內部（直接）JavaScript：在 HTML 文件中的 <code>&lt;script&gt;</code> 標籤內添加 JavaScript 代碼。</li>
-<li>外部 JavaScript：將 JavaScript 代碼寫在外部木檔案，再將其鏈接到 HTML 文件。</li>
+<li>外部 JavaScript：將 JavaScript 代碼寫在外部檔案，再將其鏈接到 HTML 文件。</li>
 </ol>
-<hr>
 <h3 id="何時使用哪一種方式決策思考">何時使用哪一種方式？（決策思考） </h3>
 <h4 id="行內-inline-javascript">行內 (Inline) JavaScript </h4>
 <p><strong>適合情境：</strong></p>
@@ -203,7 +202,7 @@
     <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
   <span class="token operator">&lt;</span><span class="token operator">/</span>body<span class="token operator">&gt;</span>
 <span class="token operator">&lt;</span><span class="token operator">/</span>html<span class="token operator">&gt;</span>
-</code></pre><h4 id="3️⃣-外部-external-javascript">3️⃣ 外部 (External) JavaScript </h4>
+</code></pre><h4 id="外部-external-javascript">外部 (External) JavaScript </h4>
 <p><strong>適合情境：</strong></p>
 <ul>
 <li>真實專案開發。</li>
@@ -233,8 +232,7 @@
     <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>your_script.js<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
-</code></pre><hr>
-<h3 id="簡單決策原則">簡單決策原則 </h3>
+</code></pre><h3 id="簡單決策原則">簡單決策原則 </h3>
 <table>
 <thead>
 <tr>
@@ -311,8 +309,7 @@
 <ul>
 <li>簡單說，JS 在 HTML 內容渲染完成後才執行。</li>
 </ul>
-<p><code>&lt;script async&gt;</code>：瀏覽器在渲染 HTML 內容時同時抓取 JavaScript 代碼。抓取完成，中斷 HTML 內容渲染，立即執行 JavaScript code (非同步執行), 之後再繼續渲染 HTML 內容。<br>
-後立即執行 JavaScript code，之後再繼續解析 HTML 內容。</p>
+<p><code>&lt;script async&gt;</code>：瀏覽器在渲染 HTML 內容時同時抓取 JavaScript 代碼。抓取完成，中斷 HTML 內容渲染，立即執行 JavaScript code (非同步執行), 之後再繼續渲染 HTML 內容。</p>
 <p><code>&lt;script type="module"&gt;</code>:</p>
 <ul>
 <li>module 是 ES6 引入的 JavaScript 模組系統，允許開發者將 JavaScript 代碼分割成多個文件，並在需要時進行導入和使用。</li>
@@ -336,7 +333,7 @@
 <li><a href="https://github.com/PacktPublishing/JavaScript-from-Beginner-to-Professional/tree/main/Chapter%2001/Code%20Samples">Code Samples</a></li>
 </ul>
 <h2 id="lab-1">Lab 1 </h2>
-<p><a href="lecture_notes/ch1/lab_01_01.md">Lab_01_01</a></p>
+<p><a href="labs/ch1_lab.md">Ch1 Lab_01</a></p>
 <h2 id="總結">總結 </h2>
 <ul>
 <li>JavaScript 可以用於前端 (瀏覽器) 和後端 (Node.js)的程式語言</li>
@@ -406,17 +403,17 @@
           </a></div>
         </div>
       </details>
-    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
-          <a href="#設置-javascript-開發環境" class="md-toc-link">
-            <p>設置 JavaScript 開發環境</p>
-
-          </a></div><details style="padding:0;;padding-left:24px;" open="">
+    <details style="padding:0;;padding-left:24px;" open="">
         <summary class="md-toc-link-wrapper">
-          <a href="#javascript-運行環境" class="md-toc-link"><p>JavaScript 運行環境</p>
+          <a href="#設置-javascript-開發環境" class="md-toc-link"><p>設置 JavaScript 開發環境</p>
 </a>
           </summary>
         <div>
           <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#javascript-運行環境" class="md-toc-link">
+            <p>JavaScript 運行環境</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
           <a href="#核心組成" class="md-toc-link">
             <p>核心組成</p>
 
@@ -502,8 +499,8 @@
             <p>內部 (Internal) JavaScript</p>
 
           </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
-          <a href="#3️⃣-外部-external-javascript" class="md-toc-link">
-            <p>3️⃣ 外部 (External) JavaScript</p>
+          <a href="#外部-external-javascript" class="md-toc-link">
+            <p>外部 (External) JavaScript</p>
 
           </a></div>
         </div>

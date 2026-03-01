@@ -18,7 +18,7 @@ puppeteer:
 - 跨平台、物件導向、輕量
 - 主要應用於 Web 開發, 製作動態網頁
   - 也可用於後端開發 (Node.js)
-- 採用 ECMAScript 標準 (如 ES5、ES6、ES9)
+- 採用 ECMAScript 標準 (如 ES5、ES6、ES9、ES2020 等每年更新 ES＋年份 )
 
 ### 用途
 
@@ -151,7 +151,7 @@ Quokka 快捷鍵：
 
 1. 行內(Inline) JavaScript：將 JavaScript 代碼直接添加到 HTML 元素的屬性中。
 2. 內部（直接）JavaScript：在 HTML 文件中的 `<script>` 標籤內添加 JavaScript 代碼。
-3. 外部 JavaScript：將 JavaScript 代碼寫在外部木檔案，再將其鏈接到 HTML 文件。
+3. 外部 JavaScript：將 JavaScript 代碼寫在外部檔案，再將其鏈接到 HTML 文件。
 
 
 ### 何時使用哪一種方式？（決策思考）
@@ -211,7 +211,7 @@ Quokka 快捷鍵：
 ```
 
 
-#### 3️⃣ 外部 (External) JavaScript
+#### 外部 (External) JavaScript
 
 **適合情境：**
 - 真實專案開發。
@@ -313,7 +313,6 @@ Quokka 快捷鍵：
   - 簡單說，JS 在 HTML 內容渲染完成後才執行。
 
 `<script async>`：瀏覽器在渲染 HTML 內容時同時抓取 JavaScript 代碼。抓取完成，中斷 HTML 內容渲染，立即執行 JavaScript code (非同步執行), 之後再繼續渲染 HTML 內容。
-後立即執行 JavaScript code，之後再繼續解析 HTML 內容。
 
 `<script type="module">`: 
   - module 是 ES6 引入的 JavaScript 模組系統，允許開發者將 JavaScript 代碼分割成多個文件，並在需要時進行導入和使用。
@@ -342,7 +341,7 @@ Example:
 
 ## Lab 1
 
-[Lab_01_01](lecture_notes/ch1/lab_01_01.md)
+[Ch1 Lab_01](labs/ch1_lab.md)
 
 ## 總結
 
