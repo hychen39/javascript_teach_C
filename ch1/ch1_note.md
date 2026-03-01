@@ -30,7 +30,7 @@ puppeteer:
 
 ## 設置 JavaScript 開發環境
 
-## JavaScript 運行環境
+### JavaScript 運行環境
 
 - 瀏覽器：在 Browser 中執行(用戶端)
 - Node.js：讓 JavaScript 也能在後端 (伺服器端) 執行
