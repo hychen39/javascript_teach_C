@@ -1,3 +1,7 @@
-"use strict";
-x =10;
-console.log(x); // ReferenceError: x is not defined
+
+function calculateTotal(price, quantity) {
+    return price + quantity;
+}
+
+let total = calculateTotal("10", 5);
+console.log(total); 
