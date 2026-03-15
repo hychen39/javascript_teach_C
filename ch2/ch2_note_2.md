@@ -17,6 +17,7 @@ JS 中提供自動型別轉換 (Type Coercion) 和明確型別轉換 (Explicit T
 let foo = 42;    // foo is a number
 let foo = 'bar'; // foo is a string
 let foo = true;  // foo is a boolean
+let foo = null;  // foo is null
 let foo;        // foo is undefined
 ```
 
@@ -54,11 +55,18 @@ x + y 的結果是什麼？
 - `+` 運算子的轉換規則，如果其中一個運算元是字串，則另一個運算元也會被轉換成字串
 - 因此 `x` 會被轉換成字串 "10"，然後與 `y` 進行串接，結果是 "105"。
 
+重點: `+` 符號的功能多載 (Overloading)
+> 加法運算子: 若兩個運算元都是數字，則執行加法運算
+> 串接運算子: 若其中一個運算元是字串，則將另一個運算元也轉換成字串，然後執行串接運算
+
+
+
 ### JS 的型別轉換方式
 
 - 自動轉換型別
   - JS 可以依內建規則自動轉換型別 
   - 稱為 [Type Coercion](https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion) 或 Implicit Type Conversion
+    - coercion (n.) 的意思是強迫, 因為開發者沒有明確指定如何轉換，JS 會依內建規則自動轉換型別
 
 - 明確型別轉換 或 Explicit Type Conversion
   - 程式設計師 可使用 轉換函數 來明確轉換型別
@@ -114,13 +122,15 @@ var str2 = num.toString(); // "10"
 ```
 
 情境: 數字 10 轉成 2 進位字串 "1010"
-- 使用 Number 物件的 toString() 方法
+- 使用 Number 物件的 `toString(radix)` 方法
 - 也可轉成其它進位數字字串
 
 ```js
 var num = 10;
 var str = num.toString(2); // "1010"
 ```
+
+參考: [Number.prototype.toString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString)
 
 ### 轉換為布林值
 
@@ -146,6 +156,7 @@ Q: 何時該使用明確型別轉換？何時該使用自動型別轉換？
 
 3. **條件判斷與相等比較時**  
    建議搭配 `===` 使用，避免 `==` 造成非預期轉換。
+   - 例如：`if (inputValue === 0)` 明確比較數字 0，而非 `if (inputValue == 0)` 可能將空字串、null、undefined 等也視為 0。
 
 4. **團隊開發或大型專案中**  
    明確轉換可提高可讀性與可維護性，降低除錯成本。
@@ -162,7 +173,8 @@ Q: 何時該使用明確型別轉換？何時該使用自動型別轉換？
    ```
 
 2. **簡易數字轉換時（但需清楚規則）**  
-   例如：
+   例如： 在字串前使用正負號來轉換為數字
+
    ```js
    let num = +'10';
    ```
@@ -187,7 +199,7 @@ Q: 何時該使用明確型別轉換？何時該使用自動型別轉換？
 
 ## 自動型別轉換(Type Coercion)
 
-- 可以使用運算子的 **預設轉換規則** 執行明確型別轉換
+- 可以使用運算子的 **預設轉換規則** 執行自動(強迫)型別轉換
   - 可以節省時間，但會降低程式碼可讀性, 因為這些規則可能不是很直觀
 
 ### 轉換為字串
@@ -202,28 +214,32 @@ Q: 何時該使用明確型別轉換？何時該使用自動型別轉換？
 ```js
 let x = 10 + '1';
 console.log(x); // "101"
+
 let y = 1 + true;   // true 被轉換成 1
 console.log(y); // 2
+
 let z = '1' + true; // true 被轉換成 "true"
 console.log(z); // "1true"
 ```
 
 ### 轉換為數字
 
-- 在字串前使用 `+` 符號表示將字串轉換成數字
+- 在字串前使用 `+` 符號(數字正負號)表示將字串轉換成數字
 - 或者使用 `-` 運算子減去 0 來轉換為數字
   - 執行減法時, 非數字的運算子(operand)會被轉換成數字
 
 ```js
 var x = '10' - 0;
 console.log(x); // 10
-var y = +'10';
+
+var y = +'10'; // 語義: 正 10 數字
 console.log(typeof y); // number
 ```
 
 ### 轉換為布林值
 
-使用 `!!` 強迫轉換為布林值
+使用 `!!` 強迫轉換為布林值:
+- `!` 運算子為 邏輯非運算子 (Logical NOT operator)，會將值轉換為布林值後取反，再使用 `!` 取反回原本的布林值。
 
 ```js
 console.log(!!undefined);  // false
@@ -252,7 +268,7 @@ console.log("3" * "2");
 console.log(1 + true + "2");
 ```
 
-## 不同型別的大小比較
+## 不同型別的比較
 
 ### 字串和數字比較前要先轉換成相同型別
 
@@ -263,6 +279,7 @@ var x = 'abc';
 var y = 10;
 console.log(x > y); // false
 ```
+
 自動轉換規則:
 1. 比較時，JS 會嘗試將字串 'abc' 轉換成數字，因為另一個運算元是數字。
 2. 轉換後，'abc' 變成 NaN (Not a Number)。
