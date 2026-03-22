@@ -476,8 +476,627 @@ let message = generateOrderMessage(order);
 
 ## 數值物件
 
+### 數字文字 
+
+當在程式中撰寫以下數字文字(Numeric literal)時，JavaScript 會將其解析為一個數字原生型別 (Primitive Type)：
+
+整數文字的寫法:
+
+```js
+let num = 42; // base-10 整數
+let hex = 0x2A; // base-16 十六進位, 0x 開頭
+let oct = 0o52; // base-8 八進位, 0o 開頭
+let bin = 0b101010; // base-2 二進位, 0b 開頭
+```
+
+浮點數文字的寫法:
+
+```js
+let float1 = 3.14; // 小數點表示法
+let float2 = 1e-5; // 科學記號表示法, 1e-5 表示 1 * 10^(-5)
+```
+
+注意： 
+- JS 中的數字型別沒有區分整數和浮點數，所有數字都是以雙精度浮點數的形式儲存。
+
+
+### 數字原生型別的自動包裝(Autoboxing)
+
+和原生字串類似，原生數字型別提供較好的效能與較小的記憶體成本，但沒有方法可以直接操作數字。
+
+當需要使用數字方法時，JavaScript 會自動將原生數字包裝成一個數字物件 (Number object)，讓我們可以呼叫方法。
+
+例如，要將 1500 轉為美式貨幣格式：
+
+```js
+let price = 1500;
+// 格式化為美式貨幣格式
+let formattedPrice = price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+console.log(formattedPrice); // "$1,500.00"
+```
+
+在這個例子中，`price` 是一個原生數字型別，但我們可以直接呼叫 `toLocaleString()` 方法，因為 JavaScript 會自動將 `price` 包裝成一個數字物件來執行方法呼叫。
+
+### Number 物件提供的方法
+
+Number 物件主要提供格式化數字輸出的方法
+
+### 將數字格式化為特定的**數字字串**表示。
+
+| 方法                     | 說明           | 範例                                      |
+| :--------------------- | :----------- | :-------------------------------------- |
+| `num.toFixed(n)`       | 固定小數位數（四捨五入） | `(1.234).toFixed(2)` → `"1.23"`         |
+| `num.toPrecision(n)`   | 指定有效位數       | `(123.456).toPrecision(4)` → `"123.5"`  |
+| `num.toExponential(n)` | 科學記號         | `(1234).toExponential(2)` → `"1.23e+3"` |
+| `num.toString(base)` | 轉為指定進位的字串 | `(255).toString(16)` → `"ff"`           |
+
+注意, 這些方法都會回傳一個**字串**，而不是數字。
+
+```js
+let fixedNum = (1.234567).toFixed(2);
+console.log(fixedNum); // "1.23"
+console.log(typeof fixedNum); // "string"
+```
+
+### 地區化數字格式化
+
+`toLocaleString()` 方法可以根據指定的地區和選項，將數字格式化為符合當地習慣的字串表示。
+
+如顯示地區金額格式：
+
+```js
+let totalPrice = 12500;
+// 美式格式
+console.log(totalPrice.toLocaleString('en-US')); // "12,500"
+// 德式格式
+console.log(totalPrice.toLocaleString('de-DE')); // "12.500"
+```
+
+加入貨幣格式化選項物件 `options`：
+
+```js
+number.toLocaleString([locales[, options]])
+```
+
+在 `options` 中可以指定 `style: 'currency'` 和 `currency: 'USD'` 等選項來格式化為貨幣表示. 
+
+例子:
+```js
+let price = 1500;
+// 格式化為美式貨幣格式
+let formattedPrice = price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+console.log(formattedPrice); // "$1,500.00"
+// 格式化為日式貨幣格式
+let formattedPriceJP = price.toLocaleString('ja-JP', { style: 'currency', currency: 'JPY' });
+console.log(formattedPriceJP); // "￥1,500
+```
+
+### Number 類別的常數及靜態方法
+
+Number 物件也提供數個靜態方法幫助進行數字相關的**檢查**與**轉換**：
+
+#### 字串 <-> 數字的轉換
+
+| 方法                | 說明      | 範例                               |
+| :---------------- | :------ | :------------------------------- |
+| `Number(x)`       | 數字文字轉換為數字型態   | `Number("123")` → `123`          |
+| `Number.parseInt(str)`   | 分析字串，將其中的數字文字轉整數（字串） | `parseInt("123px")` → `123`      |
+| `Number.parseFloat(str)` | 分析字串，將其中的數字文字轉浮點數    | `parseFloat("3.14abc")` → `3.14` |
+
+
+使用建議:
+- 如果文字串中包含非數字字元，建議使用 `Number.parseInt()` 或 `Number.parseFloat()`，因為它們會從字串的開始位置分析，直到遇到非數字字元為止。
+- 若無法解析為有效數字，上述方法會回傳 `NaN`
+
+Example:
+```js
+let num1 = Number("abc123"); // NaN，因為 "abc123" 不是有效的數字文字
+let num2 = Number.parseInt("$123,00"); // Nan, 因為 "USD123,00" 開頭不是數字文字
+```
+
+JS 內建的 `Number.parseInt()` 和 `Number.parseFloat()` 只能處理簡單的數字字串，對於包含貨幣符號、千分位逗號等格式的字串，無法正確解析。
+
+因此，在實務開發中，通常會使用第三方函式庫（如 `currency.js`）來處理更複雜的金額字串解析與運算。
+參考後面小節 [支援 Currency 運算的第三方函式庫 Currency.js](#支援-Currency-運算的第三方函式庫-Currency.js) 的說明與範例。
+
+#### 數字檢查方法
+
+JS 提供數個特殊的數字型別值，如 `NaN`、`Infinity` 和 `-Infinity`。
+我們無法直接使用 `typeof`、`instanceof` 或 `===` 來檢查這些特殊值。
+
+必須使用 `Number` 類別提供的靜態方法來進行檢查：
+
+| 方法                        | 說明         | 範例                                         |
+| :------------------------ | :--------- | :----------------------------------------- |
+| `Number.isNaN(x)`         | 判斷是否為 NaN  | `Number.isNaN(NaN)` → `true`               |
+| `Number.isFinite(x)`      | 是否為有限數     | `Number.isFinite(10)` → `true`             |
+| `Number.isInteger(x)`     | 是否為整數（數學上） | `Number.isInteger(10.5)` → `false`         |
+| `Number.isSafeInteger(x)` | 是否為安全整數    | `Number.isSafeInteger(2**53 - 1)` → `true` |
+
+
+#### 數字常數
+
+為何需要 Number 常數？
+
+JavaScript 的 number 採用 IEEE 754 浮點數表示法，數值並不是無限精確的，而是存在範圍限制與精度誤差。
+
+因此，Number 提供一組常數，用來描述這些限制與邊界，例如：
+
+- MAX_VALUE：可表示的最大數值
+- MAX_SAFE_INTEGER：仍能精確表示的整數範圍
+- EPSILON：可接受的最小誤差
+
+這些常數讓開發者能夠：
+
+- 判斷數值是否超出範圍
+- 確認整數計算是否仍然可靠
+- 正確處理浮點數比較問題
+
+👉 簡單來說：
+
+> Number 常數是用來描述「數值系統的限制」，幫助我們寫出正確且可靠的程式。
+
+Number 常數列表:
+
+| 常數                         | 說明                |
+| :------------------------- | :---------------- |
+| `Number.MAX_VALUE`         | 最大值               |
+| `Number.MIN_VALUE`         | 最小正數              |
+| `Number.MAX_SAFE_INTEGER`  | 最大安全整數 (2^53 - 1) |
+| `Number.MIN_SAFE_INTEGER`  | 最小安全整數            |
+| `Number.EPSILON`           | 最小誤差值（≈ 2.22e-16） |
+| `Number.POSITIVE_INFINITY` | 正無限               |
+| `Number.NEGATIVE_INFINITY` | 負無限               |
+| `Number.NaN`               | 非數值               |
+
+
+
+#### 電子商務範例：使用 Number.EPSILON 處理金額比較
+
+在電子商務系統中，常需要驗證訂單金額是否正確，例如：
+
+```js
+let total = 0.1 + 0.2;
+let expected = 0.3;
+
+console.log(total); // 0.30000000000000004
+// 直接比較會得到 false
+if (total === expected) {
+    console.log("金額正確");
+}
+```
+
+由於 JavaScript 使用浮點數表示，計算結果可能產生微小誤差。
+
+因此，應該使用 `Number.EPSILON` 來判斷兩個數字是否「足夠接近」，而不是直接比較：
+
+```js
+if (Math.abs(total - expected) < Number.EPSILON) {
+    console.log("金額正確");
+}
+```
+
+在金額計算中：
+- 不應直接使用 === 比較浮點數，因為可能會因為微小誤差而得到 false。
+- 解決方式:
+  - 使用 Number.EPSILON 來判斷兩個數字是否「足夠接近」，以確保金額比較的正確性。
+  - 使用專門處理金額的第三方函式庫（如 currency.js）來避免浮點數誤差問題，確保金額計算的精確性。
+
+
+
+### 浮點數的精確度問題
+
+JavaScript 的 `number` 採用 IEEE 754 浮點數表示法，因此某些十進位小數無法被完全精確地儲存。
+
+這會導致看似簡單的計算出現微小誤差，例如：
+
+```js
+let x = 0.2 - 0.1; // 0.1 
+let y = 0.3 - 0.2; // 0.09999999999999998
+console.log(x == y) // false
+```
+
+這類誤差在一般科學計算中或許可以接受，但在電子商務的金額計算中就可能造成問題，例如：
+
+- 小計與總計不一致
+- 折扣後金額出現多餘小數
+- 直接比較金額時得到錯誤結果
+
+因此，若只是一般數值比較，可使用 `Number.EPSILON` 處理；若是價格、折扣、稅額等金額運算，實務上更常使用專門處理貨幣的函式庫，例如 `Currency.js`。
+
+
+### 支援 Currency 運算的第三方函式庫 Currency.js
+
+在電子商務系統中，金額處理通常不只是「顯示價格」，還包括：
+
+- 商品單價顯示
+- 購物車小計與總計
+- 折扣計算
+- 稅額與運費加總
+- 將貨幣字串轉回數值
+
+如果只使用原生 `number`，常會遇到兩個實務問題：
+
+1. 金額格式化後，若要再轉回數值，常需要自行清理字串。
+2. 浮點數運算可能產生精確度誤差。
+
+`Currency.js` 是專門處理金額的第三方函式庫，適合用在購物車、訂單、付款與報表等場景。
+
+#### Currency.js 的特性
+
+- 專門處理貨幣金額，而不是一般數值
+- 支援金額格式化輸出
+- 可從貨幣字串建立金額物件
+- 提供 `add()`、`subtract()`、`multiply()` 等金額運算方法
+- 可降低 JavaScript 浮點數運算誤差對金額計算的影響
+
+#### 1. 金額格式化 / 反格式化
+
+原生 JavaScript 可以用 `toLocaleString()` 格式化金額，但若要把 `"$1,234.56"` 再轉回數字，通常要自己用 `replace()` 清理字串。
+
+`Currency.js` 可以直接處理這件事：
+
+```js
+let price = currency(1234.56);
+
+console.log(price.format()); // "$1,234.56"
+console.log(price.value); // 1234.56
+```
+
+也可以直接分析帶有貨幣符號與千分位的字串：
+
+```js
+let inputPrice = currency("$1,234.56");
+
+console.log(inputPrice.value); // 1234.56
+console.log(inputPrice.format()); // "$1,234.56"
+```
+
+這表示 `Currency.js` 同時幫我們做到：
+
+- 將數值格式化為貨幣字串
+- 將常見貨幣字串轉回可運算的數值
+
+#### 2. 降低浮點數誤差問題
+
+JavaScript 的 `number` 採用雙精度浮點數表示，因此某些小數相加時會出現誤差。
+
+例如：
+
+```js
+console.log(0.1 + 0.2); // 0.30000000000000004
+```
+
+在金額運算中，這類誤差是不理想的。
+
+使用 `Currency.js`：
+
+```js
+let total = currency(0.1).add(0.2);
+
+console.log(total.value); // 0.3
+console.log(total.format()); // "$0.30"
+```
+
+再看一個接近電子商務的例子：
+
+```js
+let subtotal = currency(19.99)
+  .add(5.99)
+  .subtract(2.00);
+
+console.log(subtotal.value); // 23.98
+console.log(subtotal.format()); // "$23.98"
+```
+
+這種寫法比直接使用原生浮點數更適合金額計算。
+
+#### 小結
+
+- `Currency.js` 很適合電子商務中的金額處理
+- 它同時支援「格式化顯示」與「由字串建立金額物件」
+- 它比直接使用原生浮點數更適合處理價格、折扣、稅額與總計
+- 若程式只需要顯示數字格式，`toLocaleString()` 已經足夠
+- 若程式需要進一步做金額運算，`Currency.js` 會是更安全的選擇
+
+
+#### Lab: 使用 Currency.js 處理電子商務購物車金額
+
+[lab_04_02 使用 Currency.js 處理電子商務購物車金額](ch4/labs/lab_04_02_currency_guided.md)
+
+### 數學運算常數與函數: Math 物件
+
+在 JavaScript 中，`Math` 是一個內建的全域物件（global object），用來提供各種**數學運算相關的常數與函數**。
+
+與 `Number` 不同，`Math` 不是建構子（constructor），也不需要使用 `new` 建立物件。
+
+```js
+Math.sqrt(16); // 4
+```
+
+Math 物件主要用於：
+
+- 基本數學運算（四捨五入、取整數）
+- 最大值 / 最小值計算
+- 指數與開根號運算
+- 三角函數計算
+- 隨機數產生
+
+常見數學常數（Math Constants）
+
+| 常數             | 說明       | 範例                       |
+| :------------- | :------- | :----------------------- |
+| `Math.PI`      | 圓周率 π    | `Math.PI` → `3.14159...` |
+| `Math.E`       | 自然對數底數 e | `Math.E` → `2.718...`    |
+| `Math.SQRT2`   | √2       | `Math.SQRT2`             |
+| `Math.SQRT1_2` | √(1/2)   | `Math.SQRT1_2`           |
+
+更多 Math 函數與常數可以參考 [JavaScript 數學函數速查表 (Cheat Sheet)](ch4_math_function_cheat_sheet.md). 
+或者直接參考 MDN 的 [Math 物件](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) 文件。
+
+
 ## 布林物件
+
+boolean 是 JavaScript 中的原生型別，只有兩個值：`true` 和 `false`。
+
+Boolean 物件則是 boolean 的物件型別, 主要用於強制型別轉換。
+
+```js
+console.log(Boolean('hello')); // true
+console.log(Boolean('')); // false
+console.log(Boolean(0)); // false
+```
+
+### falsy 及 truthy values
+
+
+Falsy value 是指 Boolean 轉換後會得到 `false` 的值。
+
+JS 會將以下的值轉換成 `false`：
+
+```js
+undefined
+null
+0
+-0
+NaN
+"" (空字串)
+'' (空字串)
+false
+```
+
+Truthy value 是指 Boolean 轉換後會得到 `true` 的值。
+
+除了上述的 falsy value 以外，其他所有值，包括物件、陣列、函式、非空字串、非零數字等，都會被轉換成 `true`。
+
+```js
+let members = ["Alice", "Bob"];
+if (members) {
+    console.log("有成員");
+} else {
+    console.log("沒有成員");
+}
+```
+
+輸出結果為 "有成員"，因為陣列是一個 truthy value。
+
+### 實務技巧：使用 Boolean 轉換來檢查變數是否有值
+
+在 JavaScript 中，條件判斷（如 `if`）不只接受 `true` 或 `false`，也會將值自動轉為布林值。
+
+技巧 1: 簡化條件判斷
+
+```js
+if (cartItems.length > 0){
+    console.log("購物車有商品");
+} 
+```
+
+可以簡化為：
+
+```js
+if (cartItems.length) {
+    console.log("購物車有商品");
+}
+```
+
+技巧 2: 檢查字串是否存在
+
+原來版本:
+
+```js
+if (couponCode !== "") {
+    applyDiscount(couponCode);
+}
+```
+
+
+可以簡化為：
+
+```js
+if (couponCode) {
+    applyDiscount(couponCode);
+}
+```
+
+可同時處理：
+
+- ""
+- null
+- undefined
+
+技巧 3: 設定預設值
+
+應用 short-circuit evaluation 來設定預設值：
+
+```js
+let discount = userDiscount || 0;
+```
+
+這樣如果 `userDiscount` 是 falsy value（如 `null`、`undefined`、`0`），就會使用預設值 `0`。
+如果 `userDiscount` 是 truthy value（如非空字串、非零數字），就會使用 `userDiscount` 的值。
+
+`||` 是邏輯 OR 運算子，屬 於 short-circuit evaluation 的一種，會從左到右評估運算式。只要遇到第一個 truthy value 就會停止評估並回傳該值。
+
+
+### 比較程式意圖
+
+```js
+let unitPrice = 100;
+
+if (unitPrice !== null) {
+    console.log("價格已設定");
+} else {
+    console.log("價格未設定");
+}
+```
+
+```js
+let unitPrice = 100;
+if (unitPrice) {
+    console.log("價格已設定");
+} else {
+    console.log("價格未設定");
+}
+```
+
+上述兩段程式碼有什麼不同？
+
+兩段程式碼的差異，除了執行結果外，還在於開發者想表達的意圖（intent）不同。
+
+第一段程式碼使用 `unitPrice !== null` 來檢查價格是否已設定，這表示開發者的意圖是「明確檢查價格是否為 null」，而不是其他 falsy value。
+
+第二段程式碼使用 `if (unitPrice)` 來檢查價格是否已設定，這表示開發者的意圖是「檢查價格是否為 falsy value」，也就是說，如果價格是 `0`、`""`、`null`、`undefined` 等 falsy value 都會被視為未設定。
+
+**Clean Code 重點**
+
+在閱讀或撰寫程式時，應思考：
+
+- 你是要判斷「是否未設定」？
+  - 使用 `if (unitPrice !== null)` 來檢查是否為 null 來判斷是否已人為設定
+- 還是判斷「是否有有效值」？
+  - 使用 `if (!unitPrice)` 或 `if (unitPrice)` 來檢查 falsy value
+
 
 ## 日期與時間物件
 
+JS 中沒有原生的日期型別，只有 `Date` 物件。
+
+在電子商務系統中，日期與時間非常常見，例如：
+
+- 訂單建立時間
+- 付款時間
+- 出貨時間
+
+### 取得目前日期與時間或指定日期
+
+用 Date 物件的建構子取得目前日期與時間：
+
+```js
+let now = new Date();
+console.log(now); // 2024-06-01T12:00:00.
+```
+
+也可以用建構子建, 輸入日期文字等參數建立指定日期：
+
+```js
+let orderDate = new Date("2024-06-01T10:00:00");
+console.log(orderDate); // 2024-06-01T10:00:00
+```
+
+### 修改日期
+
+日期的組成包括: 西元年(FullYear)、月、(月)日、週天、時、分、秒(Second)、毫秒(Time)等
+
+可以用 Date 物件提供的 setter 與 getter 方法來修改或取得日期的各個部分：
+
+Example: 取得目前的西元年：
+
+```js
+let now = new Date();
+let year = now.getFullYear();
+console.log(year); // 2026
+```
+
+Example: 將目前的月份改為 12 月：
+
+```js
+let orderDate = new Date();
+console.log(orderDate); 
+orderDate.setMonth(11); // 月份從 0 開始
+console.log(orderDate); // 月份已改為 12 月
+```
+
+日期元素的操作方法清單:
+
+Getters:
+| 方法               | 說明           | 範例                                 |
+| :---------------- | :----------- | :--------------------------------- |
+| `getFullYear()`   | 取得西元年       | `date.getFullYear()` → `2024`           |
+| `getMonth()`      | 取得月份 (0-11) | `date.getMonth()` → `5` (6 月)         |    
+| `getDate()`       | 取得日期 (1-31) | `date.getDate()` → `1`                 |
+| `getDay()`        | 取得星期 (0-6)  | `date.getDay()` → `0` (週日)             |
+| `getHours()`      | 取得小時 (0-23)  | `date.getHours()` → `14`             |
+| `getMinutes()`    | 取得分鐘 (0-59)  | `date.getMinutes()` → `30`             |
+| `getSeconds()`    | 取得秒數 (0-59)  | `date.getSeconds()` → `45`             |
+| `getTime()`       | 取得自 1970-01-01T00:00:00Z 以來的毫秒數 | `date.getTime()` → `1712123456789` |
+
+Setters:
+| 方法               | 說明           | 範例                                 |
+| :---------------- | :----------- | :--------------------------------- |
+| `setFullYear(year)` | 設定西元年       | `date.setFullYear(2025)`               |
+| `setMonth(month)` | 設定月份 (0-11) | `date.setMonth(0)` (1 月)           |
+| `setDate(date)`   | 設定日期 (1-31) | `date.setDate(15)`                   |
+| `setHours(hour)`  |設定小時 (0-23)  | `date.setHours(9)`                    |
+| `setMinutes(min)` | 設定分鐘 (0-59)  | `date.setMinutes(45)`                   |
+| `setSeconds(sec)` | 設定秒數 (0-59)  | `date.setSeconds(30)`                   |
+| `setTime(ms)`    | 設定自 1970-01-01T00:00:00Z 以來的毫秒數 | `date.setTime(1712123456789)` |
+
+### 日期的格式化顯示
+
+可以使用 `toLocaleDateString()`、`toLocaleTimeString()` 和 `toLocaleString()` 方法來格式化日期與時間的顯示。
+
+```js
+let orderDate = new Date("2024-06-01T10:00:00");
+console.log(orderDate.toLocaleDateString('"de-DE"')); // "1.6.2024" (德國日期格式)
+```
+
+### 日期的運算
+
+### 基本原則
+
+👉 不要直接對 Date 做加減運算
+
+運算子 `+`、`-`、`*`、`/` 等無法直接對 Date 物件進行運算，因為 Date 物件不是數字型別。
+
+```js
+let date = new Date();
+let newDate = date + 1; // 日期轉字串後再加 1，結果不是預期的日期加一天
+console.log(newDate); // "Wed Jun 01 2024 12:00:00 GMT+0800 (台北標準時間)1"
+```
+
+操作原則:
+
+- 使用 `getXXX()` 取得要修改的日期元素
+- 進行數字運算（加減天數、月數等）
+- 使用 `setXXX()` 將修改後的值設定回 Date 物件
+- 注意 setter 的行為:
+  - 1. setter 會修改原始 Date 物件
+  - 2. setter 會自動處理日期溢位（如超過當月天數會自動進位到下個月）
+
+Example: 將日期加 7 天：
+
+```js
+let orderDate = new Date("2024-06-01T10:00:00");
+let currentDay = orderDate.getDate();
+orderDate.setDate(currentDay + 7); // 加 7 天
+console.log(orderDate); // 2024-06-08T10:00:00
+```
+
+### Lab 03: 使用 datejs 套件處理日期運算
+
+[lab_04_03 訂單 + 出貨 + Coupon](labs/lab_04_03_dayjs_short.md)
+
 ## Global 物件
+
+TBD
