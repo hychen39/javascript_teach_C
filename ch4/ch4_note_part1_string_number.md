@@ -266,7 +266,7 @@ Template String 可以讓字串組合 **更直覺且更容易閱讀**。
 
 #### Template String 的主要功能
 
-1️⃣ **字串插值 (String Interpolation)**  
+1️⃣ **運算插值 (Expression Interpolation)**  
 可以在字串中直接嵌入變數或運算式。
 
 ```js
@@ -278,7 +278,7 @@ let message = `Total price: ${price * quantity}`;
 console.log(message); // "Total price: 300"
 ```
 
-`${ }` 中可以放入：
+`${ }` 稱為運算插值(Expression Interpolation)中可以放入：
 
 - 變數
 - 運算式
@@ -384,7 +384,7 @@ Template String 的優點：
 | 方法 | 說明 | 範例 |
 | :--- | :--- | :--- |
 | `.slice(start, end)`| 擷取字串 (不含 end，支援負數) | `"JavaScript".slice(0, 4)` → `"Java"` |
-| `.substring(s, e)` | 擷取字串 (不支援負數) | `"JavaScript".substring(4, 10)` → `"Script"` |
+| `.substring(start, [end])` | 擷取字串 (不支援負數) | `"JavaScript".substring(4, 10)` → `"Script"` |
 | `.split(separator)` | **將字串分割為陣列** | `"a,b,c".split(",")` → `["a", "b", "c"]` |
 
 
@@ -478,7 +478,9 @@ function generateOrderMessage(order) {
 let message = generateOrderMessage(order);
 ```
 
+## Lab: 字串程式重構
 
+[字串的 Clean Code 重構](labs/lab_04_01_clean_code_string_lab.md)
 
 ## 數值物件
 
