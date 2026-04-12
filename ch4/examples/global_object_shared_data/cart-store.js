@@ -7,6 +7,7 @@ globalThis.cartState = {
 };
 
 globalThis.addCartItem = function (name, price) {
+  // 在函數中直接修改 global object 的內容
   globalThis.cartState.items.push({ name, price });
 };
 

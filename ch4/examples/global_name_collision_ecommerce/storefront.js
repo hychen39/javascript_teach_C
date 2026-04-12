@@ -1,20 +1,24 @@
+
+// 名稱與 campaign-widget.js 的 productName 同名
 var productName = "Wireless Mouse";
 var productPrice = 1280;
 
 // 注意：這裡的 formatPrice() 會被 campaign-widget.js 的同名函式蓋掉，造成衝突。
+// 新台幣格顯示。
 var formatPrice = function (price) {
   return "NT$" + price.toLocaleString("zh-TW");
 };
 
-var renderProductCard = function () {
+  var renderProductCard = function () {
   var output = document.querySelector("#product-output");
 
   output.innerHTML = `
     <p>商品名稱：<strong>${productName}</strong></p>
     <p>價格：<strong>${formatPrice(productPrice)}</strong></p>
   `;
-};
+  };
 
+// 頁面載入後先渲染一次，顯示正確的商品資訊。
 renderProductCard();
 
 console.log("storefront.js 載入後:", {

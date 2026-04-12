@@ -1,0 +1,16 @@
+{
+  "name": "dayjs",
+  "version": "1.0.0",
+  "description": "這份 guide 對應的是 [../dayjs/dayjs_demo.js](../dayjs/dayjs_demo.js) 範例，目的在於說明如何初始化 Node 專案、安裝 Day.js，並成功執行使用 `import` 語法的 JavaScript 檔案。",
+  "main": "dayjs_demo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "dayjs": "^1.11.20"
+  }
+}

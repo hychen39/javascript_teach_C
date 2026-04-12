@@ -1,0 +1,30 @@
+{
+    "cells": [
+        {
+            "language": "markdown",
+            "source": [
+                "# 時間格式化輸出"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "let orderDate = new Date(\"2024-06-01T10:00:00\");\nconsole.log(orderDate.toLocaleDateString(\"de-DE\"));"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "1.6.2024",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

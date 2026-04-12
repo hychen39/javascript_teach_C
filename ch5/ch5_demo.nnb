@@ -1,0 +1,104 @@
+{
+    "cells": [
+        {
+            "language": "markdown",
+            "source": [
+                "# 將類陣列物件轉換成陣列"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "let str = 'CAB';\nlet arr = Array.from(str);\narr.sort();\nconsole.log(arr); // [ 'A', 'B', 'C' ]"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "[ 'A', 'B', 'C' ]",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "let products = ['衣服', '帽子', '鞋子'];\nproducts[3.5] = 'T-Shirt'; \nconsole.log(products); \nconsole.log(Array.isArray(products)); // true"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "[ '衣服', '帽子', '鞋子', '3.5': 'T-Shirt' ]",
+                                "true",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "let queue = ['David', 'Alice', 'Bob'];\nlet result = delete queue[1];\nif (result) {\n    console.log('刪除成功');\n} else {\n    console.log('刪除失敗');\n}\nconsole.log(queue); // [ 'David', <1 empty item>, 'Bob' ]\nconsole.log(queue.length); // 3"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "刪除成功",
+                                "3",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "使用 forEach() 對每個元素套用相同的操作邏輯"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "function printCustomer(customer, index  ) {\n    let msg = `顧客 ${index + 1}: ${customer}`;\n    console.log(msg);\n}\nlet doorQueue = ['David', 'Alice', 'Bob', 'Charlie'];\nlet checkoutQueue = ['Emily', 'Frank', 'Grace'];\nconsole.log('門口等候名單:');\ndoorQueue.forEach(printCustomer);\nconsole.log('結帳中等候名單:');\ncheckoutQueue.forEach(printCustomer);"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "門口等候名單:",
+                                "顧客 1: David",
+                                "顧客 2: Alice",
+                                "顧客 3: Bob",
+                                "顧客 4: Charlie",
+                                "結帳中等候名單:",
+                                "顧客 1: Emily",
+                                "顧客 2: Frank",
+                                "顧客 3: Grace",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

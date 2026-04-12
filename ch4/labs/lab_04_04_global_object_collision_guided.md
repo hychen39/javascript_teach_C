@@ -133,11 +133,9 @@ globalThis.storefrontApp = {
 globalThis.storefrontApp.renderProductCard();
 ```
 
-### 你的修改目標
+### 修改目標
 
-- 不要再直接使用全域 `productName`
-- 不要再直接使用全域 `formatPrice`
-- 不要再直接使用全域 `renderProductCard`
+- 不要再直接使用全域 `productName`, `productPrice`, `formatPrice`
 - 改成透過 `globalThis.storefrontApp` 存取
 
 ### 提示
@@ -154,7 +152,10 @@ var productPrice = 1280;
 ```js
 globalThis.storefrontApp = {
   productName: "Wireless Mouse",
-  productPrice: 1280
+  productPrice: 1280,
+  formatPrice: function (price) {
+    return "NT$" + price.toLocaleString("zh-TW");
+  },
 };
 ```
 
@@ -175,19 +176,30 @@ globalThis.campaignWidget = {
 
 ### 你的修改目標
 
-- `campaign-widget.js` 不要再宣告全域 `productName`
-- `campaign-widget.js` 不要再宣告全域 `formatPrice`
-- 點擊按鈕時，應呼叫：
+- `campaign-widget.js` 不要再宣告全域 `productName` 及 `formatPrice`
+
+### 步驟 5: 修改 `storefront.js` 的 `renderProductCard()` 函式
+
+改成使用 `globalThis.storefrontApp.productName` 和 `globalThis.storefrontApp.formatPrice()` 來存取資料與函式。
+
+你的 renderProductCard() 應該改成類似這樣：
 
 ```js
-globalThis.storefrontApp.renderProductCard();
+var renderProductCard = function () {
+  var output = document.querySelector("#product-output");
+  let price = globalThis.storefrontApp.productPrice;
+  let productName = globalThis.storefrontApp.productName;
+  output.innerHTML = `
+    <p>商品名稱：<strong>${productName}</strong></p>
+    <p>價格：<strong>${globalThis.storefrontApp.formatPrice(price)}</strong></p>
+  `;
+};
 ```
 
-而不是直接呼叫原本裸露在全域的函式名稱。
+- 不要再直接使用全域 `productName`, `formatPrice`
+- 改成透過 `globalThis.storefrontApp` 存取
 
----
-
-## 步驟 5：重新測試
+## 步驟 6：重新測試
 
 再次打開 `index.html`，然後點擊「重新渲染商品卡」。
 
@@ -227,7 +239,7 @@ ________________________________________
 
 ### Q2 隱式耦合
 
-為什麼 `campaign-widget.js` 可以在沒有明確 import 的情況下，影響 `storefront.js`？
+為什麼 `campaign-widget.js` 可以在沒有明確 import 的情況下，使用 `storefront.js` 定義的 `renderProductCard()`？
 
 ```text
 ________________________________________
