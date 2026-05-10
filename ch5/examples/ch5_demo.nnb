@@ -99,6 +99,33 @@
                     ]
                 }
             ]
+        },
+        {
+            "language": "markdown",
+            "source": [
+                "# 不要使用 Object 的語法來操作 Map 物件"
+            ],
+            "outputs": []
+        },
+        {
+            "language": "typescript",
+            "source": [
+                "const cartMap = new Map();\ncartMap.set(10, 2);\ncartMap.set(20, 5);\ncartMap.set(30, 1);\nconsole.log(cartMap.get(20));\nconsole.log(cartMap[20]);"
+            ],
+            "outputs": [
+                {
+                    "items": [
+                        {
+                            "mime": "application/vnd.code.notebook.stdout",
+                            "value": [
+                                "5",
+                                "undefined",
+                                ""
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
