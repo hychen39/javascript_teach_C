@@ -87,11 +87,12 @@ See more about objects in the MDN web docs: [JavaScript object basics - Learn we
 
 在 JavaScript 中，有三種方式可以建立物件：
 - 物件字面語法 (object literal)，
-- 物件建構子 (object constructor)，以及
-- `Object.create()` 方法 (本章未涵蓋)。
+- 類別定義(class definition)
 
-## 物件字面語法 (object literal)
+### 物件字面語法 (object literal)
+
 使用物件字面語法 `{}` 以宣告的方式建立物件。
+- 用文字描述物件的屬性與方法。
 - 缺點：一次只能建立一個物件。
 
 ### 範例：使用物件字面語法建立 FIAT 500 車輛物件
