@@ -380,6 +380,53 @@ class FIAT500 {
 }
 ```
 
+### 私有屬性存取器(Accessors)
+
+私有屬性未經公開方法存取，外部無法直接存取或修改。
+要讓外部能存取或修改私有屬性，必須提供公開的方法，稱為存取器（Accessor），包括 getter 與 setter。
+
+- Getter: 用於讀取私有屬性的值。
+- Setter: 用於修改私有屬性的值。
+
+範例: 為 `FIAT500` 類別的私有屬性 `#vin` 提供 getter 與 setter 方法。
+
+```javascript
+class FIAT500 {
+  #vin; // 私有屬性
+
+  constructor(maker, model, year, color, passengers, mileage, vin) {
+    ...
+
+  }
+  // Getter 方法
+  get vin() {
+    return this.#vin; // 提供 getter 方法來讀取私有屬性
+  }
+  // Setter 方法
+  set vin(newVin) {
+    this.#vin = newVin; // 提供 setter 方法來修改私有屬性
+  }
+}
+```
+
+語法說明:
+
+- Getter 方法使用 `get` 關鍵字定義，方法名稱為屬性名稱（不帶 `#`）。
+- Setter 方法使用 `set` 關鍵字定義，方法名稱同樣為屬性名稱（不帶 `#`），並接受一個參數用於設定新的值. 
+
+使用 `set` 與 `get` 的好處:
+- 外部存取私有屬性時，可以像存取一般屬性一樣使用點運算子 `.`，而不需要呼叫方法。
+- 當存取屬性時，取值器與設值器方法會自動被呼叫。
+
+範例: 使用 getter 與 setter 存取 `myFiat` 實例的私有屬性 `#vin`。
+
+```javascript
+const myFiat = new FIAT500('Fiat', '500', 1957, 'Blue', 2, 6000, '1A2B3C4D5E');
+console.log(myFiat.vin); // 自動呼叫 getter 方法，輸出: '1A2B3C4D5E'
+myFiat.vin = '5E4D3C2B1A'; // 自動呼叫 setter 方法來修改私有屬性
+console.log(myFiat.vin); 
+```
+
 ### 私有方法(Private Methods)
 
 私有方法用來封裝類別內部的邏輯，防止外部直接呼叫。
@@ -392,13 +439,11 @@ class FIAT500 {
 class FIAT500 {
     #vin; // 私有屬性
     constructor(maker, model, year, color, passengers, mileage, vin) {
-        this.maker = maker;
-        this.model = model;
-        this.year = year;
-        this.color = color;
-        this.passengers = passengers;
+        // 初始化公開屬性
+        ...
         this.mileage = mileage;
-        this.#vin = vin; // 私有屬性
+        // 初始化私有屬性
+        this.#vin = vin;
     }
     // 私有方法
     #calculateAge() {
@@ -412,6 +457,173 @@ class FIAT500 {
     }
 }
 ```
+
+### Clean Code 實務: Setter 與 Getter 的使用
+
+- 不是每個私有屬性都需要 getter/setter。
+- 過度使用使得「物件（Object）」降格為單純的「資料結構」
+  - 物件是用來封裝「資料」與「行為」的實體
+- 進而使得使用者在物件外部處理邏輯，違反了 Clean Code 原則: 「告訴它，而不是詢問它」原則 (Tell, Don't Ask)
+  - 物件應該自己處理自己的狀態與行為，而不是讓外部去詢問它的狀態然後在外部處理邏輯。
+
+Clean Code 原則: 「告訴它，而不是詢問它」原則 (Tell, Don't Ask)
+
+
+#### 範例: 「告訴它，而不是詢問它」原則
+
+違反精神的做法(Bad Smell)
+- 取得屬性值後在外部處理邏輯，最後再把結果寫回物件。
+ 
+詢問 FIAT500 目前的里程數，然後在外部處理邏輯，最後再把結果寫回物件。
+
+```javascript
+const myFiat = new FIAT500('Fiat', '500', 1957, 'Blue', 2, 6000, '1A2B3C4D5E');
+
+// 先詢問物件目前的狀態
+const currentMileage = myFiat.mileage;
+
+// 在物件外部處理邏輯
+const tripDistance = 120;
+const newMileage = currentMileage + tripDistance;
+
+// 再把結果寫回物件
+myFiat.mileage = newMileage;
+```
+
+Scent Smell 的做法: 告訴物件要做什麼，而不是詢問它的狀態: Tell, Don't Ask
+
+```javascript
+const myFiat = new FIAT500('Fiat', '500', 1957, 'Blue', 2, 6000, '1A2B3C4D5E');
+// 直接告訴物件要做什麼
+myFiat.drive_forward(120); // 讓物件自己處理里程數
+``` 
+
+#### Setter 的使用時機
+
+大部份的情況下，私有屬性不需要有 setter 方法
+
+因為在 「告訴它，而不是詢問它」原則下，物件應該提供一個公開的方法來執行任務，而不是讓外部去修改物件的狀態。
+- 如上例中的 `drive_forward()` 方法，讓物件自己處理里程數的更新，而不是讓外部去修改里程數。
+- 公開的方法的取名和私有屬性名稱脫鉤，可以更清晰地表達領域意圖(domain intent)
+
+如果一定要提供私有屬性的方法，則應封裝對私有屬性設定時的「商業規則」或「驗證規則」。
+
+範例: `FIAT500` 允許手動更換車牌號碼，但必須驗證新的車牌號碼是否符合特定格式（如 ABC-1234）。
+
+```javascript
+class FIAT500 {
+  #licensePlate;
+
+  constructor(maker, model, year, color, passengers, mileage, licensePlate) {
+    ...
+    this.licensePlate = licensePlate; // 交給 setter 驗證
+  }
+
+  set licensePlate(newPlate) {
+    const platePattern = /^[A-Z]{3}-\d{4}$/;
+    // 驗證新的車牌號碼是否符合格式
+    if (!platePattern.test(newPlate)) {
+      console.error('車牌格式錯誤，必須為 ABC-1234');
+      return;
+    }
+
+    this.#licensePlate = newPlate;
+  }
+}
+```
+
+使用時，在設定車牌號碼時，JS 會自動呼叫 setter 方法來驗證新的車牌號碼是否符合格式：
+
+```javascript
+const myFiat = new FIAT500('Fiat', '500', 1957, 'Blue', 2, 6000, 'ABC-1234');
+myFiat.licensePlate = 'XYZ-5678'; // 成功更換車牌
+myFiat.licensePlate = 'INVALID'; // 失敗，輸出錯誤訊息
+``` 
+
+#### Getter 的使用時機
+
+##### 計算型欄位 (Computed Property)
+
+Getter 很適合用來提供「計算型欄位 (Computed Property)」。
+
+所謂計算型欄位，是指該值不是獨立儲存在物件內部，而是根據既有屬性即時計算出來的結果。
+
+例如: 車輛的車齡 (`age`) 並不一定需要另外存成一個屬性，因為它可以由 `year` 推導出來。
+
+```javascript
+class FIAT500 {
+  constructor(maker, model, year, color, passengers, mileage) {
+    ...
+  }
+
+  // Getter: 提供計算型欄位
+  get age() {
+    const currentYear = new Date().getFullYear();
+    return currentYear - this.year;
+  }
+}
+```
+
+使用時，外部可以像讀取一般屬性一樣存取它:
+
+```javascript
+const myFiat = new FIAT500('Fiat', '500', 1957, 'Blue', 2, 6000);
+console.log(myFiat.age); // 例如輸出: 69
+```
+
+這樣設計的好處:
+
+- 不需要額外儲存一份 `age` 資料，避免重複狀態。
+- `age` 每次存取時都會重新計算，不容易出現資料過期的問題。
+- 對外仍然可以用「屬性」的方式存取，語意自然。
+
+實務上，只要某個值可以由其它屬性穩定推導出來，就很適合考慮用 getter 來實作，而不是把它當作一個獨立欄位儲存。
+
+##### Read-only 的私有屬性
+
+另一種適合使用 getter 的情境，是對外提供「唯讀（Read-only）」的私有屬性。
+
+也就是說，外部可以讀取這個值，但不能直接修改它。
+
+這種設計常用於一些建立後不應隨意變動的資料，例如車輛識別碼 `vin`。
+
+```javascript
+class FIAT500 {
+  #vin;
+  constructor(maker, model, year, color, passengers, mileage, vin) {
+    ...
+    // 初始化私有屬性
+    this.#vin = vin;
+  }
+
+  get vin() {
+    return this.#vin;
+  }
+}
+```
+
+使用時，外部只能讀取，不能直接重新指定:
+
+```javascript
+const myFiat = new FIAT500('Fiat', '500', 1957, 'Blue', 2, 6000, '1A2B3C4D5E');
+
+console.log(myFiat.vin); // 輸出: 1A2B3C4D5E
+// 不會修改 #vin，在嚴格模式（Strict Mode）下會拋出錯誤TypeError: Cannot set property vin of #<Fiat500> which has only a getter
+myFiat.vin = '9Z8Y7X6W5V'; 
+
+console.log(myFiat.vin); // 仍然是 1A2B3C4D5E
+```
+
+這樣設計的好處:
+
+- 外部可以安全地讀取資料。
+- 類別仍然保有對內部狀態的控制權。
+- 避免使用者在物件外部任意改動不該變動的資料。
+
+因此，當某個私有屬性需要被外部查看，但不應被外部直接修改時，只提供 getter 而不提供 setter，通常是較合理的設計。
+
+
+
 
 ## 靜態成員(Static Members)
 
@@ -433,12 +645,10 @@ class FIAT500 {
   static totalCars = 0; // 公開靜態屬性
 
   constructor(maker, model, year, color, passengers, mileage) {
+    // 初始化實例屬性
     this.maker = maker;
-    this.model = model;
-    this.year = year;
-    this.color = color;
-    this.passengers = passengers;
-    this.mileage = mileage;
+    ...
+    // 更新靜態屬性來追蹤創建的車輛總數
     FIAT500.totalCars++; // 每創建一個實例，總數加一
   }
 }
@@ -467,7 +677,8 @@ class FIAT500 {
         FIAT500.totalCars++;
     }
     // 公開靜態方法來存取私有靜態屬性
-    static getSecretCode() {
+    // 用 static get 來定義靜態存取器方法
+    static get secretCode() {
         return FIAT500.#secretCode;
     }
     // 其它公開或私有實例方法
@@ -475,173 +686,6 @@ class FIAT500 {
     #calculateAge() {...}
 }
 ```
-
-## 物件與陣列的操作
-
-### 物件的陣列
-
-處理物件陣列是 JavaScript 程式設計中的常見任務。
-
-典型情境:
-- 查詢具有相同 class 名稱的 HTML 元素物件(HTMLElement objects) 並將它們存儲為物件陣列。
-- 當在頁面上點擊按上傳檔案時, 取得多個 File 物件 並將它們存儲為物件陣列。
-
-
-### 範例: 建立 `cars` 陣列，包含 2 個 FIAT500 物件
-
-使用 `FIAT500` 類別來創建兩個車輛物件，並將它們存儲在 `cars` 陣列中。
-
-```javascript
-const cars = [
-  new FIAT500('Fiat', '500', 1957, 'Blue', 2, 6000),
-  new FIAT500('Fiat', '500', 1957, 'Red', 2, 80000)
-];
-```
-
-可迭代陣列呼叫 `FIAT500` 實例的 `getCarInfo()` 方法來顯示每輛車的資訊：
-
-```javascript
-cars.forEach(car => {
-  console.log(car.getCarInfo());
-});
-```
-
-### 情境: 處理 HTMLElement Objects 陣列 
-
-在底下的 HTML 文件中，為每個 radio button 新增一個 click 事件監聽器。
-- 頁面上有三個 radio button，分別為 Huey(休依)、Dewey(杜威) 和 Louie(路易)。
-  - 唐老鴨的三個姪兒
-
-當 radio button 被點擊時，顯示 radio button 的值。
-
-將值顯示在 `<p>` 元素中，其 id 為 `display`。
-
-
-![](img/24-Sep-21-10-02-06.png)
-
-```html
-<fieldset>
-        <legend>Select a maintenance drone:</legend>
-      
-        <div>
-          <input type="radio" id="huey" name="drone" value="huey" checked />
-          <label for="huey">Huey</label>
-        </div>
-      
-        <div>
-          <input type="radio" id="dewey" name="drone" value="dewey" />
-          <label for="dewey">Dewey</label>
-        </div>
-      
-        <div>
-          <input type="radio" id="louie" name="drone" value="louie" />
-          <label for="louie">Louie</label>
-        </div>
-      </fieldset>
-    <div>
-       Your selection: <p id="display"></p>
-    </div>
-```
-
-做法:
-- 首先, 取得所有 radio button 元素並存入陣列中。
-  - 使用 `document.getElementsByName()` 方法取得 radio button 元素。
-  - 回傳的資料型態: NodeList。
-- 然後, 迭代陣列並為每個 radio button 新增 click 事件監聽器。
-  - 監聽器函式取得 radio button 的值並顯示在 `<p>` 元素中。
-    - 使用 `e.target.value` 取得 radio button 的值。
-
-
-```javascript
-let drones = document.getElementsByName('drone');
-
-// NodeList(3) [input#huey, input#dewey, input#louie], an array of input elements
-console.log(drones);  
-
-// iterate the array
-drones.forEach( drone => {
-    // add a click event listener to each radio button
-    drone.addEventListener('click', function(e){
-        // get the radio button's value
-        let value = e.target.value;
-        // show the value in the <p> element
-        document.getElementById('display').textContent = value;
-    });
-})
-```
-
-完整檔案參考 [examples/array_of_objects.html](examples/array_of_objects.html)
-
-提醒：
-- 這不是處理單選按鈕選擇的最佳方式。
-- 更簡潔的做法: 將點擊事件監聽器新增到單選按鈕的父元素
-  - 因為事件可以從單選按鈕 浮升 到父元素，讓我們在父元素上處理事件.
-
-
-### 在屬性中使用陣列
-
-屬性的值可以是任何資料型態，包括陣列或其他物件。
-
-範例: 為 `FIAT500` 類別新增一個屬性 `gear` 表示車輛的檔位，並將其值設為一個陣列，包含不同檔位的名稱。
-
-```javascript
-class FIAT500 {
-  constructor(maker, model, year, color, passengers, mileage) {
-    this.maker = maker;
-    this.model = model;
-    this.year = year;
-    this.color = color;
-    this.passengers = passengers;
-    this.mileage = mileage;
-    // 屬性的值可以是陣列
-    this.gear = ['P', 'R', 'N', 'D']; // 表示車輛的檔位
-  }
-}
-```
-
-顯示 `myFiat` 實例的的第一個檔位名稱：
-
-```javascript
-const myFiat = new FIAT500('Fiat', '500', 1957, 'Blue', 2, 6000);
-console.log(myFiat.gear[0]);  // 輸出: 'P'
-```
-
-### 巢狀物件 
-
-屬性的值也可以是另一個物件，形成巢狀物件（Nested Object）。
-
-巢狀物件用來描述物件間 has-a 的關係。
-
-例如: 車輛物件有一個屬性 `engine`，其值是一個物件，包含引擎的相關資訊, 如 `hoursepower` (馬力) 與 `torque` (扭力)。
-
-我們使用 Object Literal 來定義 `engine` 屬性，並將其值設為一個物件：
-
-```javascript
-class FIAT500 {
-  constructor(maker, model, year, color, passengers, mileage) {
-    this.maker = maker;
-    this.model = model;
-    this.year = year;
-    this.color = color;
-    this.passengers = passengers;
-    this.mileage = mileage;
-    // 屬性的值可以是另一個物件
-    this.engine = {
-      horsepower: 100,
-      torque: 150
-    };
-  }
-}
-```
-
-顯示 `myFiat` 實例的引擎馬力：
-
-```javascript
-const myFiat = new FIAT500('Fiat', '500', 1957, 'Blue', 2, 6000);
-console.log(myFiat.engine.horsepower);  // 輸出: 100
-```
-
-![](img/nested_object_memory_structure.png)
 
 
 ## 補充：符號 (Symbol) 資料型態
