@@ -4,24 +4,25 @@ class Bird {
     }
   
     fly() {
-      console.log(`Bird is flying`);
+      console.log(`Bird is flying (prototype method)`);
     }
   }
   
   class Eagle extends Bird {
     fly() {
-      console.log(`Eagle is flying`);
+      console.log(`${this.name} is flying (Eagle-specific prototype method)`);
     }
   }
 
   Bird.prototype.sing = function() {
     console.log('I can sing');
   }
-  const eagle1 = new Eagle('Eagle');
+
+  const eagle1 = new Eagle('Eagle-1');
   eagle1.fly = function() {
-    console.log('eagle1 is flying');
+    console.log(`${this.name} is flying with a special move (own method)`);
   }
-  const eagle2 = new Eagle('Eagle2');
+  const eagle2 = new Eagle('Eagle-2');
 
 eagle1.fly(); 
 eagle1.sing(); 

@@ -1,5 +1,5 @@
 
-# Chapter 7 類別、原型與繼承: Part 2 物件與陣列的操作
+# Chapter 7 類別、原型與繼承: Part 2 物件陣列、巢狀物件及繼承
 
 ## 本章重點
 
@@ -80,8 +80,8 @@ cars.forEach(car => {
 
 做法:
 - 首先, 取得所有 radio button 元素並存入陣列中。
-  - 使用 `document.getElementsByName()` 方法取得 radio button 元素。
-  - 回傳的資料型態: NodeList。
+  - 使用 document.getElementsByName() 取得一組 radio button 元素。
+  - 其回傳值是 NodeList，屬於類陣列物件，不是真正的 Array，但在現代瀏覽器中可以使用 forEach() 逐一處理。
 - 然後, 迭代陣列並為每個 radio button 新增 click 事件監聽器。
   - 監聽器函式取得 radio button 的值並顯示在 `<p>` 元素中。
     - 使用 `e.target.value` 取得 radio button 的值。
@@ -251,6 +251,11 @@ class Vehicle {
   move() {
     console.log("移動中，速度:", this.currentSpeed, "km/h");
   }
+
+  accelerate(amount) {
+  this.currentSpeed += amount;
+  console.log("目前速度:", this.currentSpeed, "km/h");
+}
 }
 ```
 
@@ -427,7 +432,7 @@ motor1 -> motor1 的 prototype -> Motorcycle.prototype -> Vehicle.prototype -> m
 motor2 -> motor2 的 prototype /
 ```
 
-### 使用 `Object` 型別的方法
+### 使用 `Object` 型別提供的方法
 
 當使用 `class` 的建構子(constructor)建立類別時，該類別會自動繼承 `Object` 類別的方法，例如 `toString()`等等。
 
@@ -490,32 +495,486 @@ motor1 -> motor1 的 prototype -> Motorcycle.prototype -> toString() 方法
 ### 呼叫被覆寫的父類別方法
 
 如果子類別覆寫了父類別的方法，但我們仍然想要呼叫到被覆寫的父類別方法，可以使用 `super` 關鍵字來呼叫父類別的方法。
+不過，`super.method()` 的尋找範圍不只限於「父類別自己定義的方法」。它會從父類別的 prototype 開始，沿著 Prototype Chain 往上尋找最近定義的同名方法。
 
 例如, 在 `Motorcycle` 類別的 `toString()` 方法中，我們想要呼叫 `Object` 類別的 `toString()` 方法來獲取物件的預設字串表示，可以使用 `super.toString()` 來呼叫父類別的方法：
 
 ```javascript
+class Vehicle {
+  constructor(color, currentSpeed, maxSpeed) {
+    this.color = color;
+    this.currentSpeed = currentSpeed;
+    this.maxSpeed = maxSpeed;
+  }
+
+  move() {
+    console.log("移動中，速度:", this.currentSpeed, "km/h");
+  }
+
+  accelerate(amount) {
+  this.currentSpeed += amount;
+  console.log("目前速度:", this.currentSpeed, "km/h");
+  }
+
+  toString() {
+        return `Vehicle: ${this.color}, ${this.currentSpeed} km/h, ${this.maxSpeed} km/h`;
+    }
+}
+
+
 class Motorcycle extends Vehicle {
   constructor(color, currentSpeed, maxSpeed, fuel) {
     super(color, currentSpeed, maxSpeed);
     this.fuel = fuel;
   }
-    toString() {
+
+   toString() {
         // 呼叫父類別的 toString() 方法
         const parentString = super.toString();
-        return `Motorcycle: ${this.color}, ${this.currentSpeed} km/h, ${this.fuel}, Parent: ${parentString}`;
-    }   
+        return `Motorcycle: ${this.fuel}, Parent: ${parentString}`;
+  }   
 }
-``` 
+
+let motor1 = new Motorcycle("紅色", 0, 200, "汽油");
+console.log(motor1.toString()); // Motorcycle: 汽油, Parent: Vehicle: 紅色, 0 km/h, 200 km/h
+```
 
 所以 `super.method()` 可以理解為： 
 > 從父類別的 prototype 開始，沿著 Prototype Chain 尋找最近定義的 method()，找到後以目前物件 (this) 作為執行對象呼叫。
 
-假設 `Vehicle` 類別沒有覆寫 `toString()` 方法，那麼 `super.toString()` 就會呼叫到 `Object` 類別的 `toString()` 方法。
-前述例子的 `toString()` 方法的尋找路徑(Prototype Chain) 為：
+假設 `Vehicle` 類別沒有覆寫 `toString()` 方法。
+
+若呼叫 `motor1.toString()`，則會先呼叫 `Motorcycle.prototype` 上的 `toString()` 方法, 即 `Motorcycle` 類別定義的 `toString()` 方法。接著在該方法內呼叫 `super.toString()`，會找到 `Motorcycle.prototype` 的上一層原型物件 `Vehicle.prototype`，但 `Vehicle` 類別沒有定義 `toString()` 方法，所以會繼續沿著原型鏈尋找，最後找到 `Object.prototype` 上的 `toString()` 方法並呼叫它。
+上述的路徑為：
 
 ```
-motor1 -> motor1 的 prototype -> Motorcycle.prototype -> toString() 方法 -> super.toString() -> Motorcycle.prototype -> Vehicle.prototype -> Object.prototype -> toString() 方法
+motor1.toString() -> Motorcycle.prototype.toString() -> call super.toString() ->  Vehicle.prototype 沒有 toString() -> Object.prototype.toString()
 ```
+
+![](img/super_methd_search.png)
+
+## Clean Code 觀點：is-a、has-a 的使用
+
+Clean Code 關心的不只是「程式能不能跑」，也關心：
+
+* 物件之間的關係是否清楚？
+* 類別之間的繼承關係是否合理？
+* 方法的責任是否單純？
+* 覆寫方法時，語意是否一致？
+
+
+### has-a 與 is-a 的判斷 你要用那種？
+
+
+* has-a 關係：一個物件「擁有」另一個物件
+* is-a 關係：一個物件「是一種」另一個物件
+
+#### has-a 關係
+
+has-a 關係通常適合用「物件屬性」或「巢狀物件」來表示。
+
+自然語言的表達方式通常是 「A 有一個 B」 或者 「A 有一些 B」。
+
+例如，一台車有一個引擎，因此 `engine` 可以設計成車輛物件的一個屬性：
+
+```javascript
+class FIAT500 {
+  constructor(maker, model, year, color, passengers, mileage) {
+    this.maker = maker;
+    ...
+
+    // Car has-a engine
+    this.engine = {
+      horsepower: 100,
+      torque: 150
+    };
+  }
+}
+```
+
+在這個例子中，車輛「有一個」引擎。
+
+所以 `engine` 是 `FIAT500` 物件的一部分，而不是 `FIAT500` 的父類別。
+
+也就是說：
+
+```text
+FIAT500 has-a engine
+```
+
+#### is-a 關係
+
+is-a 關係通常適合用繼承來表示。
+
+自然語言的表達方式通常是 「A 是一種 B」。
+
+例如，摩托車是一種車輛，因此可以讓 `Motorcycle` 繼承 `Vehicle`：
+
+```javascript
+class Vehicle {
+  constructor(color, currentSpeed, maxSpeed) {
+    this.color = color;
+    this.currentSpeed = currentSpeed;
+    this.maxSpeed = maxSpeed;
+  }
+  ...
+}
+
+class Motorcycle extends Vehicle {
+  constructor(color, currentSpeed, maxSpeed, fuel) {
+    super(color, currentSpeed, maxSpeed);
+    this.fuel = fuel;
+  }
+
+  doWheelie() {
+    console.log("單輪行駛");
+  }
+}
+```
+
+在這個例子中，摩托車是車輛的一種。
+
+也就是說：
+
+```text
+Motorcycle is-a Vehicle
+```
+
+因此，`Motorcycle` 可以繼承 `Vehicle` 的共通屬性與方法。
+
+#### Clean Code 提醒
+
+設計物件時，不要只看兩個物件是否有相同的欄位，而要判斷它們之間的語意關係。
+
+如果是「擁有」關係，通常使用屬性或巢狀物件。
+
+如果是「是一種」關係，才考慮使用繼承。
+
+| 關係    | 語意           | 適合的設計方式    |
+| ----- | ------------ | ---------- |
+| has-a | 一個物件擁有另一個物件  | 屬性、陣列、巢狀物件 |
+| is-a  | 一個物件是一種另一個物件 | 繼承         |
+
+### 避免過度使用繼承
+
+繼承可以重複使用父類別的屬性與方法，也可以建立類別階層。
+
+但是，繼承不應該只是為了「少寫一點重複程式碼」而使用。
+
+在使用 `extends` 之前，應該先判斷子類別和父類別之間是否真的有穩定的 is-a 關係。
+
+#### 合理的繼承
+
+以下設計是合理的：
+
+```javascript
+class Vehicle {
+  move() {
+    console.log("車輛移動");
+  }
+}
+
+class Motorcycle extends Vehicle {
+  doWheelie() {
+    console.log("單輪行駛");
+  }
+}
+```
+
+因為：
+
+```text
+Motorcycle is-a Vehicle
+```
+
+摩托車是一種車輛，所以讓 `Motorcycle` 繼承 `Vehicle` 是合理的。
+
+#### 不適合的繼承
+
+假設我們有一個 `Engine` 類別：
+
+```javascript
+class Engine {
+  start() {
+    console.log("引擎啟動");
+  }
+}
+```
+
+如果把 `Car` 設計成繼承 `Engine`：
+
+```javascript
+class Car extends Engine {
+  drive() {
+    console.log("車輛行駛");
+  }
+}
+```
+
+這樣的設計並不合理。
+
+因為車輛不是一種引擎，而是車輛有一個引擎。
+
+也就是說：
+
+```text
+Car is not an Engine
+Car has-a Engine
+```
+
+比較適合的寫法是：
+
+```javascript
+class Engine {
+  start() {
+    console.log("引擎啟動");
+  }
+}
+
+class Car {
+  constructor() {
+    this.engine = new Engine();
+  }
+
+  startEngine() {
+    this.engine.start();
+  }
+
+  drive() {
+    console.log("車輛行駛");
+  }
+}
+```
+
+這樣的設計比較能正確表達物件之間的關係。
+
+`Car` 不需要繼承 `Engine`，而是透過 `engine` 屬性擁有一個 `Engine` 物件。
+
+#### Clean Code 提醒
+
+過度使用繼承會讓類別關係變得不清楚。
+
+當子類別與父類別之間沒有真正的 is-a 關係時，使用繼承反而會讓程式碼更難理解。
+
+在使用繼承之前，可以先問：
+
+* 子類別真的是父類別的一種嗎？
+* 父類別的方法對子類別來說都有合理意義嗎？
+* 未來新增子類別時，這個繼承關係是否仍然清楚？
+* 如果只是想重複使用某些功能，是否可以改用物件屬性或一般函式？
+
+繼承應該用來表達清楚的類別關係，而不只是用來減少重複程式碼。
+
+### 每個方法只負責一個明確任務
+
+Clean Code 中一個重要觀念是：
+
+> 一個方法應該只負責一個明確任務。
+
+如果一個方法同時處理太多事情，程式碼會變得不容易閱讀，也不容易修改。
+
+以下使用 radio button 的事件處理範例說明。
+
+原本的寫法：
+
+```javascript
+let drones = document.getElementsByName('drone');
+
+drones.forEach(drone => {
+  drone.addEventListener('click', function(e) {
+    let value = e.target.value;
+    document.getElementById('display').textContent = value;
+  });
+});
+```
+
+這段程式可以正常執行。
+
+但是，事件監聽器函式同時做了兩件事：
+
+1. 從事件物件中取得 radio button 的值
+2. 將取得的值顯示到畫面上
+
+如果程式變得更複雜，這種寫法會讓事件處理函式越來越長。
+
+我們可以將「更新畫面」的工作拆成另一個方法：
+
+```javascript
+function displaySelectedDrone(value) {
+  document.getElementById('display').textContent = value;
+}
+
+let drones = document.getElementsByName('drone');
+
+drones.forEach(drone => {
+  drone.addEventListener('click', function(e) {
+    displaySelectedDrone(e.target.value);
+  });
+});
+```
+
+修改後，事件監聽器函式的責任比較單純：
+
+```text
+事件監聽器：負責接收 click 事件
+displaySelectedDrone()：負責更新畫面顯示
+```
+
+這樣的程式比較容易閱讀。
+
+當我們看到：
+
+```javascript
+displaySelectedDrone(e.target.value);
+```
+
+就可以從方法名稱知道這行程式的目的：顯示使用者選到的 drone。
+
+#### Clean Code 提醒
+
+方法的責任越清楚，程式越容易維護。
+
+當方法內容開始變長時，可以檢查：
+
+* 這個方法是否同時做了多件事？
+* 是否可以把其中一部分邏輯拆成具名方法？
+* 拆出來的方法名稱是否能清楚描述它的目的？
+
+好的方法名稱可以讓程式碼本身更像說明文件。
+
+### 覆寫方法時要維持一致的語意
+
+子類別可以定義和父類別相同名稱的方法，這稱為方法覆寫。
+
+覆寫方法時，子類別可以提供自己的行為。
+
+例如，`Vehicle` 有一個 `move()` 方法：
+
+```javascript
+class Vehicle {
+  move() {
+    console.log("車輛移動");
+  }
+}
+```
+
+`Motorcycle` 可以覆寫 `move()` 方法：
+
+```javascript
+class Motorcycle extends Vehicle {
+  move() {
+    console.log("摩托車移動");
+  }
+}
+```
+
+這樣的覆寫是合理的。
+
+因為在父類別和子類別中，`move()` 都表示「移動」。
+
+只是不同類別有不同的移動方式。
+
+也就是說，方法名稱的語意保持一致：
+
+```text
+Vehicle.move()：車輛移動
+Motorcycle.move()：摩托車移動
+```
+
+#### 不適合的覆寫
+
+如果子類別把 `move()` 改成顯示資料：
+
+```javascript
+class Motorcycle extends Vehicle {
+  move() {
+    console.log("顯示摩托車資料");
+  }
+}
+```
+
+這樣的覆寫就不適合。
+
+因為 `move()` 原本代表「移動」，但在 `Motorcycle` 中卻變成「顯示資料」。
+
+這會讓閱讀程式的人產生誤解。
+
+當別人看到：
+
+```javascript
+motor.move();
+```
+
+會預期這個方法和移動有關。
+
+但實際上它卻是在顯示資料，這會降低程式碼的可讀性。
+
+#### 搭配 `super.method()` 使用
+
+如果子類別覆寫方法時，仍然想保留父類別原本的行為，可以使用 `super.method()` 呼叫父類別的方法。
+
+例如：
+
+```javascript
+class Vehicle {
+  move() {
+    console.log("車輛開始移動");
+  }
+}
+
+class Motorcycle extends Vehicle {
+  move() {
+    super.move();
+    console.log("摩托車以兩輪方式前進");
+  }
+}
+```
+
+執行：
+
+```javascript
+let motor = new Motorcycle();
+motor.move();
+```
+
+輸出結果：
+
+```text
+車輛開始移動
+摩托車以兩輪方式前進
+```
+
+在這個例子中，`Motorcycle` 覆寫了 `move()`，但仍然透過 `super.move()` 保留父類別 `move()` 的基本行為。
+
+接著再補上摩托車自己的移動方式。
+
+#### Clean Code 提醒
+
+覆寫方法時要注意：
+
+* 子類別方法應該維持和父類別方法一致的語意
+* 方法名稱不能因為覆寫而改變原本代表的概念
+* 如果需要保留父類別原本的行為，可以使用 `super.method()`
+* 如果子類別的方法已經和父類別方法語意不同，應該改用新的方法名稱
+
+良好的覆寫可以支援多型。
+
+不良的覆寫則會讓相同方法名稱代表不同意義，造成程式碼難以理解與維護。
+
+## 小結
+
+Clean Code 的重點不是讓程式看起來比較漂亮，而是讓程式更容易被理解與修改。
+
+在本章中，可以從以下幾個角度檢查程式碼品質：
+
+* 物件之間是 has-a 還是 is-a 關係？
+* 是否真的需要使用繼承？
+* 每個方法是否只負責一個明確任務？
+* 覆寫方法時，是否維持一致的語意？
+
+當我們能清楚表達物件關係、避免不必要的繼承、拆分方法責任，並維持方法語意一致時，程式碼就會更容易閱讀、測試與維護。
+
+
 
 ## 本章內容回顧
 
